@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nama": "Keripik Singkong Renyah Bu Sum",
+    "kategori": "Kuliner",
+    "deskripsi": "Keripik singkong legendaris khas desa dengan varian rasa pedas manis dan original tanpa pengawet tambahan.",
+    "whatsapp": "6281234567890",
+    "gambar": "keripik-busum.jpg"
+  },
+  {
+    "id": 2,
+    "nama": "Kerajinan Bambu Berkah",
+    "kategori": "Kerajinan",
+    "deskripsi": "Menyediakan berbagai macam anyaman bambu berkualitas seperti tas, tempat tisu, dan dekorasi rumah estetik.",
+    "whatsapp": "6289876543210",
+    "gambar": "anyaman-bambu.jpg"
+  }
+]

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog UMKM Desa Jayamakmur</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="containerHeader">
+            <h1>Katalog UMKM Desa Jayamakmur</h1>
+            <p>Mendukung Produk Lokal, Memajukan Ekonomi Desa</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="filter-search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari nama UMKM...">
+            </div>
+            <div class="filter-box">
+                <select id="categoryFilter">
+                    <option value="Semua">Semua Kategori</option>
+                    <option value="Kuliner">Kuliner</option>
+                    <option value="Kerajinan">Kerajinan</option>
+                    </select>
+            </div>
+        </section>
+
+        <section id="umkmContainer" class="umkm-grid">
+            <p class="loading-text">Memuat data UMKM...</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Tim KKN Universitas - Desa Jayamakmur. All Rights Reserved.</p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
