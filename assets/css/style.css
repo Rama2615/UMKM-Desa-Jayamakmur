@@ -23,12 +23,41 @@ body {
 /* ==========================================================================
    HEADER / HERO SECTION
    ========================================================================== */
+/* ==========================================================================
+   HEADER / HERO SECTION (DENGAN BACKGROUND GAMBAR DESA)
+   ========================================================================== */
+/* ==========================================================================
+   HEADER / HERO SECTION (BACKGROUND ASLI TANPA WARNA OVERLAY)
+   ========================================================================== */
 header {
-    background: linear-gradient(135deg, #1e5f74, #1d8f6c);
+    /* Menghapus linear-gradient warna, langsung memanggil gambar desa saja */
+    background: url('../images/desa.jpeg');
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     color: white;
-    padding: 60px 20px;
+    padding: 100px 20px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Tambahkan ini di bawah properti header agar teks memiliki bayangan gelap */
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    /* Memberikan bayangan hitam tipis agar teks putih tetap jelas terbaca */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); 
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 1;
+    /* Memberikan bayangan hitam tipis pada sub-judul */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
 }
 
 .containerHeader h1 {
@@ -258,4 +287,104 @@ footer {
     color: #666;
     font-size: 1.05rem;
     line-height: 1.8;
+}
+
+/* ==========================================================================
+   ABOUT & TEAM PAGE STYLES
+   ========================================================================== */
+.about-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.about-card h2 {
+    color: #1e5f74;
+    margin-bottom: 15px;
+}
+
+.about-card p {
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.team-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #eef2f1;
+}
+
+.team-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #1d8f6c;
+}
+
+.team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-card h3 {
+    color: #1e5f74;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.team-role {
+    font-weight: 600;
+    color: #1d8f6c;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.team-univ {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   PAGINATION BUTTON STYLES
+   ========================================================================== */
+.btn-page {
+    background-color: #1e5f74;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-page:hover:not(:disabled) {
+    background-color: #1d8f6c;
+    transform: translateY(-2px);
+}
+
+.btn-page:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-page:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
 }

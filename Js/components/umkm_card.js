@@ -4,6 +4,9 @@ export class UmkmCard {
     }
 
     render() {
+        // Membuat link WhatsApp secara langsung dari data properti whatsapp yang ada di JSON
+        const whatsappLink = `https://wa.me/${this.umkm.whatsapp}?text=Halo%20%2C%20saya%20tertarik%20dengan%20produk%20Anda%20di%20Katalog%20UMKM%20Desa%20Jayamakmur.`;
+
         return `
             <div class="card-umkm" data-id="${this.umkm.id}">
                 <div class="card-image-wrapper">
@@ -19,7 +22,7 @@ export class UmkmCard {
                         </a>
                     </h3>
                     <p class="card-description">${this.umkm.deskripsi}</p>
-                    <a href="${this.umkm.getWhatsAppLink()}" target="_blank" class="btn-whatsapp">
+                    <a href="${whatsappLink}" target="_blank" class="btn-whatsapp">
                         Hubungi Penjual
                     </a>
                 </div>
