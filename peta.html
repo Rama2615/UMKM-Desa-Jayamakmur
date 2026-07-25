@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Interaktif UMKM - JayamakmurHub</title>
+    <link rel="stylesheet" href="assets/css/global.css?v=3">
+    <link rel="stylesheet" href="assets/css/main.css?v=3">
+    <!-- MapLibre GL JS CSS for 3D Interactive Maps -->
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        .map-page-body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .map-main-wrapper {
+            flex-grow: 1;
+            display: flex;
+            height: calc(100vh - 80px); /* Kurangi tinggi navbar */
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Sidebar UMKM di Peta */
+        .map-sidebar {
+            width: 380px;
+            background: var(--card-bg-light);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .map-sidebar {
+            background: var(--card-bg-dark);
+            border-right: 1px solid var(--border-color-dark);
+        }
+
+        .sidebar-header {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+        body.dark-mode .sidebar-header h2 {
+            color: var(--text-light);
+        }
+
+        .sidebar-header p {
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        /* Input Pencarian di Peta */
+        .map-search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .map-search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            padding-right: 40px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .map-search-box input {
+            background: #202b36;
+            color: var(--text-light);
+            border-color: #3f4d5a;
+        }
+        .map-search-box input:focus {
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.15);
+        }
+
+        .map-search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            pointer-events: none;
+        }
+
+        /* Filter Kategori Tabs */
+        .map-filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .map-tab {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background: #f5f5f5;
+            color: #555;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        body.dark-mode .map-tab {
+            background: #253341;
+            border-color: #3f4d5a;
+            color: #bbb;
+        }
+        .map-tab:hover {
+            background: #eaeaea;
+        }
+        body.dark-mode .map-tab:hover {
+            background: #2e3e4f;
+        }
+        .map-tab.active {
+            background: var(--primary-teal);
+            color: white;
+            border-color: var(--primary-teal);
+        }
+
+        /* Daftar UMKM List */
+        .map-umkm-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 5px;
+        }
+
+        /* Desain Card Kecil UMKM di Sidebar */
+        .map-list-card {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #fdfdfd;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            gap: 12px;
+        }
+        body.dark-mode .map-list-card {
+            background: #1c2732;
+            border-color: var(--border-color-dark);
+        }
+        .map-list-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-color: var(--primary-teal);
+        }
+        .map-list-card.active {
+            border-color: var(--primary-teal);
+            background: rgba(27, 77, 62, 0.03);
+        }
+        body.dark-mode .map-list-card.active {
+            background: rgba(27, 77, 62, 0.1);
+        }
+
+        .map-card-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .map-card-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .map-card-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 2px;
+        }
+
+        .map-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        body.dark-mode .map-card-title {
+            color: var(--text-light);
+        }
+
+        .map-card-addr {
+            font-size: 0.75rem;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Container Map */
+        .map-container-box {
+            flex-grow: 1;
+            height: 100%;
+            position: relative;
+            z-index: 50;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Custom Popup MapLibre Styles */
+        .maplibregl-popup-content {
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            background: var(--card-bg-light) !important;
+            color: var(--text-dark) !important;
+            border: 1px solid var(--border-color);
+        }
+        body.dark-mode .maplibregl-popup-content {
+            background: var(--card-bg-dark) !important;
+            color: var(--text-light) !important;
+            border: 1px solid var(--border-color-dark);
+        }
+        .maplibregl-popup-tip {
+            border-top-color: var(--card-bg-light) !important;
+            border-bottom-color: var(--card-bg-light) !important;
+        }
+        body.dark-mode .maplibregl-popup-tip {
+            border-top-color: var(--card-bg-dark) !important;
+            border-bottom-color: var(--card-bg-dark) !important;
+        }
+
+        .popup-umkm-card {
+            width: 220px;
+            text-align: center;
+        }
+
+        .popup-umkm-card img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .popup-umkm-card h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .popup-umkm-card p {
+            font-size: 0.75rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .popup-umkm-btn {
+            display: inline-block;
+            background: var(--primary-teal);
+            color: white;
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .popup-umkm-btn:hover {
+            background: var(--primary-teal-hover, #14382c);
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 768px) {
+            .map-main-wrapper {
+                flex-direction: column-reverse;
+                height: calc(100vh - 70px);
+            }
+            .map-sidebar {
+                width: 100%;
+                height: 35%;
+                border-right: none;
+                border-top: 1px solid var(--border-color);
+            }
+            .map-container-box {
+                height: 65%;
+            }
+        }
+
+        /* Custom Marker Pin Styles */
+        .custom-marker-pin {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .custom-marker-pin:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+        }
+
+        .marker-emoji {
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+
+        /* Marker category color gradients */
+        .marker-kuliner {
+            background: linear-gradient(135deg, #ff6b4a, #ff9e79); /* Gradient orange */
+            box-shadow: 0 4px 12px rgba(255, 107, 74, 0.4);
+        }
+        .marker-kerajinan {
+            background: linear-gradient(135deg, #8b5cf6, #d946ef); /* Gradient ungu/pink */
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+        .marker-jasa {
+            background: linear-gradient(135deg, #0d9488, #34d399); /* Gradient hijau/teal */
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+        }
+
+        /* Glowing Pulse Animation */
+        .marker-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.6;
+            animation: markerGlow 2.2s infinite ease-out;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes markerGlow {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(2.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="map-page-body">
+
+    <!-- Floating Background Orbs -->
+    <div class="floating-orbs-container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <span class="logo-accent">Jayamakmur</span>Hub
+            </a>
+            <div class="navbar-links">
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="Main page.html" class="nav-link">Katalog</a>
+                <a href="tentang.html" class="nav-link">Tentang Kami</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema Mode Gelap/Terang">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Main Section -->
+    <main class="map-main-wrapper">
+        <!-- Sidebar: List of UMKMs -->
+        <div class="map-sidebar">
+            <div class="sidebar-header">
+                <h2>Peta UMKM Desa</h2>
+                <p>Jelajahi sebaran lokasi unit usaha warga Desa Jayamakmur secara spasial.</p>
+            </div>
+
+            <!-- Search box -->
+            <div class="map-search-box">
+                <input type="text" id="mapSearchInput" placeholder="Cari nama usaha...">
+                <span class="map-search-icon">🔍</span>
+            </div>
+
+            <!-- Filter tabs -->
+            <div class="map-filter-tabs">
+                <div class="map-tab active" data-category="Semua">Semua</div>
+                <div class="map-tab" data-category="Kuliner">🍱 Kuliner</div>
+                <div class="map-tab" data-category="Kerajinan">🎨 Kerajinan</div>
+                <div class="map-tab" data-category="Jasa">🛠️ Jasa</div>
+            </div>
+
+            <!-- Scrollable list of UMKMs -->
+            <div class="map-umkm-list" id="mapUmkmList">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Leaflet Map Container -->
+        <div class="map-container-box">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <!-- MapLibre GL JS for 3D Maps -->
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script type="module" src="Js/navbar.js?v=3"></script>
+    <script type="module" src="Js/map_app.js?v=3"></script>
+</body>
+</html>

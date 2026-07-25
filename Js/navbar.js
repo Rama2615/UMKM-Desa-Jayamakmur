@@ -19,6 +19,13 @@ export async function updateNavbar() {
     // Dapatkan halaman aktif
     const currentPath = window.location.pathname;
 
+    // Injeksi tautan Peta Desa secara dinamis sebelum 'Tentang Kami'
+    const activePeta = currentPath.includes('peta.html') ? 'active' : '';
+    const tentangLink = navbarLinks.querySelector('a[href*="tentang.html"]');
+    if (tentangLink && !navbarLinks.querySelector('a[href*="peta.html"]')) {
+        tentangLink.insertAdjacentHTML('beforebegin', `<a href="peta.html" class="nav-link ${activePeta}">Peta Desa</a>`);
+    }
+
     let badgeHtml = '';
     let dbLinkHtml = '';
     let actionBtnHtml = '';

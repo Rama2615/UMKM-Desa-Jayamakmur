@@ -4,8 +4,8 @@ import { DUMMY_UMKM } from '../data/fallback_data.js?v=3';
 // ==========================================================================
 // KONFIGURASI KREDENSIAL SUPABASE
 // ==========================================================================
-const SUPABASE_URL = "MASUKKAN_SUPABASE_URL_ANDA";
-const SUPABASE_ANON_KEY = "MASUKKAN_SUPABASE_ANON_KEY_ANDA";
+const SUPABASE_URL = "https://xqjyetbdslkfrcfyvtzc.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxanlldGJkc2xrZnJjZnl2dHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NDAxNDAsImV4cCI6MjEwMDUxNjE0MH0.KPDwnBffnbF6SR-MGYLhBPJ-IJtb9GZ0s-HuBVM1Svo";
 
 let supabaseClient = null;
 
@@ -103,7 +103,11 @@ export class UmkmService {
 
         // Terapkan Logika Sorting
         results.sort((a, b) => {
-            if (sortBy === 'nama-desc') {
+            if (sortBy === 'id-asc') {
+                return Number(a.id) - Number(b.id);
+            } else if (sortBy === 'id-desc') {
+                return Number(b.id) - Number(a.id);
+            } else if (sortBy === 'nama-desc') {
                 return b.nama.localeCompare(a.nama);
             }
             return a.nama.localeCompare(b.nama);

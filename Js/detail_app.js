@@ -166,7 +166,17 @@ async function initDetailApp() {
     console.log("Semua data UMKM terdaftar di halaman ini:", umkmService.daftarUmkm);
     console.log("Hasil pencarian UMKM berdasarkan ID:", umkmService.getUmkmById(umkmId));
     
-    // Jika tidak ada ID di URL atau ID tidak valid, tampilkan UMKM pertama sebagai contoh/default
+    // Jika tidak ada ID di URL (NaN), coba arahkan ke toko milik pemilik yang sedang login
+    if (isNaN(umkmId)) {
+        const loggedRole = localStorage.getItem('user_role');
+        const loggedOwnerId = localStorage.getItem('logged_owner_id');
+        if (loggedRole === 'owner' && loggedOwnerId) {
+            umkmId = Number(loggedOwnerId);
+            console.log("Menggunakan ID toko pemilik yang sedang login:", umkmId);
+        }
+    }
+    
+    // Jika ID masih tidak valid atau tidak ditemukan dalam basis data halaman ini, tampilkan UMKM pertama sebagai contoh/default
     if (isNaN(umkmId) || !umkmService.getUmkmById(umkmId)) {
         console.warn("ID tidak valid atau tidak ditemukan dalam basis data halaman ini! Menggunakan fallback ke item pertama.");
         umkmId = umkmService.daftarUmkm.length > 0 ? umkmService.daftarUmkm[0].id : null;

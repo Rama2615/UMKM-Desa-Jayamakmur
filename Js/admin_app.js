@@ -10,6 +10,8 @@ const service = new UmkmService();
 let currentPage = 1;
 const itemsPerPage = 8;
 let filteredData = [];
+let categoryChartInstance = null;
+let locationChartInstance = null;
 
 // DOM Elements
 const tableBody = document.getElementById('adminTableBody');
@@ -28,22 +30,7 @@ const statJasa = document.getElementById('statJasa');
 const toastNotification = document.getElementById('toastNotification');
 
 // DOM Elements Modal
-const modal = document.getElementById('umkmModal');
-const btnTambah = document.getElementById('btnTambahUmkm');
-const btnCloseModal = document.getElementById('btnCloseModal');
-const btnBatal = document.getElementById('btnBatal');
-const umkmForm = document.getElementById('umkmForm');
-
-const modalTitle = document.getElementById('modalTitle');
-const formUmkmId = document.getElementById('formUmkmId');
-const formNama = document.getElementById('formNama');
-const formKategori = document.getElementById('formKategori');
-const formWhatsapp = document.getElementById('formWhatsapp');
-const formAlamat = document.getElementById('formAlamat');
-const formDeskripsi = document.getElementById('formDeskripsi');
-const formGambar = document.getElementById('formGambar');
-const formPassword = document.getElementById('formPassword');
-const formMapsUrl = document.getElementById('formMapsUrl');
+// (Aksi Edit & Tambah dialihkan ke form_umkm.html)
 
 // Fungsi Toast Notification
 function showToast(msg) {
@@ -69,7 +56,7 @@ function applyFilters() {
     const keyword = searchInput ? searchInput.value : '';
     const kategori = categoryFilter ? categoryFilter.value : '';
 
-    filteredData = service.getFilteredUmkm(keyword, kategori, 'nama-asc');
+    filteredData = service.getFilteredUmkm(keyword, kategori, 'id-asc');
     currentPage = 1;
     renderTable();
 }
@@ -128,11 +115,140 @@ function updatePagination(totalPages) {
     btnNext.disabled = currentPage === totalPages;
 }
 
+// Fungsi Render Grafik Statistik
+function renderCharts() {
+    const allItems = service.daftarUmkm;
+
+    // 1. DATA KATEGORI
+    const categoriesCount = {
+        'Kuliner': allItems.filter(u => u.kategori === 'Kuliner').length,
+        'Kerajinan': allItems.filter(u => u.kategori === 'Kerajinan').length,
+        'Jasa': allItems.filter(u => u.kategori === 'Jasa').length
+    };
+
+    const isDark = document.body.classList.contains('dark-mode');
+    const textColor = isDark ? '#ffffff' : '#333333';
+    const gridColor = isDark ? '#3f4d5a' : '#eaeaea';
+
+    if (categoryChartInstance) {
+        categoryChartInstance.destroy();
+    }
+
+    const ctxCategory = document.getElementById('categoryChart');
+    if (ctxCategory) {
+        categoryChartInstance = new Chart(ctxCategory, {
+            type: 'doughnut',
+            data: {
+                labels: ['Kuliner', 'Kerajinan', 'Jasa'],
+                datasets: [{
+                    data: [categoriesCount['Kuliner'], categoriesCount['Kerajinan'], categoriesCount['Jasa']],
+                    backgroundColor: [
+                        '#ff6b4a', // Orange untuk Kuliner
+                        '#8b5cf6', // Ungu untuk Kerajinan
+                        '#0d9488'  // Teal untuk Jasa
+                    ],
+                    borderWidth: isDark ? 2 : 1,
+                    borderColor: isDark ? '#1c2732' : '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: textColor,
+                            font: { family: 'Outfit', size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 2. DATA DUSUN / LOKASI
+    const dusunCounts = {
+        'Dusun Krajan': 0,
+        'Dusun Babakan': 0,
+        'Dusun Sukamaju': 0,
+        'Dusun Mekarsari': 0,
+        'Jl. Raya': 0,
+        'Lainnya': 0
+    };
+
+    allItems.forEach(umkm => {
+        const alamat = umkm.alamat.toLowerCase();
+        if (alamat.includes('krajan')) {
+            dusunCounts['Dusun Krajan']++;
+        } else if (alamat.includes('babakan')) {
+            dusunCounts['Dusun Babakan']++;
+        } else if (alamat.includes('sukamaju')) {
+            dusunCounts['Dusun Sukamaju']++;
+        } else if (alamat.includes('mekarsari')) {
+            dusunCounts['Dusun Mekarsari']++;
+        } else if (alamat.includes('jl. raya') || alamat.includes('jalan raya')) {
+            dusunCounts['Jl. Raya']++;
+        } else {
+            dusunCounts['Lainnya']++;
+        }
+    });
+
+    if (locationChartInstance) {
+        locationChartInstance.destroy();
+    }
+
+    const ctxLocation = document.getElementById('locationChart');
+    if (ctxLocation) {
+        locationChartInstance = new Chart(ctxLocation, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(dusunCounts),
+                datasets: [{
+                    label: 'Jumlah UMKM',
+                    data: Object.values(dusunCounts),
+                    backgroundColor: '#0d9488',
+                    borderRadius: 6,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: textColor, font: { family: 'Outfit' } },
+                        grid: { display: false }
+                    },
+                    y: {
+                        ticks: { color: textColor, font: { family: 'Outfit' }, stepSize: 1 },
+                        grid: { color: gridColor }
+                    }
+                }
+            }
+        });
+    }
+}
+
 // Inisialisasi Setup Awal
 async function initDashboard() {
     await service.fetchAllUmkm();
     renderStats();
+    renderCharts();
     applyFilters();
+
+    // Dengarkan perubahan tema gelap/terang untuk melukis ulang grafik
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            setTimeout(renderCharts, 150);
+        });
+    }
 
     // Event Listener Filter & Cari
     if (searchInput) searchInput.addEventListener('input', applyFilters);
@@ -165,7 +281,7 @@ async function initDashboard() {
 
             if (editBtn) {
                 const id = editBtn.getAttribute('data-id');
-                bukaModalEdit(id);
+                window.location.href = `form_umkm.html?id=${id}`;
             }
 
             if (hapusBtn) {
@@ -174,45 +290,6 @@ async function initDashboard() {
             }
         });
     }
-}
-
-// Buka Modal Tambah
-if (btnTambah) {
-    btnTambah.addEventListener('click', () => {
-        umkmForm.reset();
-        formUmkmId.value = '';
-        formPassword.placeholder = 'default: owner123';
-        formPassword.required = true;
-        modalTitle.textContent = 'Tambah UMKM Baru';
-        modal.classList.add('show');
-    });
-}
-
-// Tutup Modal
-function tutupModal() {
-    modal.classList.remove('show');
-}
-if (btnCloseModal) btnCloseModal.addEventListener('click', tutupModal);
-if (btnBatal) btnBatal.addEventListener('click', tutupModal);
-
-// Buka Modal Edit
-function bukaModalEdit(id) {
-    const umkm = service.getUmkmById(id);
-    if (!umkm) return;
-
-    formUmkmId.value = umkm.id;
-    formNama.value = umkm.nama;
-    formKategori.value = umkm.kategori;
-    formWhatsapp.value = umkm.whatsapp;
-    formAlamat.value = umkm.alamat;
-    formDeskripsi.value = umkm.deskripsi;
-    formGambar.value = umkm.gambar;
-    formPassword.value = umkm.password;
-    formPassword.required = false; // tidak wajib diganti
-    formMapsUrl.value = umkm.mapsUrl || '';
-
-    modalTitle.textContent = `Edit UMKM: ${umkm.nama}`;
-    modal.classList.add('show');
 }
 
 // Proses Hapus UMKM
@@ -226,44 +303,12 @@ async function prosesHapus(id) {
         if (sukses) {
             showToast(`Sukses menghapus toko ${umkm.nama}! 🗑️`);
             renderStats();
+            renderCharts();
             applyFilters();
         } else {
             alert('Gagal menghapus data.');
         }
     }
-}
-
-// Submit Form CRUD
-if (umkmForm) {
-    umkmForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const id = formUmkmId.value;
-        const dataSubmit = {
-            nama: formNama.value.trim(),
-            kategori: formKategori.value,
-            whatsapp: formWhatsapp.value.trim(),
-            alamat: formAlamat.value.trim(),
-            deskripsi: formDeskripsi.value.trim(),
-            gambar: formGambar.value.trim() || 'placeholder.jpg',
-            mapsUrl: formMapsUrl.value.trim(),
-            password: formPassword.value
-        };
-
-        if (id) {
-            // Aksi Edit
-            await service.updateUmkm(id, dataSubmit);
-            showToast('Profil UMKM berhasil diperbarui! 💾');
-        } else {
-            // Aksi Tambah
-            await service.addUmkm(dataSubmit);
-            showToast('UMKM Baru berhasil ditambahkan! 🎉');
-        }
-
-        tutupModal();
-        renderStats();
-        applyFilters();
-    });
 }
 
 initDashboard();

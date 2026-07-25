@@ -32,6 +32,10 @@ Pembaruan sistem multi-role lengkap dengan pembagian hak akses (role-based acces
 
 ### 5. Dashboard Admin (`admin.html`)
 *   **Ringkasan Statistik Real-time**: Menampilkan total toko terdaftar beserta pembagian per kategori (Kuliner, Kerajinan, Jasa).
+*   **Visualisasi Grafik & Diagram (Chart.js)**: Menyisipkan dua diagram visualisasi interaktif:
+    *   **Diagram Donat**: Distribusi persentase kategori UMKM (Kuliner, Kerajinan, Jasa).
+    *   **Diagram Batang**: Sebaran jumlah UMKM per dusun wilayah Desa Jayamakmur (Krajan, Babakan, Sukamaju, Mekarsari, dll.).
+    *   *Kelebihan*: Grafik terintegrasi penuh dengan basis data real-time (ikut berubah saat data ditambah/dihapus) dan mendukung penggantian warna font/grid otomatis saat website dialihkan ke Mode Gelap!
 *   **Tabel Data & CRUD**: Admin dapat mencari, memfilter, mengedit data (termasuk kata sandi login pemilik usaha), menghapus usaha, atau menambah UMKM baru langsung di tempat dengan modal pop-up yang interaktif.
 *   **Proteksi Rute**: Membatasi akses langsung ke berkas `admin.html`. Pengunjung tanpa peran admin akan ditolak dan diarahkan ke beranda.
 
@@ -41,25 +45,35 @@ Pembaruan sistem multi-role lengkap dengan pembagian hak akses (role-based acces
 *   **Keamanan Sandi**: Pemilik usaha dapat memperbarui kata sandi login mereka secara mandiri demi keamanan.
 *   **Proteksi Rute**: Membatasi akses langsung ke berkas `owner.html`. Pengunjung yang tidak login sebagai pemilik akan ditolak dan diarahkan ke beranda.
 
+### 7. Peta Interaktif Desa 3D (`peta.html`)
+*   **Engine Peta 3D Tilted (MapLibre GL JS)**: Peta ditingkatkan dari Leaflet 2D menjadi MapLibre GL JS 3D yang sangat interaktif dan premium. Kamera peta memiliki kemiringan sudut (*pitch: 55 derajat*) dan rotasi kompas (*bearing: -15 derajat*) untuk memberikan efek perspektif 3D yang megah.
+*   **Garis Batas Desa (GeoJSON Boundary)**: Menampilkan poligon garis batas (*outline*) transparan berwarna hijau *teal* dengan garis putus-putus yang melingkari seluruh teritori Desa Jayamakmur, menandai dengan jelas batas wilayah desa.
+*   **Vector Tile Styling Dinamis (CartoDB Vector)**: Mengintegrasikan gaya peta vektor CartoDB Voyager (terang berwarna) untuk mode siang dan CartoDB Dark Matter untuk mode malam yang berganti otomatis saat tombol tema diklik.
+*   **Sidebar & Efek Terbang 3D (flyTo)**: Ketika kartu UMKM di sidebar kiri diklik, kamera peta akan terbang meluncur secara halus (*flyTo*) dalam perspektif 3D menuju marker tujuan dan membuka popup informasinya secara dinamis.
+
 ---
 
 ## File yang Dibuat & Dimodifikasi
 
+*   [form_umkm.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/form_umkm.html) **[NEW]** — Halaman khusus mandiri untuk mengisi formulir pendaftaran dan pengeditan profil UMKM.
+*   [Js/form_umkm_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/form_umkm_app.js) **[NEW]** — Logika pengontrol pengisian form, validasi, dan integrasi penyimpanan data (Supabase).
+*   [peta.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/peta.html) **[NEW]** — Halaman antarmuka Peta Interaktif 3D penyebaran UMKM Desa menggunakan MapLibre GL JS.
+*   [Js/map_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/map_app.js) **[NEW]** — Logika pengontrol peta 3D MapLibre, penggambaran boundary GeoJSON, filter kategori, dan animasi kamera 3D.
 *   [login.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/login.html) **[NEW]** — Halaman khusus untuk pemilihan peran, login pemilik/admin, dan pendaftaran UMKM.
 *   [Js/login_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/login_app.js) **[NEW]** — Logika kontroler halaman khusus login.html.
 *   [admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) **[NEW]** — Halaman antarmuka utama Dashboard Admin Desa.
 *   [owner.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/owner.html) **[NEW]** — Halaman antarmuka utama Dashboard Pemilik Toko.
 *   [Js/admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js) **[NEW]** — Logika kontroler dashboard admin (menangani CRUD modal, rendering tabel, filter, dan pagination).
 *   [Js/owner_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/owner_app.js) **[NEW]** — Logika kontroler dashboard pemilik (mengisi form profil, manajemen galeri, dan pembaruan password).
-*   [Js/navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js) **[NEW]** — Logika navbar dinamis yang diimpor global untuk semua halaman.
+*   [Js/navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js) **[MODIFY]** — Menyisipkan link 'Peta Desa' secara dinamis ke seluruh halaman web secara otomatis, di samping mengelola hak akses.
 *   [assets/css/auth.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/auth.css) **[NEW]** — File penggayaan CSS khusus untuk layout login, registrasi, pemilihan peran overlay, tabel, dan form dashboard.
-*   [Js/Services/umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js) **[MODIFY]** — Menambahkan loading & saving `localStorage` serta logika CRUD (`addUmkm`, `updateUmkm`, `deleteUmkm`).
+*   [Js/Services/umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js) **[MODIFY]** — Mengintegrasikan koneksi SDK Supabase cloud database secara penuh dengan fallback lokal.
 *   [Js/models/umkm.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/models/umkm.js) **[MODIFY]** — Menambahkan properti `password` ke constructor UMKM.
 *   [assets/css/global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css) **[MODIFY]** — Mengimpor `auth.css` agar seluruh gaya dashboard dan navbar dinamis termuat secara global.
 *   [index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html) **[MODIFY]** — Menghapus penanda welcome selector overlay (dialihkan ke login.html).
 *   [Js/landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) **[MODIFY]** — Mengubah logika awal: jika tidak ada role, redirect otomatis ke `login.html`.
 *   [Main page.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main%20page.html) **[MODIFY]** — Mengintegrasikan tag script `Js/navbar.js`.
-*   [Detail produk.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Detail%20produk.html) **[MODIFY]** — Mengintegrasikan tag script `Js/navbar.js`.
+*   [Detail produk.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Detail%20produk.html) **[MODIFY]** — Mengintegrasikan tag script `Js/navbar.js` dan menambahkan fallback parameter kosong.
 *   [tentang.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/tentang.html) **[MODIFY]** — Mengintegrasikan tag script `Js/navbar.js`.
 
 ---

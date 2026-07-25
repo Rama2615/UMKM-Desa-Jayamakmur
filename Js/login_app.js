@@ -160,8 +160,8 @@ function setupRoleSelector(service) {
         const deskripsi = document.getElementById('regDeskripsi').value.trim();
         const password = document.getElementById('regPassword').value;
 
-        if (!nama || !whatsapp || !alamat || !deskripsi || !password) {
-            alert('⚠️ Harap isi semua kolom formulir!');
+        if (!nama || !password) {
+            alert('⚠️ Nama Usaha dan Kata Sandi wajib diisi!');
             return;
         }
 
