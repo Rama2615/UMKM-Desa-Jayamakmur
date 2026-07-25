@@ -1,0 +1,32 @@
+# Daftar Tugas: Implementasi Sistem Multi-Role (Konsumen, Pemilik UMKM, Admin)
+
+- [x] Core Services & Persistensi Lokal (`Js/Services/umkm_services.js`)
+  - [x] Implementasikan loading & saving ke `localStorage` (`umkm_data`)
+  - [x] Tambahkan metode `addUmkm(umkmData)`
+  - [x] Tambahkan metode `updateUmkm(id, updatedData)`
+  - [x] Tambahkan metode `deleteUmkm(id)`
+- [x] Penggayaan Global & Dashboard (`assets/css/auth.css`)
+  - [x] Rancang overlay pemilihan peran (glassmorphism)
+  - [x] Rancang form login & pendaftaran UMKM
+  - [x] Rancang tata letak dashboard admin & pemilik (tabel, kartu stats, sidebar)
+- [x] Navigasi Dinamis & Global Routing (`Js/navbar.js`)
+  - [x] Implementasikan render tautan navigasi dinamis berbasis role
+  - [x] Integrasikan logout global
+- [x] Integrasi Navbar Baru ke Halaman Eksisting
+  - [x] Integrasikan `Js/navbar.js` ke `index.html`
+  - [x] Integrasikan `Js/navbar.js` ke `Main page.html`
+  - [x] Integrasikan `Js/navbar.js` ke `Detail produk.html`
+  - [x] Integrasikan `Js/navbar.js` ke `tentang.html`
+- [x] Welcome Overlay & Login (`index.html` & `Js/landing_app.js`)
+  - [x] Tambahkan HTML overlay & form di `index.html`
+  - [x] Implementasikan pemrosesan pemilihan peran, login, dan registrasi baru di `Js/landing_app.js`
+- [x] Halaman Dashboard Admin (`admin.html` & `Js/admin_app.js`)
+  - [x] Buat markup dashboard admin dengan ringkasan statistik dan tabel CRUD
+  - [x] Buat skrip kontrol dashboard admin (proteksi akses, aksi tambah/edit/hapus)
+- [x] Halaman Dashboard Pemilik UMKM (`owner.html` & `Js/owner_app.js`)
+  - [x] Buat markup dashboard pemilik dengan form edit profil, galeri, dan ganti sandi
+  - [x] Buat skrip kontrol dashboard pemilik (proteksi akses, save data profil)
+- [x] Pengujian & Verifikasi Alur Kerja
+  - [x] Uji login/logout semua role
+  - [x] Uji penambahan, pembaruan, dan penghapusan UMKM oleh Admin
+  - [x] Uji pembaruan profil dan foto galeri oleh Pemilik UMKM

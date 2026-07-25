@@ -1,4 +1,4 @@
-[
+export const DUMMY_UMKM = [
   {
     "id": 1,
     "nama": "Es Doger Mang Ulis",
@@ -109,4 +109,4 @@
     "alamat": "Dusun Krajan RT 05 / RW 02, Desa Jayamakmur",
     "mapsUrl": "https://maps.google.com/?q=Dusun+Krajan+Desa+Jayamakmur+Karawang"
   }
-]
+];

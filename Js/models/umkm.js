@@ -1,18 +1,23 @@
 export class Umkm {
-    // Constructor menerima objek data mentah dari JSON
-    constructor({ id, nama, kategori, deskripsi, whatsapp, gambar }) {
+    constructor({ id, nama, kategori, deskripsi, whatsapp, gambar, galeri, alamat, mapsUrl, password }) {
         this.id = id;
         this.nama = nama;
         this.kategori = kategori;
         this.deskripsi = deskripsi;
         this.whatsapp = whatsapp;
         this.gambar = gambar;
+        this.galeri = galeri || [];
+        this.alamat = alamat || "Desa Jayamakmur, Karawang";
+        this.mapsUrl = mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(this.nama + ' Desa Jayamakmur')}`;
+        this.password = password || "owner123";
     }
 
-    // Method khusus untuk membuat link chat WhatsApp otomatis langsung ke penjual
     getWhatsAppLink() {
-        // Format link: https://wa.me/628xxx?text=Halo...
-        const pesan = encodeURIComponent(`Halo, saya tertarik dengan produk dari UMKM ${this.nama}. Bisa tahu informasi lebih lanjut?`);
+        const pesan = encodeURIComponent(`Halo, saya ingin menanyakan informasi tentang UMKM ${this.nama}.`);
         return `https://wa.me/${this.whatsapp}?text=${pesan}`;
+    }
+
+    getGoogleMapsLink() {
+        return this.mapsUrl;
     }
 }

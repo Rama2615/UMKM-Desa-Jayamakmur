@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('auth.css');
+
+/* ==========================================================================
+   RESET & BASE STYLES & THEMING SYSTEM
+   ========================================================================== */
+:root {
+    /* Terracotta & Emerald Green Theme (Light Mode) */
+    --primary-teal: #e65c00; /* Terracotta Orange */
+    --primary-teal-dark: #b33600;
+    --accent-orange: #1b4d3e; /* Forest Emerald Green */
+    --accent-orange-dark: #123329;
+    --accent-terracotta: #e65c00;
+    --bg-light: #f5f8f6; /* Soft Herb Background */
+    --card-bg: #ffffff;
+    --text-dark: #1a252c;
+    --text-muted: #5e6d75;
+    --shadow-floating: 0 16px 40px rgba(27, 77, 62, 0.08);
+    --shadow-card: 0 8px 24px rgba(27, 77, 62, 0.04);
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-pill: 50px;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --navbar-bg: rgba(255, 255, 255, 0.85);
+    --toast-bg: #1a252c;
+    --toast-color: #ffffff;
+    --accent-gold: #f39c12;
+}
+
+:root[data-theme="dark"] {
+    /* Terracotta & Emerald Green Theme (Dark Mode) */
+    --primary-teal: #ff751a; /* Lighter Terracotta for high contrast */
+    --primary-teal-dark: #e65c00;
+    --accent-orange: #2bb38e; /* Lighter Emerald Green for contrast */
+    --accent-orange-dark: #1b4d3e;
+    --accent-terracotta: #ff751a;
+    --bg-light: #0d1215; /* Rich Dark Slate */
+    --card-bg: #161c20; /* Darker Slate Card Surface */
+    --text-dark: #ecf0f2;
+    --text-muted: #8ca0ab;
+    --shadow-floating: 0 16px 40px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --navbar-bg: rgba(13, 18, 21, 0.85);
+    --toast-bg: #ecf0f2;
+    --toast-color: #0d1215;
+    --accent-gold: #f5b041;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   NAVIGATION BAR STYLES
+   ========================================================================== */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--navbar-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-teal);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.5px;
+    transition: transform 0.2s ease;
+}
+
+.navbar-logo .logo-accent {
+    color: var(--accent-orange);
+}
+
+.navbar-logo:hover {
+    transform: scale(1.02);
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover {
+    color: var(--primary-teal);
+    background: rgba(230, 92, 0, 0.08);
+}
+
+.nav-link.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-teal-dark) 100%);
+    box-shadow: 0 4px 12px rgba(230, 92, 0, 0.25);
+}
+
+/* Dark Mode Switcher Button */
+.theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    width: 38px;
+    height: 38px;
+    outline: none;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(230, 92, 0, 0.08);
+    border-color: var(--primary-teal);
+    color: var(--primary-teal);
+    transform: scale(1.08);
+}
+
+.theme-toggle-btn svg {
+    transition: transform 0.5s ease;
+}
+
+.theme-toggle-btn:hover svg {
+    transform: rotate(20deg);
+}
+
+.theme-toggle-btn .sun-icon {
+    display: block;
+}
+
+.theme-toggle-btn .moon-icon {
+    display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle-btn .sun-icon {
+    display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle-btn .moon-icon {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .navbar-container {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 15px;
+    }
+    
+    .navbar-links {
+        gap: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+footer {
+    background-color: var(--card-bg);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 24px;
+    margin-top: auto;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   SHARED UI COMPONENTS
+   ========================================================================== */
+/* Badges Kategori Berwarna Dinamis */
+[class^="badge-"] {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    align-self: flex-start;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.badge-kuliner { background-color: rgba(230, 92, 0, 0.1); color: var(--primary-teal); }
+.badge-kerajinan { background-color: rgba(27, 77, 62, 0.1); color: var(--accent-orange); }
+.badge-jasa { background-color: rgba(66, 133, 244, 0.1); color: #3b82f6; }
+
+:root[data-theme="dark"] .badge-kuliner { background-color: rgba(255, 117, 26, 0.15); color: #ff8533; }
+:root[data-theme="dark"] .badge-kerajinan { background-color: rgba(43, 179, 142, 0.15); color: #4cdbb4; }
+:root[data-theme="dark"] .badge-jasa { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+/* Tombol WhatsApp */
+.btn-whatsapp {
+    display: block;
+    text-align: center;
+    background-color: #25d366;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebe57;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+}
+
+/* Tombol Kembali */
+.btn-kembali {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--primary-teal);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn-kembali:hover {
+    color: var(--accent-orange);
+    transform: translateX(-4px);
+}
+
+/* State Status Data */
+.loading-text, .empty-text {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   GLOBAL PAGE HEADER (containerHeader)
+   ========================================================================== */
+.containerHeader {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(230, 92, 0, 0.05) 0%, rgba(27, 77, 62, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.containerHeader h1 {
+    color: var(--text-dark);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.containerHeader p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .containerHeader h1 {
+        font-size: 1.8rem;
+    }
+}
+

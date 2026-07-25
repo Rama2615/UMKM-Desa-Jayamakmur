@@ -1,0 +1,161 @@
+/* ==========================================================================
+   ABOUT & TEAM PAGE STYLES
+   ========================================================================== */
+.containerHeader {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(230, 92, 0, 0.05) 0%, rgba(27, 77, 62, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.containerHeader h1 {
+    color: var(--text-dark);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.containerHeader p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.about-card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary-teal), var(--accent-orange));
+}
+
+.about-card h2 {
+    color: var(--primary-teal);
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.about-card p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.85;
+}
+
+.team-section {
+    margin-top: 50px;
+}
+
+.team-section-title {
+    text-align: center;
+    color: var(--accent-orange);
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 35px;
+    position: relative;
+}
+
+.team-section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary-teal);
+    margin: 10px auto 0 auto;
+    border-radius: var(--radius-pill);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.team-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-floating);
+    border-color: var(--accent-orange);
+}
+
+.team-avatar {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-avatar {
+    border-color: var(--accent-orange);
+    transform: scale(1.05);
+}
+
+.team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-card h3 {
+    color: var(--text-dark);
+    margin-bottom: 6px;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.team-role {
+    font-weight: 700;
+    color: var(--primary-teal);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: 0.8px;
+}
+
+.team-univ {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+/* Responsive details for Tentang page */
+@media (max-width: 768px) {
+    .containerHeader h1 {
+        font-size: 1.8rem;
+    }
+    .about-card {
+        padding: 30px 20px;
+    }
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
