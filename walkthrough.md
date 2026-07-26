@@ -182,3 +182,16 @@ Halaman **Tentang Kami & Profil Desa (`tentang.html`)** telah dirancang ulang se
 3. **3 Pilar Utama Program KKN Digitalisasi**: Penjelasan komprehensif pilar program kerja mahasiswa KKN (Direktori Digital, Foto & Branding, Pemetaan 3D & WhatsApp).
 4. **Kartu Tim KKN 3D Parallax Tilt (`Js/tentang_app.js`)**: Kartu anggota tim pengembang dengan efek kemiringan 3D (*3D tilt engine*), foto avatar melingkar, lencana *role*, dan tombol tautan media sosial.
 5. **Seksi FAQ (Pertanyaan Umum)**: Jawaban seputar pendaftaran UMKM, kebebasan biaya, dan alur transaksi pesan langsung via WhatsApp.
+
+---
+
+## Fitur Baru Tambahan: Redesain Total Halaman Katalog UMKM (3D Focus Grid & Smart Search Hub)
+
+### Deskripsi Implementasi
+Halaman **Katalog UMKM (`Main page.html`)** telah dirancang ulang secara menyeluruh dengan fokus penuh pada **kartu-kartu UMKM terdaftar**, **fitur pencarian pintar**, dan **filter 3D interaktif**:
+1. **Sleek 3D Control Header & Filter Hub (`Main page.html` & `main.css`)**: Menghapus banner hero/statistik yang mengalihkan perhatian, menggantikannya dengan header 3D berfokus penuh pada eksplorasi UMKM. Dilengkapi badge jumlah UMKM aktif secara real-time (*"Menampilkan X UMKM Terdaftar"*).
+2. **Interactive Live Search Input**: Bar pencarian langsung (*real-time typing filter*) dengan icon pencarian, tombol hapus otomatis (`#btnClearSearch`), dan pengurutan A-Z / Z-A.
+3. **Lencana Filter Kategori 3D (*3D Category Pills*)**: Tombol kategori mengambang 3D (Semua, 🍱 Kuliner, 🎨 Kerajinan, 🛠️ Jasa, ❤️ Favorit Saya) yang merespons kursor mouse secara interaktif.
+4. **Grid Kartu 3D Parallax Tilt (`Js/App.js`)**: Menampilkan 9 kartu UMKM per halaman dalam tata letak grid 3D. Setiap kartu miring secara 3D (*3D perspective tilt & glare reflection*) saat kursor didekatkan.
+5. **Penanganan Status Kosong (Empty State)**: Tampilan status kosong interaktif dengan tombol "Reset Filter & Pencarian" saat pencarian tidak menemukan hasil.
+

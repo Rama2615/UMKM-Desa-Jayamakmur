@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katalog UMKM Desa Jayamakmur</title>
-    <link rel="stylesheet" href="assets/css/global.css?v=11">
-    <link rel="stylesheet" href="assets/css/main.css?v=11">
+    <link rel="stylesheet" href="assets/css/global.css?v=12">
+    <link rel="stylesheet" href="assets/css/main.css?v=12">
 </head>
 <body>
 
@@ -18,6 +18,7 @@
             <div class="navbar-links">
                 <a href="index.html" class="nav-link">Beranda</a>
                 <a href="Main page.html" class="nav-link active">Katalog</a>
+                <a href="peta.html" class="nav-link">Peta Desa</a>
                 <a href="tentang.html" class="nav-link">Tentang Kami</a>
                 <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema Mode Gelap/Terang">
                     <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -27,132 +28,77 @@
         </div>
     </nav>
 
-    <!-- Hero Banner with Video Background & Script Accent -->
-    <header class="hero-section">
-        <video id="heroBgVideoCatalog" class="hero-bg-video" autoplay loop muted playsinline>
-            <source src="assets/images/buat_gambar_agar_tidak_statis.mp4" type="video/mp4">
-            <source src="assets/videos/hero_background.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Sajikan & Karya <span class="script-text">khas</span> Desa Jayamakmur
-            </h1>
-            <p class="hero-subtitle">Direktori Pengenalan Produk & Usaha Lokal dari Pengrajin & Warga Desa Jayamakmur</p>
+    <!-- Sleek 3D Control Header & Filter Hub -->
+    <header class="catalog-control-header">
+        <div class="container">
+            <div class="catalog-header-title-box">
+                <h1 class="catalog-main-title">Katalog <span class="highlight-text">UMKM Jayamakmur</span></h1>
+                <span class="catalog-count-badge" id="catalogCountBadge">10+ UMKM Terdaftar</span>
+            </div>
+            
+            <!-- Floating 3D Search & Filter Control Bar -->
+            <div class="catalog-filter-bar" data-tilt-3d data-max-tilt="5">
+                <!-- Search Box -->
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="searchInput" placeholder="Cari nama UMKM, produk, atau dusun..." autocomplete="off">
+                    <button type="button" id="btnClearSearch" class="btn-clear-search" style="display:none;" aria-label="Hapus pencarian">&times;</button>
+                </div>
+
+                <!-- Category Pills Filter -->
+                <div class="category-pills-group">
+                    <button type="button" class="pill-btn active" data-category="">Semua</button>
+                    <button type="button" class="pill-btn" data-category="Kuliner">🍱 Kuliner</button>
+                    <button type="button" class="pill-btn" data-category="Kerajinan">🎨 Kerajinan</button>
+                    <button type="button" class="pill-btn" data-category="Jasa">🛠️ Jasa</button>
+                    <button type="button" class="pill-btn" data-category="Favorit">❤️ Favorit Saya</button>
+                </div>
+
+                <!-- Sorting Dropdown -->
+                <div class="sort-select-wrapper">
+                    <select id="sortFilter" aria-label="Urutkan UMKM">
+                        <option value="nama-asc">Urutkan: A - Z (Nama)</option>
+                        <option value="nama-desc">Urutkan: Z - A (Nama)</option>
+                    </select>
+                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+
+                <!-- Hidden select filter to keep state sync -->
+                <select id="categoryFilter" style="display:none;">
+                    <option value="">Semua Kategori</option>
+                    <option value="Kuliner">Kuliner</option>
+                    <option value="Kerajinan">Kerajinan</option>
+                    <option value="Jasa">Jasa</option>
+                    <option value="Favorit">Favorit</option>
+                </select>
+            </div>
         </div>
     </header>
 
-    <!-- Statistics Section -->
-    <section class="stats-section">
-        <div class="stats-container">
-            <div class="stats-card">
-                <div class="stats-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </div>
-                <div class="stats-number" id="stat-umkm" data-target="20">0</div>
-                <div class="stats-label">UMKM Terdaftar</div>
-            </div>
-            <div class="stats-card">
-                <div class="stats-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                </div>
-                <div class="stats-number" id="stat-dusun" data-target="4">0</div>
-                <div class="stats-label">Wilayah Dusun</div>
-            </div>
-            <div class="stats-card">
-                <div class="stats-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-                </div>
-                <div class="stats-number" id="stat-kategori" data-target="3">0</div>
-                <div class="stats-label">Kategori Usaha</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Floating Recommendation Box / Search Card -->
-    <div class="recommendation-wrapper">
-        <div class="recommendation-card">
-            <h2 class="recommendation-title">
-                Mengenal Potensi Lokal? <span class="highlight-text">Temukan UMKM terbaik Desa Jayamakmur!</span>
-            </h2>
-
-            <div class="recommendation-form">
-                <div class="form-group">
-                    <label for="searchInput">Pencarian UMKM</label>
-                    <div class="input-with-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <input type="text" id="searchInput" placeholder="Cari nama UMKM atau produk...">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="categoryFilter">Kategori UMKM</label>
-                    <div class="select-with-icon">
-                        <select id="categoryFilter">
-                            <option value="">Semua Kategori</option>
-                            <option value="Kuliner">Kuliner</option>
-                            <option value="Kerajinan">Kerajinan</option>
-                            <option value="Jasa">Jasa</option>
-                        </select>
-                        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="sortFilter">Urutkan Nama</label>
-                    <div class="select-with-icon">
-                        <select id="sortFilter">
-                            <option value="nama-asc">A - Z (Nama)</option>
-                            <option value="nama-desc">Z - A (Nama)</option>
-                        </select>
-                        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-
-                <div class="form-group btn-group">
-                    <label class="label-placeholder">&nbsp;</label>
-                    <button type="button" id="btnRecommend" class="btn-recommend">
-                        Tampilkan UMKM
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Catalog Content -->
+    <!-- Main Catalog Focus Area: 3D UMKM Cards Grid -->
     <main class="container main-catalog-container" id="katalogSection">
-        <!-- Quick Filter Chips -->
-        <div class="quick-category-chips">
-            <span class="chip-label">Kategori Cepat:</span>
-            <button type="button" class="chip-btn active" data-category="">Semua</button>
-            <button type="button" class="chip-btn" data-category="Kuliner">🍱 Kuliner</button>
-            <button type="button" class="chip-btn" data-category="Kerajinan">🎨 Kerajinan</button>
-            <button type="button" class="chip-btn" data-category="Jasa">🛠️ Jasa</button>
-            <button type="button" class="chip-btn" data-category="Favorit">❤️ Favorit Saya</button>
-        </div>
-
-        <!-- Wadah Murni untuk Kartu UMKM -->
+        <!-- Dynamic UMKM Grid -->
         <section id="umkmContainer" class="umkm-grid">
-            <p class="loading-text">Memuat data UMKM...</p>
+            <p class="loading-text">Memuat data UMKM terdaftar...</p>
         </section>
 
-        <!-- Kontrol Pagination -->
+        <!-- Pagination Bar -->
         <div class="pagination-container">
             <button id="btn-prev" class="btn-page" disabled>&larr; Sebelum</button>
-            <span id="page-info">Halaman 1 dari 5</span>
+            <span id="page-info">Halaman 1 dari 1</span>
             <button id="btn-next" class="btn-page">Sesudah &rarr;</button>
         </div>
     </main>
 
-    <!-- Toast Notification for Share Link -->
+    <!-- Toast Notification for Share & Wishlist -->
     <div id="toastNotification" class="toast-notification">Link profil berhasil disalin! 📋</div>
 
     <footer>
         <p>&copy; 2026 Tim KKN Universitas - Desa Jayamakmur. All Rights Reserved.</p>
     </footer>
 
-    <!-- Script Utama Aplikasi -->
-    <script type="module" src="Js/navbar.js?v=11"></script>
-    <script type="module" src="Js/App.js?v=11"></script>
+    <!-- Script Utama Aplikasi Katalog -->
+    <script type="module" src="Js/navbar.js?v=12"></script>
+    <script type="module" src="Js/App.js?v=12"></script>
 </body>
 </html>
