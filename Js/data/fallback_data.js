@@ -62,8 +62,8 @@ export const DUMMY_UMKM = [
     "whatsapp": "6287765432109",
     "gambar": "Warung Bu miswaroh.HEIC",
     "galeri": ["Warung bu miswaroh 2.HEIC", "Warung bu miswaroh 3.HEIC"],
-    "alamat": "Dusun Mekarsari RT 01 / RW 04, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Mekarsari+Desa+Jayamakmur+Karawang"
+    "alamat": "Dusun Sukamaju RT 01 / RW 04, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Dusun+Sukamaju+Desa+Jayamakmur+Karawang"
   },
   {
     "id": 7,
