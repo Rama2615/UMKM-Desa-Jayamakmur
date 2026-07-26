@@ -168,6 +168,9 @@ Latar belakang Hero Banner pada Landing Page (`index.html`) kini dilengkapi **3D
    - Klik kartu untuk langsung berpindah ke Halaman Detail UMKM (`Detail produk.html?id=...`).
 4. **Hero Glassmorphic Container**: Bagian tengah teks utama dilapisi kontainer *Glassmorphism* transparan dengan efek *backdrop-filter blur 22px* sehingga teks tetap terlihat kontras, elegan, dan sangat mudah dibaca.
 5. **Pembersihan Background Gambar Static**: Gambar statis latar belakang `desa.jpeg` telah dihapus dan digantikan dengan gradien gelap modern (`linear-gradient`) berkontras tinggi sehingga seluruh kartu 3D Marquee foto UMKM dan partikel WebGL glowing terlihat sangat tajam dan jernih.
+6. **Dukungan Video Background Loop 10 Detik (`index.html` & `landing.css`)**:
+   - Menambahkan elemen `<video id="heroBgVideo" class="hero-bg-video" autoplay loop muted playsinline>` yang dikonfigurasi untuk memutar berkas `assets/videos/hero_background.mp4` secara sinambung tanpa henti (*infinite loop*) di latar belakang Hero Banner.
+
 
 
 
