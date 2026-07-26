@@ -1,6 +1,6 @@
 /**
  * Interactive 3D WebGL Hero Canvas Engine
- * JayamakmurHub - Visualisasi 3D Interaktif Partikel, Geometri & Gelombang Kursor
+ * JayamakmurHub - Visualisasi 3D Interaktif Partikel Glowing, Geometri & Gelombang Kursor
  */
 
 export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
@@ -13,7 +13,7 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
     let width = (canvas.width = canvas.parentElement ? canvas.parentElement.offsetWidth : window.innerWidth);
     let height = (canvas.height = canvas.parentElement ? canvas.parentElement.offsetHeight : 480);
 
-    // Tetapkan listener resize
+    // Listener Resize Canvas
     window.addEventListener('resize', () => {
         if (!canvas.parentElement) return;
         width = canvas.width = canvas.parentElement.offsetWidth;
@@ -21,19 +21,18 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
         initNodes();
     });
 
-    // Variabel Posisi Kursor & Interaktivitas
+    // Posisi Kursor Mouse
     let mouse = {
         x: width / 2,
         y: height / 2,
         targetX: width / 2,
         targetY: height / 2,
-        radius: 180,
-        isClicking: false
+        radius: 200
     };
 
     let shockwaves = [];
 
-    // Dengarkan gerakan mouse di area Hero
+    // Listener Gerakan & Klik Mouse
     const heroContainer = canvas.parentElement || document.body;
 
     heroContainer.addEventListener('mousemove', (e) => {
@@ -47,28 +46,26 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
         const clickX = e.clientX - rect.left;
         const clickY = e.clientY - rect.top;
         
-        // Buat efek gelombang kejut 3D (Shockwave pulse)
         shockwaves.push({
             x: clickX,
             y: clickY,
             radius: 5,
-            maxRadius: 220,
-            opacity: 0.8,
-            speed: 4
+            maxRadius: 250,
+            opacity: 0.9,
+            speed: 5
         });
     });
 
-    // 3D Nodes (Titik Partikel 3D dalam Ruang Tiga Dimensi)
-    let nodes = [];
-    const NODE_COUNT = Math.min(Math.floor(width / 14), 85);
-
-    // Skema Warna Brand JayamakmurHub
+    // Skema Warna Terang & Glowing (Cyan, Orange, Gold, White)
     const colors = [
-        'rgba(27, 77, 62, ',    // Teal Utama #1b4d3e
-        'rgba(230, 92, 0, ',    // Orange #e65c00
-        'rgba(245, 158, 11, ',  // Gold #f59e0b
-        'rgba(45, 212, 191, '   // Teal Terang #2dd4bf
+        'rgba(45, 212, 191, ',   // Bright Cyan #2dd4bf
+        'rgba(255, 117, 26, ',   // Vibrant Orange #ff751a
+        'rgba(251, 191, 36, ',   // Bright Gold #fbbf24
+        'rgba(255, 255, 255, '   // Pure White #ffffff
     ];
+
+    let nodes = [];
+    const NODE_COUNT = Math.min(Math.floor(width / 12), 95);
 
     class Node3D {
         constructor() {
@@ -76,43 +73,38 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
         }
 
         reset() {
-            this.x = (Math.random() - 0.5) * width * 1.2;
-            this.y = (Math.random() - 0.5) * height * 1.2;
-            this.z = Math.random() * 600 + 100; // Kedalaman 3D (Z-axis)
+            this.x = (Math.random() - 0.5) * width * 1.3;
+            this.y = (Math.random() - 0.5) * height * 1.3;
+            this.z = Math.random() * 550 + 80; // Z depth
 
-            this.vx = (Math.random() - 0.5) * 0.6;
-            this.vy = (Math.random() - 0.5) * 0.6;
-            this.vz = (Math.random() - 0.5) * 0.4;
+            this.vx = (Math.random() - 0.5) * 0.8;
+            this.vy = (Math.random() - 0.5) * 0.8;
+            this.vz = (Math.random() - 0.5) * 0.5;
 
-            this.baseRadius = Math.random() * 2.5 + 1.5;
+            this.baseRadius = Math.random() * 3 + 2;
             this.color = colors[Math.floor(Math.random() * colors.length)];
-            this.pulseSpeed = Math.random() * 0.03 + 0.01;
+            this.pulseSpeed = Math.random() * 0.04 + 0.015;
             this.pulseAngle = Math.random() * Math.PI * 2;
         }
 
         update(rotX, rotY) {
-            // Pergerakan alami 3D
             this.x += this.vx;
             this.y += this.vy;
             this.z += this.vz;
 
             this.pulseAngle += this.pulseSpeed;
 
-            // Pemantulan batas 3D
-            if (Math.abs(this.x) > width * 0.6) this.vx *= -1;
-            if (Math.abs(this.y) > height * 0.6) this.vy *= -1;
-            if (this.z < 50 || this.z > 700) this.vz *= -1;
+            if (Math.abs(this.x) > width * 0.65) this.vx *= -1;
+            if (Math.abs(this.y) > height * 0.65) this.vy *= -1;
+            if (this.z < 50 || this.z > 650) this.vz *= -1;
 
-            // Proyeksi 3D Perspektif (3D Perspective Projection Math)
-            const fov = 400; // Focal length
+            const fov = 420;
             const scale = fov / (fov + this.z);
 
-            // Terapkan rotasi parallax kursor
-            const projX = (this.x + rotX * (700 - this.z) * 0.05) * scale + width / 2;
-            const projY = (this.y + rotY * (700 - this.z) * 0.05) * scale + height / 2;
-            const radius = Math.max(0.5, this.baseRadius * scale * (1 + Math.sin(this.pulseAngle) * 0.25));
+            const projX = (this.x + rotX * (650 - this.z) * 0.06) * scale + width / 2;
+            const projY = (this.y + rotY * (650 - this.z) * 0.06) * scale + height / 2;
+            const radius = Math.max(0.8, this.baseRadius * scale * (1 + Math.sin(this.pulseAngle) * 0.3));
 
-            // Interaksi gaya dorong kursor mouse
             const dx = projX - mouse.x;
             const dy = projY - mouse.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
@@ -121,7 +113,7 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
             let pushY = 0;
 
             if (dist < mouse.radius) {
-                const force = (1 - dist / mouse.radius) * 15;
+                const force = (1 - dist / mouse.radius) * 18;
                 pushX = (dx / dist) * force;
                 pushY = (dy / dist) * force;
             }
@@ -148,9 +140,7 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
 
     let animationFrameId = null;
 
-    // Loop Animasi 3D Utama
     function animate() {
-        // Interpolasi halus gerakan mouse (Smooth easing)
         mouse.x += (mouse.targetX - mouse.x) * 0.08;
         mouse.y += (mouse.targetY - mouse.y) * 0.08;
 
@@ -159,15 +149,12 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
 
         ctx.clearRect(0, 0, width, height);
 
-        // Update & proyeksi seluruh titik 3D
         const projectedNodes = nodes.map(node => node.update(rotX, rotY));
-
-        // Urutkan berdasarkan kedalaman Z untuk efek 3D rendering yang tepat (Depth sorting)
         projectedNodes.sort((a, b) => b.z - a.z);
 
         // Gambar Garis Hubungan 3D Constellation Mesh
-        const maxDist = 130;
-        ctx.lineWidth = 0.6;
+        const maxDist = 145;
+        ctx.lineWidth = 0.8;
 
         for (let i = 0; i < projectedNodes.length; i++) {
             for (let j = i + 1; j < projectedNodes.length; j++) {
@@ -179,8 +166,8 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
                 if (dist < maxDist) {
-                    const alpha = (1 - dist / maxDist) * 0.25 * (p1.scale);
-                    ctx.strokeStyle = `rgba(27, 77, 62, ${alpha})`;
+                    const alpha = (1 - dist / maxDist) * 0.4 * p1.scale;
+                    ctx.strokeStyle = `rgba(45, 212, 191, ${alpha})`;
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
                     ctx.lineTo(p2.x, p2.y);
@@ -203,10 +190,10 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
             ctx.save();
             ctx.beginPath();
             ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(230, 92, 0, ${sw.opacity})`;
-            ctx.lineWidth = 2.5;
-            ctx.shadowColor = 'rgba(230, 92, 0, 0.5)';
-            ctx.shadowBlur = 10;
+            ctx.strokeStyle = `rgba(255, 117, 26, ${sw.opacity})`;
+            ctx.lineWidth = 3;
+            ctx.shadowColor = 'rgba(255, 117, 26, 0.8)';
+            ctx.shadowBlur = 15;
             ctx.stroke();
             ctx.restore();
         }
@@ -217,10 +204,10 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
 
-            const alpha = Math.min(1, (1 - p.z / 750) * 1.2);
+            const alpha = Math.min(1, (1 - p.z / 700) * 1.3);
             ctx.fillStyle = `${p.color}${alpha})`;
-            ctx.shadowColor = `${p.color}0.6)`;
-            ctx.shadowBlur = p.radius * 3;
+            ctx.shadowColor = `${p.color}0.8)`;
+            ctx.shadowBlur = p.radius * 4;
             ctx.fill();
             ctx.restore();
         });

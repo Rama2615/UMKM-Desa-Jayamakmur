@@ -154,4 +154,19 @@ Landing Page (`index.html`) telah berhasil ditingkatkan menjadi **3D Interaktif 
 1. **Uji Canvas 3D Hero Banner**: Buka `index.html` -> gerakkan mouse di area Hero Banner. Perhatikan jaringan partikel 3D berputar & bergeser secara parallax. Klik di mana saja pada Hero Banner untuk memicu gelombang kejut partikel 3D.
 2. **Uji 3D Tilt Kartu**: Dekatkan kursor ke kartu "Dukungan Ekonomi Lokal", "Pencarian Cepat", atau kartu produk UMKM Spotlight. Pastikan kartu miring secara 3D mengikuti kursor dengan kilauan cahaya di atasnya.
 
+---
+
+## Fitur Baru Tambahan: 3D Infinite Marquee Showcase Background
+
+### Deskripsi Implementasi
+Latar belakang Hero Banner pada Landing Page (`index.html`) kini dilengkapi **3D Infinite Marquee Showcase Wall** yang bergerak secara terus menerus (*continuous seamless loop*):
+1. **Visualisasi Foto UMKM Asli (`Js/components/marquee_3d.js`)**: Memuat foto-foto produk UMKM asli dari folder `assets/images/` (Es Doger Mang Ulis, Seblak & Mie Ayam, Toko Opak Ibu Eli, Pangkas Rambut One Man, Jahit Pak Ceming, Warung Sayur, dll.) serta gambar unggahan kustom pengguna.
+2. **Sudut Perspektif 3D & Barisan Bertingkat (`landing.css`)**: Kartu-kartu vertikal dengan sudut membulat (*rounded 3D cards*) disusun dalam 2 trek horizontal yang miring secara 3D (`perspective: 1200px`, `rotateY(-14deg) rotateX(8deg)`).
+3. **Interaktivitas Hover & Navigasi Direct**:
+   - Dekatkan kursor ke area marquee: gerakan animasi melambat secara halus (*smooth pause/slowdown*).
+   - Arahkan kursor ke kartu UMKM tertentu: kartu terangkat ke depan secara 3D (*translateZ 50px scale 1.12*) dengan efek glow dan tombol "Lihat Profil".
+   - Klik kartu untuk langsung berpindah ke Halaman Detail UMKM (`Detail produk.html?id=...`).
+4. **Hero Glassmorphic Container**: Bagian tengah teks utama dilapisi kontainer *Glassmorphism* transparan dengan efek *backdrop-filter blur 22px* sehingga teks tetap terlihat kontras, elegan, dan sangat mudah dibaca.
+
+
 

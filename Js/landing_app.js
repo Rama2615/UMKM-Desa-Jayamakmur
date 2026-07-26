@@ -1,8 +1,9 @@
-import { initTheme } from './theme.js?v=4';
-import { UmkmService } from './Services/umkm_services.js?v=4';
-import { UmkmCard } from './components/umkm_card.js?v=4';
-import { initHero3DCanvas } from './components/hero_3d_canvas.js?v=4';
-import { init3DTiltEngine } from './utils/tilt_3d.js?v=4';
+import { initTheme } from './theme.js?v=6';
+import { UmkmService } from './Services/umkm_services.js?v=6';
+import { UmkmCard } from './components/umkm_card.js?v=6';
+import { initHero3DCanvas } from './components/hero_3d_canvas.js?v=6';
+import { init3DTiltEngine } from './utils/tilt_3d.js?v=6';
+import { init3DMarqueeWall } from './components/marquee_3d.js?v=6';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
@@ -17,6 +18,11 @@ async function initLanding() {
     try {
         await umkmService.fetchAllUmkm();
         const totalUmkm = umkmService.daftarUmkm.length;
+
+        // Inisialisasi 3D Marquee Showcase Background
+        if (totalUmkm > 0) {
+            init3DMarqueeWall('marquee3dContainer', umkmService.daftarUmkm);
+        }
         
         // 1. Animasikan jumlah UMKM terdaftar
         const countElement = document.getElementById('landing-stat-count');
