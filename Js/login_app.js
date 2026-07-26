@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js?v=3';
 import { initTheme } from './theme.js?v=3';
+import { setupImageDropzone } from './utils/image_uploader.js?v=3';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
@@ -14,6 +15,18 @@ async function initLoginApp() {
 function setupRoleSelector(service) {
     const roleSelectorSection = document.getElementById('roleSelectorSection');
     const authContainer = document.getElementById('authFormContainer');
+    const regGambarValue = document.getElementById('regGambarValue');
+
+    setupImageDropzone(
+        document.getElementById('regGambarDropzone'),
+        document.getElementById('regGambarFileInput'),
+        document.getElementById('regGambarPreviewContainer'),
+        document.getElementById('regGambarPreviewImg'),
+        document.getElementById('regGambarRemoveBtn'),
+        (base64Data) => {
+            if (regGambarValue) regGambarValue.value = base64Data || '';
+        }
+    );
     
     const btnKonsumen = document.getElementById('roleKonsumenBtn');
     const btnPemilik = document.getElementById('rolePemilikBtn');
@@ -166,6 +179,9 @@ function setupRoleSelector(service) {
         }
 
         // Tambah UMKM baru ke basis data lokal
+        const regGambarVal = document.getElementById('regGambarValue');
+        const gambar = regGambarVal ? (regGambarVal.value.trim() || 'placeholder.jpg') : 'placeholder.jpg';
+
         const newUmkm = service.addUmkm({
             nama,
             kategori,
@@ -173,7 +189,7 @@ function setupRoleSelector(service) {
             alamat,
             deskripsi,
             password,
-            gambar: 'placeholder.jpg',
+            gambar,
             galeri: []
         });
 

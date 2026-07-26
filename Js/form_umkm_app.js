@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js?v=3';
 import { initTheme } from './theme.js?v=3';
+import { setupImageDropzone, getImagePath } from './utils/image_uploader.js?v=3';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
@@ -14,10 +15,24 @@ const formKategori = document.getElementById('formKategori');
 const formWhatsapp = document.getElementById('formWhatsapp');
 const formAlamat = document.getElementById('formAlamat');
 const formDeskripsi = document.getElementById('formDeskripsi');
-const formGambar = document.getElementById('formGambar');
+const formGambarValue = document.getElementById('formGambarValue');
 const formPassword = document.getElementById('formPassword');
 const formMapsUrl = document.getElementById('formMapsUrl');
 const umkmForm = document.getElementById('umkmForm');
+
+// Inisialisasi Dropzone Foto Utama
+const dropzoneController = setupImageDropzone(
+    document.getElementById('formGambarDropzone'),
+    document.getElementById('formGambarFileInput'),
+    document.getElementById('formGambarPreviewContainer'),
+    document.getElementById('formGambarPreviewImg'),
+    document.getElementById('formGambarRemoveBtn'),
+    (base64Data) => {
+        if (formGambarValue) {
+            formGambarValue.value = base64Data || '';
+        }
+    }
+);
 
 async function initFormPage() {
     // 1. Fetch seluruh data dari database (Supabase / local fallback)
@@ -39,9 +54,15 @@ async function initFormPage() {
             formWhatsapp.value = umkm.whatsapp || '';
             formAlamat.value = umkm.alamat || '';
             formDeskripsi.value = umkm.deskripsi || '';
-            formGambar.value = umkm.gambar && umkm.gambar !== 'placeholder.jpg' ? umkm.gambar : '';
             formPassword.value = umkm.password || '';
             formMapsUrl.value = umkm.mapsUrl || '';
+
+            if (umkm.gambar && umkm.gambar !== 'placeholder.jpg') {
+                formGambarValue.value = umkm.gambar;
+                if (dropzoneController) {
+                    dropzoneController.showPreview(getImagePath(umkm.gambar));
+                }
+            }
         } else {
             alert('Data UMKM tidak ditemukan.');
             window.location.href = 'admin.html';
@@ -64,7 +85,7 @@ if (umkmForm) {
             whatsapp: formWhatsapp.value.trim(),
             alamat: formAlamat.value.trim(),
             deskripsi: formDeskripsi.value.trim(),
-            gambar: formGambar.value.trim() || 'placeholder.jpg',
+            gambar: formGambarValue ? (formGambarValue.value.trim() || 'placeholder.jpg') : 'placeholder.jpg',
             mapsUrl: formMapsUrl.value.trim(),
             password: formPassword.value.trim() || 'owner123'
         };

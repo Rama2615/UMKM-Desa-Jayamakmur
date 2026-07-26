@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js?v=3';
 import { initTheme } from './theme.js?v=3';
+import { getImagePath } from './utils/image_uploader.js?v=3';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
@@ -184,18 +185,19 @@ function renderMapData() {
         return;
     }
 
-    filtered.forEach(umkm => {
-        const coords = getCoordinates(umkm);
+        filtered.forEach(umkm => {
+            const coords = getCoordinates(umkm);
+            const imgPath = getImagePath(umkm.gambar);
 
-        // --- A. PENANDA (MARKER) 3D PETA ---
-        const popupContent = `
-            <div class="popup-umkm-card">
-                <img src="assets/images/${umkm.gambar}" alt="${umkm.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+UMKM'">
-                <h4>${umkm.nama}</h4>
-                <p>📍 ${umkm.alamat}</p>
-                <a href="Detail produk.html?id=${umkm.id}" class="popup-umkm-btn">Lihat Detail Usaha &rarr;</a>
-            </div>
-        `;
+            // --- A. PENANDA (MARKER) 3D PETA ---
+            const popupContent = `
+                <div class="popup-umkm-card">
+                    <img src="${imgPath}" alt="${umkm.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+UMKM'">
+                    <h4>${umkm.nama}</h4>
+                    <p>📍 ${umkm.alamat}</p>
+                    <a href="Detail produk.html?id=${umkm.id}" class="popup-umkm-btn">Lihat Detail Usaha &rarr;</a>
+                </div>
+            `;
 
         const emoji = umkm.kategori === 'Kuliner' ? '🍱' : 
                       umkm.kategori === 'Kerajinan' ? '🎨' : '🛠️';
@@ -228,7 +230,7 @@ function renderMapData() {
             card.className = 'map-list-card';
             card.dataset.id = umkm.id;
             card.innerHTML = `
-                <img class="map-card-img" src="assets/images/${umkm.gambar}" alt="${umkm.nama}" onerror="this.src='https://placehold.co/100x100?text=UMKM'">
+                <img class="map-card-img" src="${imgPath}" alt="${umkm.nama}" onerror="this.src='https://placehold.co/100x100?text=UMKM'">
                 <div class="map-card-info">
                     <div class="map-card-category">${umkm.kategori}</div>
                     <div class="map-card-title">${umkm.nama}</div>

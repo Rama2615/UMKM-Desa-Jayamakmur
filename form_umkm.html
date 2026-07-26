@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulir UMKM - JayamakmurHub</title>
-    <link rel="stylesheet" href="assets/css/global.css?v=3">
-    <link rel="stylesheet" href="assets/css/main.css?v=3">
+    <link rel="stylesheet" href="assets/css/global.css?v=4">
+    <link rel="stylesheet" href="assets/css/main.css?v=4">
     <script>
         // Proteksi Akses Admin
         if (localStorage.getItem('user_role') !== 'admin') {
@@ -75,15 +75,27 @@
                     <textarea id="formDeskripsi" style="min-height: 120px;" placeholder="Tuliskan cerita usaha, menu andalan, detail layanan secara menarik..."></textarea>
                 </div>
 
-                <div class="form-db-row">
-                    <div class="form-group">
-                        <label for="formGambar">Nama File Foto (di folder assets/images/)</label>
-                        <input type="text" id="formGambar" placeholder="Contoh: Es Doger Mang Ulis.HEIC">
+                <div class="form-group">
+                    <label>Foto Utama Profil UMKM (Format: JPG, PNG, WEBP, HEIC - Maks. 5MB)</label>
+                    <div class="image-upload-dropzone" id="formGambarDropzone">
+                        <div class="dropzone-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </div>
+                        <div class="dropzone-text">Tarik & lepaskan foto di sini, atau <span style="color: var(--accent-orange, #e65c00); text-decoration: underline;">pilih berkas</span></div>
+                        <div class="dropzone-hint">Format didukung: .jpg, .jpeg, .png, .webp, .heic (Otomatis dikompresi)</div>
+                        <input type="file" id="formGambarFileInput" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/heif" style="display: none;">
+                        
+                        <div class="image-preview-wrapper" id="formGambarPreviewContainer" style="display: none;">
+                            <img id="formGambarPreviewImg" class="image-preview-img" src="" alt="Pratinjau Foto UMKM">
+                            <button type="button" class="btn-remove-preview" id="formGambarRemoveBtn" title="Hapus Gambar">&times;</button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="formPassword">Kata Sandi (Untuk Login Pemilik)</label>
-                        <input type="password" id="formPassword" placeholder="Default: owner123">
-                    </div>
+                    <input type="hidden" id="formGambarValue">
+                </div>
+
+                <div class="form-group">
+                    <label for="formPassword">Kata Sandi (Untuk Login Pemilik)</label>
+                    <input type="password" id="formPassword" placeholder="Default: owner123">
                 </div>
 
                 <div class="form-group">
@@ -103,7 +115,7 @@
         <p>&copy; 2026 Tim KKN Universitas - Desa Jayamakmur. All Rights Reserved.</p>
     </footer>
 
-    <script type="module" src="Js/navbar.js?v=3"></script>
-    <script type="module" src="Js/form_umkm_app.js?v=3"></script>
+    <script type="module" src="Js/navbar.js?v=4"></script>
+    <script type="module" src="Js/form_umkm_app.js?v=4"></script>
 </body>
 </html>

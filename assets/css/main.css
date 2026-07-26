@@ -645,3 +645,99 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   IMAGE UPLOAD DROPZONE & PREVIEW STYLES
+   ========================================================================== */
+.image-upload-dropzone {
+    border: 2px dashed var(--border-color, #cbd5e1);
+    background-color: var(--card-bg, #ffffff);
+    border-radius: 12px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.image-upload-dropzone:hover,
+.image-upload-dropzone.dragover {
+    border-color: var(--accent-orange, #e65c00);
+    background-color: rgba(230, 92, 0, 0.05);
+}
+
+.image-upload-dropzone.has-preview {
+    border-style: solid;
+    padding: 16px;
+}
+
+.dropzone-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--accent-orange, #e65c00);
+    background-color: rgba(230, 92, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.dropzone-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark, #1e293b);
+}
+
+.dropzone-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted, #64748b);
+}
+
+.image-preview-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.image-preview-img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+}
+
+.btn-remove-preview {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(220, 38, 38, 0.88);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.btn-remove-preview:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+

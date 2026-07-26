@@ -115,3 +115,28 @@ Pembaruan sistem multi-role lengkap dengan pembagian hak akses (role-based acces
 7.  **Verifikasi di Halaman Detail**:
     *   Klik tombol **Lihat Toko di Katalog** di kanan atas dashboard pemilik.
     *   Pastikan deskripsi baru Anda sudah ter-update, dan carousel galeri di bawah peta lokasi menampilkan foto tambahan yang Anda masukkan!
+
+---
+
+## Fitur Baru Tambahan: Unggah Gambar Kustom & Kompresi Canvas
+
+### Deskripsi Implementasi
+Fitur unggah gambar (*custom image upload*) telah berhasil diintegrasikan pada alur pendaftaran dan pengisian form UMKM:
+1. **Pilihan Unggah Gambar pada Form Admin (`form_umkm.html`)**: Admin Desa kini dapat menarik & melepaskan (*drag and drop*) atau memilih berkas gambar (.jpg, .png, .webp, .heic) langsung saat menambah atau mengedit profil UMKM.
+2. **Unggah Foto Profil & Galeri pada Dashboard Pemilik (`owner.html`)**: Pemilik UMKM dapat mengunggah foto profil usaha kustom dan menambah foto galeri produk menggunakan *File Picker / Dropzone UI*.
+3. **Pendaftaran UMKM Baru (`login.html`)**: Calon Pemilik UMKM dapat langsung memilih foto usaha saat mendaftar.
+4. **Kompresi Canvas Otomatis (`Js/utils/image_uploader.js`)**: Berkas gambar diubah ukurannya secara dinamis (maksimal 1000px) dan dikompresi ke Base64 Data URL sebelum disimpan, menjaga kuota `localStorage` dan Supabase tetap efisien.
+5. **Kompatibilitas Tampilan Gambar**: `getImagePath()` diterapkan secara konsisten di `umkm_card.js`, `detail_app.js`, `admin_app.js`, dan `map_app.js` sehingga gambar lokal (`assets/images/`) dan gambar Base64 yang diunggah pengguna dapat ditampilkan secara sempurna tanpa icon link rusak.
+
+### Petunjuk Verifikasi Fitur Upload Gambar
+1. **Uji Upload Form Admin (`form_umkm.html`)**:
+   - Login sebagai Admin Desa -> Klik **Tambah UMKM Baru**.
+   - Pilih berkas gambar kustom dari perangkat Anda (misal `.jpg` atau `.png`).
+   - Pastikan pratinjau (*live preview*) gambar langsung muncul dengan tombol hapus/batal.
+   - Simpan data dan verifikasi bahwa gambar baru Anda muncul di tabel Admin, katalog produk, dan peta 3D.
+2. **Uji Upload Dashboard Pemilik (`owner.html`)**:
+   - Login sebagai Pemilik UMKM -> Buka Dashboard Pemilik.
+   - Unggah foto profil baru via dropzone area, lalu klik **Simpan Perubahan Profil**.
+   - Unggah foto produk baru pada seksi Galeri Foto Produk, klik **Tambahkan ke Galeri**.
+   - Klik **Lihat Toko di Katalog** untuk mengonfirmasi bahwa foto profil dan galeri terbaru sudah berhasil diperbarui di halaman detail produk.
+

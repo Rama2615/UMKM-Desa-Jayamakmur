@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js?v=3';
 import { initTheme } from './theme.js?v=3';
+import { setupImageDropzone, getImagePath } from './utils/image_uploader.js?v=3';
 
 // Inisialisasi Tema
 initTheme();
@@ -18,18 +19,42 @@ const ownerKategori = document.getElementById('ownerKategori');
 const ownerWhatsapp = document.getElementById('ownerWhatsapp');
 const ownerAlamat = document.getElementById('ownerAlamat');
 const ownerDeskripsi = document.getElementById('ownerDeskripsi');
-const ownerGambar = document.getElementById('ownerGambar');
+const ownerGambarValue = document.getElementById('ownerGambarValue');
 const ownerMapsUrl = document.getElementById('ownerMapsUrl');
 
 const galleryGrid = document.getElementById('ownerGalleryGrid');
 const addGalleryForm = document.getElementById('ownerAddGalleryForm');
-const galleryInput = document.getElementById('ownerGalleryInput');
+const ownerGaleriValue = document.getElementById('ownerGaleriValue');
 
 const passwordForm = document.getElementById('ownerPasswordForm');
 const newPasswordInput = document.getElementById('ownerNewPassword');
 const confirmPasswordInput = document.getElementById('ownerConfirmPassword');
 
 const toastNotification = document.getElementById('toastNotification');
+
+// Inisialisasi Dropzone Profil Pemilik
+const profileDropzoneController = setupImageDropzone(
+    document.getElementById('ownerGambarDropzone'),
+    document.getElementById('ownerGambarFileInput'),
+    document.getElementById('ownerGambarPreviewContainer'),
+    document.getElementById('ownerGambarPreviewImg'),
+    document.getElementById('ownerGambarRemoveBtn'),
+    (base64Data) => {
+        if (ownerGambarValue) ownerGambarValue.value = base64Data || '';
+    }
+);
+
+// Inisialisasi Dropzone Galeri Baru
+const galeriDropzoneController = setupImageDropzone(
+    document.getElementById('ownerGaleriDropzone'),
+    document.getElementById('ownerGaleriFileInput'),
+    document.getElementById('ownerGaleriPreviewContainer'),
+    document.getElementById('ownerGaleriPreviewImg'),
+    document.getElementById('ownerGaleriRemoveBtn'),
+    (base64Data) => {
+        if (ownerGaleriValue) ownerGaleriValue.value = base64Data || '';
+    }
+);
 
 // Fungsi Toast Notification
 function showToast(msg) {
@@ -54,8 +79,9 @@ function renderGallery() {
     activeUmkm.galeri.forEach((filename, index) => {
         const item = document.createElement('div');
         item.className = 'gallery-manager-item';
+        const imgPath = getImagePath(filename);
         item.innerHTML = `
-            <img src="assets/images/${filename}" alt="Galeri ${index + 1}" onerror="this.src='https://placehold.co/100x100?text=Foto'">
+            <img src="${imgPath}" alt="Galeri ${index + 1}" onerror="this.src='https://placehold.co/100x100?text=Foto'">
             <button type="button" class="btn-delete-gal" data-index="${index}" title="Hapus foto">&times;</button>
         `;
         galleryGrid.appendChild(item);
@@ -64,7 +90,7 @@ function renderGallery() {
     // Event Listener Hapus Galeri
     const deleteButtons = galleryGrid.querySelectorAll('.btn-delete-gal');
     deleteButtons.forEach(btn => {
-        btn.addEventListener('click', async (e) => {
+        btn.addEventListener('click', async () => {
             const index = parseInt(btn.getAttribute('data-index'), 10);
             
             // Konfirmasi hapus
@@ -104,8 +130,14 @@ async function initOwnerApp() {
     if (ownerWhatsapp) ownerWhatsapp.value = activeUmkm.whatsapp;
     if (ownerAlamat) ownerAlamat.value = activeUmkm.alamat;
     if (ownerDeskripsi) ownerDeskripsi.value = activeUmkm.deskripsi;
-    if (ownerGambar) ownerGambar.value = activeUmkm.gambar;
     if (ownerMapsUrl) ownerMapsUrl.value = activeUmkm.mapsUrl || '';
+
+    if (activeUmkm.gambar && activeUmkm.gambar !== 'placeholder.jpg') {
+        if (ownerGambarValue) ownerGambarValue.value = activeUmkm.gambar;
+        if (profileDropzoneController) {
+            profileDropzoneController.showPreview(getImagePath(activeUmkm.gambar));
+        }
+    }
 
     // Render Galeri
     renderGallery();
@@ -120,7 +152,7 @@ if (profileForm) {
             whatsapp: ownerWhatsapp.value.trim(),
             alamat: ownerAlamat.value.trim(),
             deskripsi: ownerDeskripsi.value.trim(),
-            gambar: ownerGambar.value.trim() || 'placeholder.jpg',
+            gambar: ownerGambarValue ? (ownerGambarValue.value.trim() || 'placeholder.jpg') : 'placeholder.jpg',
             mapsUrl: ownerMapsUrl.value.trim()
         };
 
@@ -138,17 +170,20 @@ if (profileForm) {
 if (addGalleryForm) {
     addGalleryForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const newFilename = galleryInput.value.trim();
+        const newImageSrc = ownerGaleriValue ? ownerGaleriValue.value.trim() : '';
 
-        if (newFilename) {
+        if (newImageSrc) {
             if (!activeUmkm.galeri) activeUmkm.galeri = [];
-            activeUmkm.galeri.push(newFilename);
+            activeUmkm.galeri.push(newImageSrc);
 
             await service.updateUmkm(activeUmkm.id, { galeri: activeUmkm.galeri });
             showToast('Foto berhasil ditambahkan ke galeri! 📸');
             
-            galleryInput.value = '';
+            if (ownerGaleriValue) ownerGaleriValue.value = '';
+            if (galeriDropzoneController) galeriDropzoneController.clearPreview();
             renderGallery();
+        } else {
+            alert('⚠️ Harap pilih foto produk terlebih dahulu sebelum menambahkan ke galeri.');
         }
     });
 }

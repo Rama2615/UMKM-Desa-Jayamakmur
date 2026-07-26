@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js?v=3';
 import { initTheme } from './theme.js?v=3';
+import { getImagePath } from './utils/image_uploader.js?v=3';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
@@ -28,7 +29,7 @@ function renderDetail(umkm) {
         return;
     }
 
-    const mainImgSrc = `assets/images/${umkm.gambar}`;
+    const mainImgSrc = getImagePath(umkm.gambar);
 
     // Bangun HTML thumbnail galeri secara dinamis
     let thumbsHtml = `
@@ -39,7 +40,7 @@ function renderDetail(umkm) {
 
     if (umkm.galeri && umkm.galeri.length > 0) {
         umkm.galeri.forEach((galImg, index) => {
-            const galImgSrc = `assets/images/${galImg}`;
+            const galImgSrc = getImagePath(galImg);
             thumbsHtml += `
                 <div class="thumb-item">
                     <img src="${galImgSrc}" alt="Varian ${index + 1}" onerror="this.src='https://placehold.co/100x100?text=Varian+${index + 1}'">

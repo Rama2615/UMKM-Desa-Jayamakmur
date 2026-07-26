@@ -1,3 +1,5 @@
+import { getImagePath } from '../utils/image_uploader.js?v=3';
+
 export class UmkmCard {
     constructor(umkm) {
         this.umkm = umkm;
@@ -7,6 +9,7 @@ export class UmkmCard {
         const favorites = JSON.parse(localStorage.getItem('umkm_favorites')) || [];
         const isFavorite = favorites.includes(Number(this.umkm.id));
         const favoriteClass = isFavorite ? 'active' : '';
+        const imageSrc = getImagePath(this.umkm.gambar);
 
         return `
             <div class="card-umkm" data-id="${this.umkm.id}">
@@ -15,7 +18,7 @@ export class UmkmCard {
                 </button>
                 <a href="Detail produk.html?id=${this.umkm.id}" class="card-main-link">
                     <div class="card-image-wrapper">
-                        <img src="assets/images/${this.umkm.gambar}" alt="${this.umkm.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+UMKM'">
+                        <img src="${imageSrc}" alt="${this.umkm.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+UMKM'">
                     </div>
                     <div class="card-content">
                         <div class="card-meta">

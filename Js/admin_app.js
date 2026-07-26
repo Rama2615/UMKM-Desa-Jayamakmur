@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js?v=3';
 import { initTheme } from './theme.js?v=3';
+import { getImagePath } from './utils/image_uploader.js?v=3';
 
 // Inisialisasi Tema
 initTheme();
@@ -8,7 +9,7 @@ const service = new UmkmService();
 
 // State Variabel Kontrol
 let currentPage = 1;
-const itemsPerPage = 8;
+let itemsPerPage = 8;
 let filteredData = [];
 let categoryChartInstance = null;
 let locationChartInstance = null;
@@ -78,10 +79,11 @@ function renderTable() {
 
     paginatedItems.forEach(item => {
         const row = document.createElement('tr');
+        const imgPath = getImagePath(item.gambar);
         row.innerHTML = `
             <td><strong>#${item.id}</strong></td>
             <td>
-                <img src="assets/images/${item.gambar}" alt="${item.nama}" class="db-img-thumb" onerror="this.src='https://placehold.co/50x50?text=Logo'">
+                <img src="${imgPath}" alt="${item.nama}" class="db-img-thumb" onerror="this.src='https://placehold.co/50x50?text=Logo'">
             </td>
             <td><strong>${item.nama}</strong></td>
             <td><span class="badge-${item.kategori.toLowerCase()}">${item.kategori}</span></td>
