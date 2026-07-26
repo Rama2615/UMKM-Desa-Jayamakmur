@@ -3,7 +3,7 @@
    ========================================================================== */
 .hero-section {
     position: relative;
-    background: linear-gradient(135deg, #0b1013 0%, #111a1f 50%, #0d1418 100%);
+    background: var(--bg-dark, #0d1117);
     min-height: 420px;
     display: flex;
     align-items: center;
@@ -11,17 +11,27 @@
     text-align: center;
     padding: 80px 20px 120px 20px;
     color: #ffffff;
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.hero-bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0.75;
+    filter: brightness(0.85);
 }
 
 .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg, rgba(13, 18, 21, 0.6) 0%, rgba(13, 18, 21, 0.85) 100%);
-    z-index: 1;
+    display: none;
 }
 
 .hero-content {
