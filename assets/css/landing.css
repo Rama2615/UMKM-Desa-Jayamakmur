@@ -762,4 +762,104 @@
     }
 }
 
+/* ==========================================================================
+   3D INTERACTIVE LANDING PAGE ENHANCEMENTS
+   ========================================================================== */
+#hero-3d-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.landing-hero {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+
+.landing-hero-content {
+    z-index: 3;
+}
+
+/* Floating 3D Category Badges */
+.floating-3d-badges-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    z-index: 4;
+    position: relative;
+}
+
+.floating-3d-badge {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    text-decoration: none;
+    animation: float3D 4s ease-in-out infinite alternate;
+}
+
+.floating-3d-badge:nth-child(1) { animation-delay: 0s; }
+.floating-3d-badge:nth-child(2) { animation-delay: 1.3s; }
+.floating-3d-badge:nth-child(3) { animation-delay: 2.6s; }
+
+.floating-3d-badge:hover {
+    transform: translateY(-8px) scale(1.08) translateZ(30px) rotateX(10deg);
+    background: rgba(230, 92, 0, 0.35);
+    border-color: rgba(255, 158, 100, 0.8);
+    color: #ffffff;
+    box-shadow: 0 15px 35px rgba(230, 92, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+@keyframes float3D {
+    0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(6deg) rotateY(-4deg);
+    }
+    100% {
+        transform: translateY(4px) rotateX(-4deg) rotateY(6deg);
+    }
+}
+
+/* 3D Card Perspective Styling */
+.explanation-card,
+.spotlight-section .card-umkm,
+.stats-badge,
+.recommendation-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+.explanation-card .card-icon,
+.explanation-card h3,
+.explanation-card p {
+    transform: translateZ(25px);
+    transition: transform 0.3s ease;
+}
+
+.explanation-card:hover .card-icon {
+    transform: translateZ(45px) scale(1.1);
+}
+
+
 

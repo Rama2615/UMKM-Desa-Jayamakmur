@@ -140,3 +140,18 @@ Fitur unggah gambar (*custom image upload*) telah berhasil diintegrasikan pada a
    - Unggah foto produk baru pada seksi Galeri Foto Produk, klik **Tambahkan ke Galeri**.
    - Klik **Lihat Toko di Katalog** untuk mengonfirmasi bahwa foto profil dan galeri terbaru sudah berhasil diperbarui di halaman detail produk.
 
+---
+
+## Fitur Baru Tambahan: Landing Page 3D Interaktif (3D WebGL Canvas & Parallax Tilt)
+
+### Deskripsi Implementasi
+Landing Page (`index.html`) telah berhasil ditingkatkan menjadi **3D Interaktif yang futuristik & responsif**:
+1. **3D WebGL Hero Canvas (`Js/components/hero_3d_canvas.js`)**: Kanvas partikel 3D & jaringan geometri (*3D Constellation Mesh*) interaktif di latar belakang Hero Banner. Partikel berputar secara 3D, bereaksi terhadap gerakan mouse, dan memancarkan gelombang kejut (*burst wave*) saat diklik.
+2. **3D Parallax & Specular Light Tilt Engine (`Js/utils/tilt_3d.js`)**: Kartu penjelasan platform, kartu statistik, dan kartu UMKM spotlight miring secara 3D mengikuti kursor mouse dengan efek pantulan cahaya (*specular glare reflection*).
+3. **Lencana Kategori 3D Melayang (`index.html` & `assets/css/landing.css`)**: Tiga lencana kategori (🍱 Kuliner, 🎨 Kerajinan, 🛠️ Jasa) melayang di area Hero Banner dengan efek animasi 3D levitasi dan responsif saat di-hover.
+
+### Petunjuk Verifikasi Landing Page 3D Interaktif
+1. **Uji Canvas 3D Hero Banner**: Buka `index.html` -> gerakkan mouse di area Hero Banner. Perhatikan jaringan partikel 3D berputar & bergeser secara parallax. Klik di mana saja pada Hero Banner untuk memicu gelombang kejut partikel 3D.
+2. **Uji 3D Tilt Kartu**: Dekatkan kursor ke kartu "Dukungan Ekonomi Lokal", "Pencarian Cepat", atau kartu produk UMKM Spotlight. Pastikan kartu miring secara 3D mengikuti kursor dengan kilauan cahaya di atasnya.
+
+

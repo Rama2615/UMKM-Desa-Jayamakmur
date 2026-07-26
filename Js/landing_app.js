@@ -1,6 +1,8 @@
-import { initTheme } from './theme.js?v=3';
-import { UmkmService } from './Services/umkm_services.js?v=3';
-import { UmkmCard } from './components/umkm_card.js?v=3';
+import { initTheme } from './theme.js?v=4';
+import { UmkmService } from './Services/umkm_services.js?v=4';
+import { UmkmCard } from './components/umkm_card.js?v=4';
+import { initHero3DCanvas } from './components/hero_3d_canvas.js?v=4';
+import { init3DTiltEngine } from './utils/tilt_3d.js?v=4';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
@@ -8,6 +10,10 @@ initTheme();
 const umkmService = new UmkmService();
 
 async function initLanding() {
+    // 0. Inisialisasi Engine 3D Interaktif
+    initHero3DCanvas('hero-3d-canvas');
+    init3DTiltEngine('[data-tilt-3d]');
+
     try {
         await umkmService.fetchAllUmkm();
         const totalUmkm = umkmService.daftarUmkm.length;
@@ -83,6 +89,9 @@ function renderSpotlight(container) {
         container.innerHTML += card.render();
     });
     
+    // Pasang 3D tilt pada kartu spotlight
+    init3DTiltEngine(container.querySelectorAll('.card-umkm'));
+
     // Jalankan event listener untuk tombol favorit & share (Event Delegation)
     setupSpotlightInteractions(container);
 }
