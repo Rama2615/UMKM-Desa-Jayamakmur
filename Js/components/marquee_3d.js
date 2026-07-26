@@ -3,7 +3,7 @@
  * JayamakmurHub - Background Kartu 3D Bergerak Kontinu Berbasis Aset Foto UMKM Asli
  */
 
-import { getImagePath } from '../utils/image_uploader.js?v=6';
+import { getImagePath, getSmartFallback } from '../utils/image_uploader.js?v=8';
 
 export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []) {
     const container = document.getElementById(containerId);
@@ -31,7 +31,6 @@ export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []
     track1Container.className = 'marquee-3d-track-container track-left';
     
     const track1Content = renderTrackContent(track1Items);
-    // Gandakan konten trek untuk animasi seamless loop 0% -> -50%
     track1Container.innerHTML = `
         <div class="marquee-3d-track scroll-left">${track1Content}</div>
         <div class="marquee-3d-track scroll-left" aria-hidden="true">${track1Content}</div>
@@ -54,12 +53,13 @@ export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []
 
 function renderTrackContent(items) {
     return items.map(umkm => {
-        const imgSrc = getImagePath(umkm.gambar);
+        const imgSrc = getImagePath(umkm.gambar, umkm.nama, umkm.kategori);
+        const fallbackUrl = getSmartFallback(umkm.nama, umkm.kategori);
         const badgeClass = `badge-${(umkm.kategori || 'Kuliner').toLowerCase()}`;
         
         return `
             <a href="Detail produk.html?id=${umkm.id}" class="marquee-3d-card" title="Klik untuk melihat detail ${umkm.nama}">
-                <img src="${imgSrc}" alt="${umkm.nama}" loading="lazy" class="marquee-card-img" onerror="this.src='https://placehold.co/400x600?text=Foto+UMKM'">
+                <img src="${imgSrc}" alt="${umkm.nama}" loading="lazy" class="marquee-card-img" onerror="this.onerror=null; this.src='${fallbackUrl}';">
                 <div class="marquee-card-overlay">
                     <span class="marquee-badge ${badgeClass}">${umkm.kategori}</span>
                     <h3 class="marquee-card-title">${umkm.nama}</h3>

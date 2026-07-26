@@ -49,8 +49,8 @@ export const DUMMY_UMKM = [
     "kategori": "Kuliner",
     "deskripsi": "Sentra oleh-oleh khas opak ketan bakar tradisional Desa Jayamakmur yang renyah, gurih, dan memiliki aroma asap bakaran kelapa kelapa yang wangi. Dibuat secara alami tanpa bahan pengawet.",
     "whatsapp": "6281345678901",
-    "gambar": "Toko Opak Ibu Eli.HEIC",
-    "galeri": ["Toko Opak Ibu Eli 2.PNG"],
+    "gambar": "Toko Opak Ibu Eli 2.PNG",
+    "galeri": ["Toko Opak Ibu Eli.HEIC"],
     "alamat": "Dusun Krajan RT 02 / RW 02, Desa Jayamakmur",
     "mapsUrl": "https://maps.google.com/?q=Dusun+Krajan+Desa+Jayamakmur+Karawang"
   },
