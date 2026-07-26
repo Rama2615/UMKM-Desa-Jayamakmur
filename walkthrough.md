@@ -171,8 +171,14 @@ Latar belakang Hero Banner pada Landing Page (`index.html`) kini dilengkapi **3D
 6. **Dukungan Video Background Loop 10 Detik (`index.html`, `Main page.html`, `main.css`, `landing.css`)**:
    - Menambahkan elemen `<video class="hero-bg-video" autoplay loop muted playsinline>` yang dikonfigurasi untuk memutar berkas `assets/images/buat_gambar_agar_tidak_statis.mp4` secara sinambung tanpa henti (*infinite loop*) di latar belakang Hero Banner Halaman Beranda (`index.html`) dan Halaman Katalog (`Main page.html`).
 
+---
 
+## Fitur Baru Tambahan: Redesain Halaman Tentang Kami & Profil Desa
 
-
-
-
+### Deskripsi Implementasi
+Halaman **Tentang Kami & Profil Desa (`tentang.html`)** telah dirancang ulang secara menyeluruh menjadi tampilan **ultra-modern, interaktif, dan komprehensif**:
+1. **Interactive Glassmorphic Hero & Video Background (`tentang.html`)**: Dilengkapi latar belakang video bergerak 10 detik dan bingkai *Glassmorphism* blur transparan yang elegan.
+2. **Peta Wilayah 4 Dusun Desa Jayamakmur (`tentang.css`)**: Kartu-kartu interaktif untuk 4 wilayah dusun (Dusun Krajan, Babakan, Sukamaju, Mekarsari) beserta produk unggulan masing-masing dusun.
+3. **3 Pilar Utama Program KKN Digitalisasi**: Penjelasan komprehensif pilar program kerja mahasiswa KKN (Direktori Digital, Foto & Branding, Pemetaan 3D & WhatsApp).
+4. **Kartu Tim KKN 3D Parallax Tilt (`Js/tentang_app.js`)**: Kartu anggota tim pengembang dengan efek kemiringan 3D (*3D tilt engine*), foto avatar melingkar, lencana *role*, dan tombol tautan media sosial.
+5. **Seksi FAQ (Pertanyaan Umum)**: Jawaban seputar pendaftaran UMKM, kebebasan biaya, dan alur transaksi pesan langsung via WhatsApp.
