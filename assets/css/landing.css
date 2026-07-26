@@ -5,7 +5,7 @@
 /* Hero Section */
 .landing-hero {
     position: relative;
-    background: url('../images/desa.jpeg') center/cover no-repeat;
+    background: linear-gradient(135deg, #0b1013 0%, #111a1f 50%, #0d1418 100%);
     min-height: 80vh;
     display: flex;
     align-items: center;
@@ -22,8 +22,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(27, 77, 62, 0.82) 0%, rgba(13, 18, 21, 0.95) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(27, 77, 62, 0.25) 0%, rgba(11, 16, 19, 0.75) 100%);
     z-index: 1;
+    pointer-events: none;
 }
 
 .landing-hero-content {
@@ -899,7 +900,7 @@
     gap: 30px;
     transform: perspective(1200px) rotateY(-14deg) rotateX(8deg) rotateZ(-2deg);
     transform-style: preserve-3d;
-    opacity: 0.85;
+    opacity: 1;
 }
 
 .marquee-3d-track-container {

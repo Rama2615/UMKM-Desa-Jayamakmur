@@ -3,7 +3,7 @@
    ========================================================================== */
 .hero-section {
     position: relative;
-    background: url('../images/desa.jpeg') center/cover no-repeat;
+    background: linear-gradient(135deg, #0b1013 0%, #111a1f 50%, #0d1418 100%);
     min-height: 420px;
     display: flex;
     align-items: center;
