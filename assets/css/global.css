@@ -207,19 +207,84 @@ body {
     display: block;
 }
 
-@media (max-width: 600px) {
+/* Mobile Toggle Button */
+.navbar-toggle-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+    padding: 8px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    width: 42px;
+    height: 42px;
+}
+
+.navbar-toggle-btn:hover {
+    background: rgba(230, 92, 0, 0.08);
+    border-color: var(--primary-teal);
+    color: var(--primary-teal);
+}
+
+@media (max-width: 768px) {
     .navbar-container {
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px 15px;
+        position: relative;
+        padding: 12px 18px;
+        justify-content: space-between;
     }
     
+    .navbar-toggle-btn {
+        display: flex;
+    }
+
     .navbar-links {
-        gap: 10px;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--card-bg);
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-floating);
+        gap: 12px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+        z-index: 999;
+    }
+
+    .navbar-links.active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .nav-link, .btn-logout, .btn-login-trigger {
         width: 100%;
+        text-align: center;
         justify-content: center;
+        padding: 12px 18px;
+        font-size: 1rem;
+    }
+
+    .navbar-role-badge {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+    .theme-toggle-btn {
+        margin: 6px auto 0 auto;
     }
 }
+
 
 /* ==========================================================================
    FOOTER

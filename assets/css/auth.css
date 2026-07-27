@@ -748,3 +748,68 @@
     color: white;
     box-shadow: 0 4px 12px rgba(230, 92, 0, 0.15);
 }
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE ENHANCEMENTS FOR DASHBOARD & MODALS
+   ========================================================================== */
+.table-responsive,
+.admin-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.admin-table {
+    width: 100%;
+    min-width: 680px; /* Mencegah tabel terhimpit di HP */
+    border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+    .auth-card,
+    .modal-content,
+    .form-card {
+        width: 95%;
+        max-height: 88vh;
+        overflow-y: auto;
+        padding: 24px 16px;
+    }
+
+    .role-title {
+        font-size: 1.8rem;
+    }
+
+    .role-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .dashboard-actions .btn {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid-2col {
+        grid-template-columns: 1fr !important;
+    }
+}
+

@@ -947,4 +947,56 @@
     will-change: transform;
 }
 
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE ENHANCEMENTS FOR MAIN CATALOG & HERO
+   ========================================================================== */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 340px;
+        padding: 50px 16px 80px 16px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-title .script-text {
+        font-size: 2.6rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .search-filter-section {
+        padding: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .filter-pills-wrapper {
+        overflow-x: auto;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .sort-select-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sort-select-wrapper select {
+        width: 100%;
+    }
+
+    .umkm-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+
 

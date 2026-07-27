@@ -1,60 +1,61 @@
-# Rencana Implementasi: 3D Infinite Marquee Showcase Background
+# Rencana Implementasi: Mobile Versatility & Ultra-Responsive Enhancement
 
-Rencana ini merealisasikan keinginan pengguna untuk merancang **3D Marquee Showcase Wall** yang bergerak secara terus-menerus (*infinite continuous scroll*) sebagai latar belakang interaktif pada Landing Page (`index.html`), dengan menggunakan foto-foto asli UMKM dari berkas aset proyek (`assets/images/`).
+Rencana ini merealisasikan peningkatan versatilitas website **UMKM Desa Jayamakmur** agar tampil responsif, elegan, dan *user-friendly* pada semua ukuran perangkat (Mobile Phone, Tablet, Laptop, dan Desktop).
 
 ---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> - **3D Infinite Marquee Wall (Dinding Kartu 3D Bergerak)**: Dinding kartu bertingkat (*multi-track horizontal marquee*) yang menampilkan foto-foto asli produk & usaha UMKM Desa Jayamakmur (Es Doger Mang Ulis, Seblak, Toko Opak Bu Eli, Pangkas Rambut One Man, Jahit Pak Ceming, Warung Sayur, dll. beserta gambar unggahan kustom).
-> - **Animasi Miring 3D & Infinite Loop**: Kartu disusun dalam sudut perspektif 3D (*3D perspective tilt & depth*) dan bergerak secara sinambung (*seamless loop*) tanpa henti.
-> - **Interaktivitas Hover & Klik**:
->   - Saat kursor mouse berada di atas marquee, gerakan melambat secara halus.
->   - Kartu yang di-hover akan terangkat ke depan secara 3D (*translateZ 40px*) dengan efek cahaya glowing.
->   - Setiap kartu dapat diklik untuk langsung membuka halaman detail UMKM (`Detail produk.html?id=...`).
-> - **Kontras Teks & Keterbacaan**: Ditambahkan kontainer *Glassmorphism* di bagian tengah agar teks utama "Selamat Datang di JayamakmurHub" tetap terbaca dengan jelas dan kontras tinggi.
+> - **Mobile Hamburger Navigation Menu**: Menambahkan menu navigasi beranimasi halus (*collapsible drawer / mobile overlay*) pada [navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js) & [global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css).
+> - **Responsive Data Tables**: Menambahkan kontainer scrollable horizontal & gaya tampilan kartu responsif pada tabel dashboard [admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) dan [owner.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/owner.html).
+> - **Form & Modal Responsiveness**: Menyesuaikan modal overlay login & registrasi di [auth.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/auth.css) agar pas di layar kecil HP tanpa terpotong (*scrollable modal body*).
+> - **Touch-Friendly Controls**: Memastikan target sentuh tombol (seperti tombol WhatsApp, Ubah Tema, Rute, Login, Logout) berukuran minimum 44px dengan efek sentuh yang nyaman di Smartphone.
 
 ---
 
 ## Proposed Changes
 
-### 1. Modul Dynamic 3D Marquee Wall
+### 1. Navigasi & Mobile Menu Drawer System
 
-#### [NEW] [marquee_3d.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/components/marquee_3d.js)
-* Memuat seluruh data UMKM secara dinamis dari `UmkmService` (termasuk gambar lokal & gambar Base64 yang diunggah pengguna).
-* Membangun dua atau tiga baris trek kartu marquee 3D yang bergerak berlawanan arah secara terus-menerus.
-* Menangani pembentukan kartu bermuka 3D (*rounded 3D cards*), gambar beresolusi tinggi, lencana kategori, dan tautan langsung ke halaman detail.
+#### [MODIFY] [global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css)
+* Menambahkan styling untuk `.navbar-toggle-btn` (tombol hamburger `☰` / `✕`) yang muncul secara otomatis pada layar `<=` 768px.
+* Mengubah tampilan `.navbar-links` di layar HP menjadi menu dropdown / sliding drawer dengan efek glassmorphism, animasi `slideDown`, dan penyesuaian posisi pengubah tema (Theme Toggle).
 
----
-
-### 2. Styling 3D Marquee & Perspektif
-
-#### [MODIFY] [landing.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/landing.css)
-* Menambahkan CSS untuk `.marquee-3d-wrapper` dan `.marquee-3d-track`:
-  * Transformasi perspektif 3D (`perspective: 1200px`, `rotateY(-12deg) rotateX(6deg)`).
-  * Animasi CSS keyframe `marqueeScrollLeft` dan `marqueeScrollRight` dengan durasi halus (*linear infinite*).
-  * Efek visual kartu rounded, bayangan mengambang (*floating 3D shadow*), kilauan cahaya, dan tombol "Lihat Detail".
-  * Overlay gradien kaca (*Glassmorphism*) di bagian tengah agar konten teks utama menonjol secara estetis.
+#### [MODIFY] [navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js)
+* Memasang tombol hamburger dinamis ke dalam `.navbar-container`.
+* Menambahkan *event listener* `toggleNavbar()` untuk membuka/menutup menu di HP secara interaktif.
+* Menutup menu secara otomatis ketika pengguna mengklik salah satu tautan navigasi.
 
 ---
 
-### 3. Integrasi Layout & Aplikasi
+### 2. Dashboard & Form Responsiveness
 
-#### [MODIFY] [index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html)
-* Menyisipkan kontainer `<div id="marquee3dWrapper" class="marquee-3d-wrapper"></div>` di bagian Hero Banner.
+#### [MODIFY] [auth.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/auth.css)
+* Menambahkan gaya responsif untuk tabel dashboard admin & pemilik UMKM di layar HP (horizontal scroll & touch-friendly action buttons).
+* Mengoptimalkan form modal login, pendaftaran UMKM, dan welcome overlay agar 100% pas di layar HP dengan opsi scroll jika konten melebihi tinggi layar (`max-height: 90vh`).
 
-#### [MODIFY] [landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js)
-* Mengimpor dan menginisialisasi `init3DMarqueeWall(umkmService.daftarUmkm)` saat data UMKM siap dimuat.
+---
+
+### 3. Layout Katalog, Detail Produk, & Peta Desa
+
+#### [MODIFY] [main.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/main.css)
+* Mengatur bilah pencarian & filter kategori pada [Main page.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main page.html) agar berbaris vertikal di HP secara rapi.
+* Memastikan grid kartu UMKM berpindah ke 1 kolom dengan margin yang pas di Smartphone.
+
+#### [MODIFY] [detail.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/detail.css)
+* Memastikan foto galeri produk dan informasi kontak di [Detail produk.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Detail produk.html) menumpuk vertikal secara elegan di HP.
 
 ---
 
 ## Verification Plan
 
 ### Manual Verification
-1. **Pengujian Animasi 3D Infinite Marquee**:
-   - Buka `index.html` dan perhatikan barisan kartu foto UMKM bergerak secara kontinu di latar belakang.
-   - Verifikasi foto-foto yang ditampilkan adalah foto asli produk UMKM dari folder `assets/images/` (Es Doger, Toko Opak, Seblak, dll.).
-2. **Pengujian Interaktivitas Hover & Navigasi**:
-   - Dekatkan kursor ke salah satu kartu yang sedang bergerak. Pastikan gerakan melambat/berhenti secara halus dan kartu menonjol keluar secara 3D.
-   - Klik kartu tersebut dan pastikan halaman berpindah ke `Detail produk.html` dengan data UMKM yang sesuai.
+1. **Pengujian Layar Mobile & Responsive Toggle**:
+   - Buka website dan sesuaikan ukuran jendela browser (atau gunakan Chrome DevTools Device Toolbar mode Mobile HP iPhone/Android).
+   - Pastikan tombol Hamburger (`☰`) muncul di kanan navbar.
+   - Klik tombol Hamburger dan verifikasi menu navigasi meluncur kebawah dengan smooth.
+2. **Pengujian Form & Dashboard di Mobile**:
+   - Buka halaman Dashboard Admin [admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) dan Pemilik [owner.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/owner.html) pada mode mobile.
+   - Verifikasi tabel data UMKM dapat digeser secara horizontal tanpa merusak tata letak halaman.
+   - Buka modal Tambah/Edit UMKM dan verifikasi form dapat diisi & iscroll dengan nyaman di HP.
