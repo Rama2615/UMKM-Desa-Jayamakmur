@@ -48,10 +48,10 @@
                 <!-- Category Pills Filter -->
                 <div class="category-pills-group">
                     <button type="button" class="pill-btn active" data-category="">Semua</button>
-                    <button type="button" class="pill-btn" data-category="Kuliner">🍱 Kuliner</button>
-                    <button type="button" class="pill-btn" data-category="Kerajinan">🎨 Kerajinan</button>
-                    <button type="button" class="pill-btn" data-category="Jasa">🛠️ Jasa</button>
-                    <button type="button" class="pill-btn" data-category="Favorit">❤️ Favorit Saya</button>
+                    <button type="button" class="pill-btn" data-category="Kuliner"><img src="assets/images/Kuliner.png" class="btn-icon-img" alt="Kuliner"> Kuliner</button>
+                    <button type="button" class="pill-btn" data-category="Kerajinan"><img src="assets/images/Kerajinan Tangan.png" class="btn-icon-img" alt="Kerajinan"> Kerajinan Tangan</button>
+                    <button type="button" class="pill-btn" data-category="Jasa"><img src="assets/images/Pelayanan.png" class="btn-icon-img" alt="Pelayanan/Jasa"> Pelayanan / Jasa</button>
+                    <button type="button" class="pill-btn" data-category="Favorit"><img src="assets/images/Favorit.png" class="btn-icon-img" alt="Favorit"> Favorit Saya</button>
                 </div>
 
                 <!-- Sorting Dropdown -->
@@ -59,11 +59,11 @@
                     <select id="sortFilter" aria-label="Urutkan UMKM">
                         <option value="nama-asc">Urutkan: A - Z (Nama)</option>
                         <option value="nama-desc">Urutkan: Z - A (Nama)</option>
+                        <option value="id-desc">Terbaru Didaftarkan</option>
                     </select>
-                    <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
 
-                <!-- Hidden select filter to keep state sync -->
+                <!-- Hidden select filter to keep state sync with JS -->
                 <select id="categoryFilter" style="display:none;">
                     <option value="">Semua Kategori</option>
                     <option value="Kuliner">Kuliner</option>
@@ -72,14 +72,18 @@
                     <option value="Favorit">Favorit</option>
                 </select>
             </div>
+
+            <!-- Total Results Counter & Active Filter Badge -->
+            <div class="filter-status-bar">
+                <span id="catalogCountBadge">Menampilkan 0 UMKM Terdaftar</span>
+            </div>
         </div>
     </header>
 
-    <!-- Main Catalog Focus Area: 3D UMKM Cards Grid -->
+    <!-- Main Catalog Container -->
     <main class="container main-catalog-container" id="katalogSection">
-        <!-- Dynamic UMKM Grid -->
         <section id="umkmContainer" class="umkm-grid">
-            <p class="loading-text">Memuat data UMKM terdaftar...</p>
+            <!-- Dynamically populated by JS -->
         </section>
 
         <!-- Pagination Bar -->
@@ -90,7 +94,7 @@
         </div>
     </main>
 
-    <!-- Toast Notification for Share & Wishlist -->
+    <!-- Toast Notification for Actions -->
     <div id="toastNotification" class="toast-notification">Link profil berhasil disalin! 📋</div>
 
     <!-- Rich Modern Footer -->
@@ -103,29 +107,29 @@
                 <p>Pintu gerbang digital produk unggulan & direktori UMKM resmi Desa Jayamakmur, Karawang, Jawa Barat.</p>
                 <div class="footer-socials">
                     <a href="https://wa.me/6281234567890" target="_blank" class="footer-social-btn" title="WhatsApp Hotline">💬</a>
-                    <a href="peta.html" class="footer-social-btn" title="Peta Desa 3D">📍</a>
-                    <a href="tentang.html" class="footer-social-btn" title="Tentang KKN">🏛️</a>
+                    <a href="peta.html" class="footer-social-btn" title="Peta Interaktif">🗺️</a>
+                    <a href="tentang.html" class="footer-social-btn" title="Tentang Web">ℹ️</a>
                 </div>
             </div>
 
             <div class="footer-column">
-                <h4>Navigasi Cepat</h4>
+                <h4>Navigasi Utama</h4>
                 <ul class="footer-links">
                     <li><a href="index.html">Beranda</a></li>
-                    <li><a href="Main page.html">Katalog UMKM</a></li>
-                    <li><a href="peta.html">Peta Desa 3D</a></li>
-                    <li><a href="tentang.html">Tentang Kami</a></li>
-                    <li><a href="login.html">Portal Pemilik UMKM</a></li>
+                    <li><a href="Main page.html">Direktori UMKM</a></li>
+                    <li><a href="peta.html">Peta Interaktif</a></li>
+                    <li><a href="tentang.html">Tentang Desa</a></li>
+                    <li><a href="owner.html">Portal Pemilik UMKM</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h4>Kategori Usaha</h4>
                 <ul class="footer-links">
-                    <li><a href="Main page.html?category=Kuliner">🍱 Kuliner Jayamakmur</a></li>
-                    <li><a href="Main page.html?category=Kerajinan">🎨 Kerajinan Tangan</a></li>
-                    <li><a href="Main page.html?category=Jasa">🛠️ Layanan Jasa Desa</a></li>
-                    <li><a href="Main page.html?category=Favorit">❤️ Produk Favorit Saya</a></li>
+                    <li><a href="Main page.html?category=Kuliner"><img src="assets/images/Kuliner.png" class="footer-icon-img" alt=""> Kuliner Jayamakmur</a></li>
+                    <li><a href="Main page.html?category=Kerajinan"><img src="assets/images/Kerajinan Tangan.png" class="footer-icon-img" alt=""> Kerajinan Tangan</a></li>
+                    <li><a href="Main page.html?category=Jasa"><img src="assets/images/Pelayanan.png" class="footer-icon-img" alt=""> Pelayanan & Jasa</a></li>
+                    <li><a href="Main page.html?category=Favorit"><img src="assets/images/Favorit.png" class="footer-icon-img" alt=""> Produk Favorit Saya</a></li>
                 </ul>
             </div>
 

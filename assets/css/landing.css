@@ -355,6 +355,13 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
+.category-icon img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+}
+
 .category-promo-card:hover .category-icon {
     transform: scale(1.1) rotate(6deg);
     background: rgba(255, 255, 255, 0.25);

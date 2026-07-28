@@ -199,15 +199,15 @@ function renderMapData() {
                 </div>
             `;
 
-        const emoji = umkm.kategori === 'Kuliner' ? '🍱' : 
-                      umkm.kategori === 'Kerajinan' ? '🎨' : '🛠️';
+        const iconSrc = umkm.kategori === 'Kuliner' ? 'assets/images/Kuliner.png' : 
+                        umkm.kategori === 'Kerajinan' ? 'assets/images/Kerajinan Tangan.png' : 'assets/images/Pelayanan.png';
 
         // Buat elemen penanda kustom
         const el = document.createElement('div');
         el.className = 'custom-leaflet-marker'; // Tetap gunakan kelas yang sama agar gaya CSS di peta.html tidak berubah
         el.innerHTML = `
             <div class="custom-marker-pin marker-${umkm.kategori.toLowerCase()}">
-                <span class="marker-emoji">${emoji}</span>
+                <span class="marker-emoji"><img src="${iconSrc}" class="marker-icon-img" alt="${umkm.kategori}"></span>
                 <div class="marker-pulse"></div>
             </div>
         `;
