@@ -57,6 +57,7 @@
 
 html {
     scroll-behavior: smooth;
+    background-color: var(--card-bg);
 }
 
 body {
@@ -404,11 +405,12 @@ footer {
     margin-top: auto !important;
     background: var(--card-bg);
     border-top: 1px solid var(--border-color);
-    padding: 55px 0 24px 0;
+    padding: 55px 0 35px 0;
     color: var(--text-dark);
     position: relative;
     z-index: 10;
     width: 100%;
+    box-shadow: 0 100vh 0 100vh var(--card-bg);
 }
 
 .footer-container {
