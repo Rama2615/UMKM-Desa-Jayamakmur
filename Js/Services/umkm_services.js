@@ -51,30 +51,36 @@ export class UmkmService {
             }
         }
 
-        // --- FALLBACK KE LOCAL STORAGE / DUMMY ---
+        // --- FETCH DARI DATABASE LOCAL / JSON TERLEBIH DAHULU ---
+        let baseItems = [];
+        try {
+            const response = await fetch('Database/umkm.json');
+            if (response.ok) {
+                baseItems = await response.json();
+            } else {
+                baseItems = DUMMY_UMKM;
+            }
+        } catch (error) {
+            baseItems = DUMMY_UMKM;
+        }
+
+        // Gabungkan dengan data tambahan dari localStorage jika user pernah menambah UMKM baru secara lokal
         const cachedData = localStorage.getItem('umkm_data');
         if (cachedData) {
             try {
                 const parsed = JSON.parse(cachedData);
-                this.daftarUmkm = parsed.map(item => new Umkm(item));
-                return this.daftarUmkm;
+                const baseIds = new Set(baseItems.map(b => b.id));
+                const customItems = parsed.filter(item => !baseIds.has(item.id));
+                this.daftarUmkm = [...baseItems, ...customItems].map(item => new Umkm(item));
             } catch (e) {
-                console.error("Gagal membaca umkm_data dari localStorage:", e);
+                this.daftarUmkm = baseItems.map(item => new Umkm(item));
             }
+        } else {
+            this.daftarUmkm = baseItems.map(item => new Umkm(item));
         }
 
-        try {
-            const response = await fetch('Database/umkm.json');
-            if (!response.ok) throw new Error('Gagal fetch.');
-            const dataMentah = await response.json();
-            this.daftarUmkm = dataMentah.map(item => new Umkm(item));
-            this.saveToLocalStorage();
-            return this.daftarUmkm;
-        } catch (error) {
-            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
-            this.saveToLocalStorage();
-            return this.daftarUmkm;
-        }
+        this.saveToLocalStorage();
+        return this.daftarUmkm;
     }
 
     saveToLocalStorage() {

@@ -46,6 +46,10 @@ function renderCurrentPage() {
     if (catalogCountBadge) {
         catalogCountBadge.textContent = `Menampilkan ${filteredData.length} UMKM Terdaftar`;
     }
+    const heroCatalogCountBadge = document.getElementById('heroCatalogCountBadge');
+    if (heroCatalogCountBadge) {
+        heroCatalogCountBadge.textContent = `${umkmService.daftarUmkm.length} UMKM Terdaftar`;
+    }
 
     if (filteredData.length === 0) {
         umkmContainer.innerHTML = `
