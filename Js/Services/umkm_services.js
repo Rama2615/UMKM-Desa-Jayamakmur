@@ -60,6 +60,8 @@ export class UmkmService {
                 const parsed = JSON.parse(cachedData);
                 if (Array.isArray(parsed)) {
                     this.daftarUmkm = parsed.map(item => new Umkm(item));
+                    this.reindexUmkm();
+                    this.saveToLocalStorage();
                     return this.daftarUmkm;
                 }
             } catch (e) {
@@ -80,6 +82,7 @@ export class UmkmService {
             this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
         }
 
+        this.reindexUmkm();
         localStorage.setItem('umkm_v22_init', 'true');
         this.saveToLocalStorage();
         return this.daftarUmkm;
@@ -213,6 +216,12 @@ export class UmkmService {
         return null;
     }
 
+    reindexUmkm() {
+        this.daftarUmkm.forEach((item, index) => {
+            item.id = index + 1;
+        });
+    }
+
     async deleteUmkm(id) {
         const supabase = await this.getSupabase();
         const numericId = Number(id);
@@ -227,6 +236,8 @@ export class UmkmService {
                 if (error) throw error;
                 
                 this.daftarUmkm = this.daftarUmkm.filter(item => item.id !== numericId && item.id !== id);
+                this.reindexUmkm();
+                this.saveToLocalStorage();
                 return true;
             } catch (err) {
                 console.error("Gagal menghapus data dari Supabase, hapus lokal:", err);
@@ -237,6 +248,7 @@ export class UmkmService {
         const initialLength = this.daftarUmkm.length;
         this.daftarUmkm = this.daftarUmkm.filter(item => item.id !== numericId && item.id !== id);
         if (this.daftarUmkm.length !== initialLength) {
+            this.reindexUmkm();
             this.saveToLocalStorage();
             return true;
         }
