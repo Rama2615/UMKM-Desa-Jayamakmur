@@ -6,7 +6,7 @@
     "deskripsi": "Es doger manis, segar, dan legendaris khas Desa Jayamakmur dengan isian ketan hitam manis, pacar cina, roti tawar, dan kelapa serut gurih, disiram susu kental manis serta sirup rahasia Mang Ulis.",
     "whatsapp": "6281234567890",
     "gambar": "Es Doger Mang Ulis.HEIC",
-    "galeri": [],
+    "galeri": ["Es Teler Creamy Mang Ulis.jpg"],
     "alamat": "RT 01 / RW 02, Desa Jayamakmur",
     "mapsUrl": "https://maps.google.com/?q=Es+Doger+Mang+Ulis+Jayamakmur+Karawang"
   },
@@ -72,7 +72,7 @@
     "deskripsi": "Camilan andalan anak sekolah dan warga desa! Menyajikan cilok kenyal dengan siraman bumbu kacang kental pedas manis, didampingi aneka minuman es buah segar dan es boba kekinian.",
     "whatsapp": "6282233445566",
     "gambar": "Warung Es dan Cilok.HEIC",
-    "galeri": [],
+    "galeri": ["Warung Es.jpeg"],
     "alamat": "Jl. Raya Pasar RT 03 / RW 02, Desa Jayamakmur",
     "mapsUrl": "https://maps.google.com/?q=Warung+Es+dan+Cilok+Jayamakmur+Karawang"
   },
@@ -108,5 +108,137 @@
     "galeri": [],
     "alamat": "RT 05 / RW 02, Desa Jayamakmur",
     "mapsUrl": "https://maps.google.com/?q=Warung+Sayur+Ibu+Imas+Jayamakmur+Karawang"
+  },
+  {
+    "id": 11,
+    "nama": "Baso Ciagem Tugu",
+    "kategori": "Kuliner",
+    "deskripsi": "Warung bakso favorit warga Desa Jayamakmur dengan kuah kaldu sapi asli yang gurih meresap, bakso urat empuk, mie kuning, bihun, serta pangsit renyah dan sambal cabai ulek pedas.",
+    "whatsapp": "6281234567891",
+    "gambar": "Baso Ciagem Tugu 2.PNG",
+    "galeri": [],
+    "alamat": "Jl. Raya Ciagem RT 02 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Baso+Ciagem+Tugu+Jayamakmur+Karawang"
+  },
+  {
+    "id": 12,
+    "nama": "Bengkel Las & Bubut",
+    "kategori": "Jasa",
+    "deskripsi": "Layanan pengerjaan las besi, pembuatan pagar, kanopi, tralis, perbaikan alat pertanian, serta jasa bubut logam profesional dengan hasil presisi, rapi, dan kokoh tahan lama.",
+    "whatsapp": "6281234567892",
+    "gambar": "Bengkel Las Bubut.PNG",
+    "galeri": [],
+    "alamat": "Jl. Raya Utama RT 03 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Bengkel+Las+Bubut+Jayamakmur+Karawang"
+  },
+  {
+    "id": 13,
+    "nama": "Es Teh Family",
+    "kategori": "Kuliner",
+    "deskripsi": "Kedai minuman es teh manis segar kekinian dari racikan daun teh pilihan yang wangi dan pekat, tersedia dalam berbagai varian rasa seperti Original, Jasmine, Milk Tea, hingga Fruit Tea segar.",
+    "whatsapp": "6281234567893",
+    "gambar": "Es Teh Family.PNG",
+    "galeri": [],
+    "alamat": "RT 01 / RW 03, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Es+Teh+Family+Jayamakmur+Karawang"
+  },
+  {
+    "id": 14,
+    "nama": "Es Teler Bang Dudes",
+    "kategori": "Kuliner",
+    "deskripsi": "Es teler spesial dengan potongan nangka manis, alpukat mentega creamy, kelapa muda serut, cincau hitam, disiram kuah susu kental legit dan es serut halus yang menyegarkan.",
+    "whatsapp": "6281234567894",
+    "gambar": "Es Teler Bang Dudes.PNG",
+    "galeri": [],
+    "alamat": "RT 02 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Es+Teler+Bang+Dudes+Jayamakmur+Karawang"
+  },
+  {
+    "id": 15,
+    "nama": "Isi Ulang Air Galon Pak Yayan",
+    "kategori": "Jasa",
+    "deskripsi": "Layanan depot air minum isi ulang dengan sistem filtrasi serta penyaringan ultraviolet bertingkat yang dijamin higienis, murni, dan segar. Melayani pengantaran galon langsung ke rumah warga.",
+    "whatsapp": "6281234567895",
+    "gambar": "Isi Ulang Air Galon Pak Yayan.PNG",
+    "galeri": ["Isi Ulang Air Galon Pak Yayan 2.PNG"],
+    "alamat": "RT 04 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Isi+Ulang+Air+Galon+Pak+Yayan+Jayamakmur+Karawang"
+  },
+  {
+    "id": 16,
+    "nama": "Mamah Putri Cell",
+    "kategori": "Jasa",
+    "deskripsi": "Konter pulsa & aksesori HP terlengkap di Desa Jayamakmur. Melayani pengisian pulsa elektrik all operator, paket data internet hemat, pembayaran tagihan bulanan (PLN, PDAM, BPJS), dan voucher game.",
+    "whatsapp": "6281234567896",
+    "gambar": "Mamah Putri Cell.PNG",
+    "galeri": [],
+    "alamat": "RT 02 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Mamah+Putri+Cell+Jayamakmur+Karawang"
+  },
+  {
+    "id": 17,
+    "nama": "Sumber Jaya Granit",
+    "kategori": "Kerajinan",
+    "deskripsi": "Penyedia dan pengerjaan kustom granit, marmer, prasasti, nisan, batu alam, serta keramik lantai berkualitas untuk bangunan rumah, mesjid, dan fasilitas umum dengan hasil pemotongan yang rapi dan halus.",
+    "whatsapp": "6281234567897",
+    "gambar": "Sumber Jaya Granit.PNG",
+    "galeri": [],
+    "alamat": "Jl. Raya Utama RT 05 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Sumber+Jaya+Granit+Jayamakmur+Karawang"
+  },
+  {
+    "id": 18,
+    "nama": "Teras Caffe & Rental PS",
+    "kategori": "Jasa",
+    "deskripsi": "Tempat nongkrong & arena bermain PlayStation favorit pemuda desa dengan TV layar lebar, stik responsif, ruangan ber-AC, serta menyajikan aneka kopi, camilan kentang goreng, dan mie instan.",
+    "whatsapp": "6281234567898",
+    "gambar": "Teras Caffe (Rental PS).PNG",
+    "galeri": [],
+    "alamat": "RT 03 / RW 03, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Teras+Caffe+Rental+PS+Jayamakmur+Karawang"
+  },
+  {
+    "id": 19,
+    "nama": "Toko Sayur Hj. Atot",
+    "kategori": "Kuliner",
+    "deskripsi": "Toko penyedia kebutuhan dapur & sayur-mayur segar harian terlengkap, mulai dari bumbu giling, cabe, bawang, lauk-pauk segar (ayam, daging, ikan), hingga tahu tempe berkualitas setiap hari.",
+    "whatsapp": "6281234567899",
+    "gambar": "Toko Sayur Hj. Atot.PNG",
+    "galeri": [],
+    "alamat": "RT 01 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Toko+Sayur+Hj.+Atot+Jayamakmur+Karawang"
+  },
+  {
+    "id": 20,
+    "nama": "Vermax Mang Jali",
+    "kategori": "Jasa",
+    "deskripsi": "Jasa penjahit khusus perbaikan & permak pakaian (potong celana jeans, kecilkan baju, ganti resleting celana/jaket, rombak jas & kemeja) dengan pengerjaan kilat dan hasil jahitan kuat rapi.",
+    "whatsapp": "6281234567800",
+    "gambar": "Vermax Mang Jali.PNG",
+    "galeri": [],
+    "alamat": "RT 02 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Vermax+Mang+Jali+Jayamakmur+Karawang"
+  },
+  {
+    "id": 21,
+    "nama": "Warung Faris",
+    "kategori": "Kuliner",
+    "deskripsi": "Warung kelontong & jajanan serba ada yang menyediakan aneka minuman dingin, es krim, roti, snack renyah anak-anak, serta sembako harian untuk warga sekitar.",
+    "whatsapp": "6281234567801",
+    "gambar": "Warung Faris.PNG",
+    "galeri": [],
+    "alamat": "RT 04 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Warung+Faris+Jayamakmur+Karawang"
+  },
+  {
+    "id": 22,
+    "nama": "Warung Pak Nta'",
+    "kategori": "Kuliner",
+    "deskripsi": "Warung kopi & tempat santai warga yang menyajikan kopi hitam racikan mantap, gorengan hangat (bakwan, tahu isi, pisang goreng), rokok, serta aneka soto & nasi uduk sarapan pagi.",
+    "whatsapp": "6281234567802",
+    "gambar": "Warung Pak Nta'.PNG",
+    "galeri": [],
+    "alamat": "RT 03 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Warung+Pak+Nta+Jayamakmur+Karawang"
   }
 ]
