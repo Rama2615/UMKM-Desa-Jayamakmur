@@ -1,6 +1,6 @@
 /**
  * Image Uploader & Image Resolution Utility
- * JayamakmurHub - Modul Penanganan Upload, Validasi, Kompresi Canvas, dan Smart Image Resolution
+ * DigiJaya - Modul Penanganan Upload, Validasi, Kompresi Canvas, dan Smart Image Resolution
  */
 
 // Format ekstensi & MIME type yang didukung

@@ -42,10 +42,6 @@ function renderCurrentPage() {
     if (!umkmContainer) return;
     umkmContainer.innerHTML = '';
     
-    // Perbarui jumlah UMKM terdaftar pada badge
-    if (catalogCountBadge) {
-        catalogCountBadge.textContent = `Menampilkan ${filteredData.length} UMKM Terdaftar`;
-    }
     const heroCatalogCountBadge = document.getElementById('heroCatalogCountBadge');
     if (heroCatalogCountBadge) {
         heroCatalogCountBadge.textContent = `${umkmService.daftarUmkm.length} UMKM Terdaftar`;

@@ -1,6 +1,6 @@
 /**
  * 3D Parallax & Specular Light Tilt Engine
- * JayamakmurHub - Interaktivitas 3D Perspektif & Pantulan Cahaya
+ * DigiJaya - Interaktivitas 3D Perspektif & Pantulan Cahaya
  */
 
 export function init3DTiltEngine(selector = '[data-tilt-3d]') {

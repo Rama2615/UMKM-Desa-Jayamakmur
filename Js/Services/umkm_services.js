@@ -51,34 +51,36 @@ export class UmkmService {
             }
         }
 
-        // --- FETCH DARI DATABASE LOCAL / JSON TERLEBIH DAHULU ---
-        let baseItems = [];
+        // --- CEK LOCALSTORAGE (UNTUK MENJAGA PERSISTENSI HAPUS/EDIT SAAT REFRESH) ---
+        const isInitialized = localStorage.getItem('umkm_v22_init');
+        const cachedData = localStorage.getItem('umkm_data');
+
+        if (isInitialized && cachedData !== null) {
+            try {
+                const parsed = JSON.parse(cachedData);
+                if (Array.isArray(parsed)) {
+                    this.daftarUmkm = parsed.map(item => new Umkm(item));
+                    return this.daftarUmkm;
+                }
+            } catch (e) {
+                console.error("Gagal membaca umkm_data dari localStorage:", e);
+            }
+        }
+
+        // --- INITIALIZATION PERTAMA DARI DATABASE/UMKM.JSON ---
         try {
             const response = await fetch('Database/umkm.json');
             if (response.ok) {
-                baseItems = await response.json();
+                const dataMentah = await response.json();
+                this.daftarUmkm = dataMentah.map(item => new Umkm(item));
             } else {
-                baseItems = DUMMY_UMKM;
+                this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
             }
         } catch (error) {
-            baseItems = DUMMY_UMKM;
+            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
         }
 
-        // Gabungkan dengan data tambahan dari localStorage jika user pernah menambah UMKM baru secara lokal
-        const cachedData = localStorage.getItem('umkm_data');
-        if (cachedData) {
-            try {
-                const parsed = JSON.parse(cachedData);
-                const baseIds = new Set(baseItems.map(b => b.id));
-                const customItems = parsed.filter(item => !baseIds.has(item.id));
-                this.daftarUmkm = [...baseItems, ...customItems].map(item => new Umkm(item));
-            } catch (e) {
-                this.daftarUmkm = baseItems.map(item => new Umkm(item));
-            }
-        } else {
-            this.daftarUmkm = baseItems.map(item => new Umkm(item));
-        }
-
+        localStorage.setItem('umkm_v22_init', 'true');
         this.saveToLocalStorage();
         return this.daftarUmkm;
     }

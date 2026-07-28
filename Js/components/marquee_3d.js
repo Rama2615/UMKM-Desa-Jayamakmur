@@ -1,6 +1,6 @@
 /**
  * 3D Infinite Marquee Showcase Wall Engine
- * JayamakmurHub - Background Kartu 3D Bergerak Kontinu Berbasis Aset Foto UMKM Asli
+ * DigiJaya - Background Kartu 3D Bergerak Kontinu Berbasis Aset Foto UMKM Asli
  */
 
 import { getImagePath, getSmartFallback } from '../utils/image_uploader.js?v=8';

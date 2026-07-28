@@ -1,6 +1,6 @@
 /**
  * Interactive 3D WebGL Hero Canvas Engine
- * JayamakmurHub - Visualisasi 3D Interaktif Partikel Glowing, Geometri & Gelombang Kursor
+ * DigiJaya - Visualisasi 3D Interaktif Partikel Glowing, Geometri & Gelombang Kursor
  */
 
 export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
