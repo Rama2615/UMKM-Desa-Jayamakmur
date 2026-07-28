@@ -8,7 +8,7 @@ export class Umkm {
         this.gambar = gambar;
         this.galeri = galeri || [];
         this.alamat = alamat || "Desa Jayamakmur, Karawang";
-        this.mapsUrl = mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(this.nama + ' Desa Jayamakmur')}`;
+        this.mapsUrl = mapsUrl || `https://maps.google.com/?q=${encodeURIComponent((this.nama.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming' : this.nama) + ' Jayamakmur Karawang')}`;
         this.password = password || "owner123";
     }
 
@@ -18,6 +18,10 @@ export class Umkm {
     }
 
     getGoogleMapsLink() {
-        return this.mapsUrl;
+        if (this.mapsUrl && this.mapsUrl.trim() !== '') {
+            return this.mapsUrl;
+        }
+        const searchName = this.nama.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming' : this.nama;
+        return `https://maps.google.com/?q=${encodeURIComponent(searchName + ' Jayamakmur Karawang')}`;
     }
 }

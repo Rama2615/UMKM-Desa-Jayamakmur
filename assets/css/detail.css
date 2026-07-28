@@ -140,6 +140,45 @@
     overflow: hidden;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.map-overlay-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a73e8;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.25s ease;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .map-overlay-btn {
+    background: rgba(30, 41, 59, 0.95);
+    color: #38bdf8;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.map-overlay-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    background: #ffffff;
+    color: #1557b0;
+}
+
+body.dark-mode .map-overlay-btn:hover {
+    background: #1e293b;
+    color: #7dd3fc;
 }
 
 .map-iframe-container iframe {

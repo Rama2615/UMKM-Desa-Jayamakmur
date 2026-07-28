@@ -169,30 +169,30 @@ function renderCharts() {
         });
     }
 
-    // 2. DATA DUSUN / LOKASI
-    const dusunCounts = {
-        'Dusun Krajan': 0,
-        'Dusun Babakan': 0,
-        'Dusun Sukamaju': 0,
-        'Dusun Mekarsari': 0,
+    // 2. DATA WILAYAH LOKASI
+    const locationCounts = {
+        'Wilayah RT 01': 0,
+        'Wilayah RT 02': 0,
+        'Wilayah RT 03': 0,
+        'Wilayah RT 04 - 05': 0,
         'Jl. Raya': 0,
         'Lainnya': 0
     };
 
     allItems.forEach(umkm => {
         const alamat = umkm.alamat.toLowerCase();
-        if (alamat.includes('krajan')) {
-            dusunCounts['Dusun Krajan']++;
-        } else if (alamat.includes('babakan')) {
-            dusunCounts['Dusun Babakan']++;
-        } else if (alamat.includes('sukamaju')) {
-            dusunCounts['Dusun Sukamaju']++;
-        } else if (alamat.includes('mekarsari')) {
-            dusunCounts['Dusun Mekarsari']++;
+        if (alamat.includes('rt 01') || alamat.includes('rt.01')) {
+            locationCounts['Wilayah RT 01']++;
+        } else if (alamat.includes('rt 02') || alamat.includes('rt.02')) {
+            locationCounts['Wilayah RT 02']++;
+        } else if (alamat.includes('rt 03') || alamat.includes('rt.03')) {
+            locationCounts['Wilayah RT 03']++;
+        } else if (alamat.includes('rt 04') || alamat.includes('rt 05') || alamat.includes('rt.04') || alamat.includes('rt.05')) {
+            locationCounts['Wilayah RT 04 - 05']++;
         } else if (alamat.includes('jl. raya') || alamat.includes('jalan raya')) {
-            dusunCounts['Jl. Raya']++;
+            locationCounts['Jl. Raya']++;
         } else {
-            dusunCounts['Lainnya']++;
+            locationCounts['Lainnya']++;
         }
     });
 
@@ -205,10 +205,10 @@ function renderCharts() {
         locationChartInstance = new Chart(ctxLocation, {
             type: 'bar',
             data: {
-                labels: Object.keys(dusunCounts),
+                labels: Object.keys(locationCounts),
                 datasets: [{
                     label: 'Jumlah UMKM',
-                    data: Object.values(dusunCounts),
+                    data: Object.values(locationCounts),
                     backgroundColor: '#0d9488',
                     borderRadius: 6,
                     borderWidth: 0

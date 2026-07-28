@@ -90,19 +90,22 @@ function renderDetail(umkm) {
                 <div class="detail-map-section">
                     <h3>Lokasi Peta:</h3>
                     <div class="map-iframe-container">
+                        <a href="${umkm.getGoogleMapsLink()}" target="_blank" rel="noopener noreferrer" class="map-overlay-btn" title="Buka Tempat di Google Maps">
+                            Buka di Maps ↗
+                        </a>
                         <iframe 
                             width="100%" 
                             height="250" 
                             frameborder="0" 
                             style="border:0;" 
-                            src="https://maps.google.com/maps?q=${encodeURIComponent(umkm.nama + ' ' + umkm.alamat)}&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                            src="https://maps.google.com/maps?q=${encodeURIComponent(umkm.nama.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming Jayamakmur Karawang' : umkm.nama + ' Desa Jayamakmur Karawang')}&t=&z=16&ie=UTF8&iwloc=&output=embed" 
                             allowfullscreen>
                         </iframe>
                     </div>
                 </div>
                 
                 <div class="action-box">
-                    <a href="${umkm.getGoogleMapsLink()}" target="_blank" class="btn-maps">
+                    <a href="${umkm.getGoogleMapsLink()}" target="_blank" rel="noopener noreferrer" class="btn-maps">
                         Buka di Google Maps 📍
                     </a>
                     <button type="button" id="btnShareDetail" class="btn-share-detail">

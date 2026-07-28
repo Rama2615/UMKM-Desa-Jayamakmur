@@ -7,8 +7,8 @@
     "whatsapp": "6281234567890",
     "gambar": "Es Doger Mang Ulis.HEIC",
     "galeri": [],
-    "alamat": "Dusun Krajan RT 01 / RW 02, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Krajan+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 01 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Es+Doger+Mang+Ulis+Jayamakmur+Karawang"
   },
   {
     "id": 2,
@@ -18,8 +18,8 @@
     "whatsapp": "6289876543210",
     "gambar": "Jahit Pak Ceming.PNG",
     "galeri": ["Jahit Pak Ceming 2.PNG"],
-    "alamat": "Dusun Babakan RT 03 / RW 01, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Babakan+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 03 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Toko+Jahit+Pak+RT.+Ceming+Jayamakmur+Karawang"
   },
   {
     "id": 3,
@@ -29,8 +29,8 @@
     "whatsapp": "6281122334455",
     "gambar": "Mie Ayam Bakso, Seblak Mang Ulis.jpg",
     "galeri": ["Seblak, Bakso, Mie ayam Mang Ulis.HEIC"],
-    "alamat": "Dusun Sukamaju RT 02 / RW 03, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Sukamaju+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 02 / RW 03, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Mie+Ayam+Bakso+Seblak+Mang+Ulis+Jayamakmur+Karawang"
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@
     "gambar": "Pangkas Rambut One Man.HEIC",
     "galeri": ["Pangkas Rambut One Man 2.HEIC", "Pangkas Rambut One Man3.HEIC"],
     "alamat": "Jl. Raya Utama RT 04 / RW 02, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Jl+Raya+Utama+Desa+Jayamakmur+Karawang"
+    "mapsUrl": "https://maps.google.com/?q=Pangkas+Rambut+One+Man+Jayamakmur+Karawang"
   },
   {
     "id": 5,
@@ -51,8 +51,8 @@
     "whatsapp": "6281345678901",
     "gambar": "Toko Opak Ibu Eli 2.PNG",
     "galeri": ["Toko Opak Ibu Eli.HEIC"],
-    "alamat": "Dusun Krajan RT 02 / RW 02, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Krajan+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 02 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Toko+Opak+Ibu+Eli+Jayamakmur+Karawang"
   },
   {
     "id": 6,
@@ -62,8 +62,8 @@
     "whatsapp": "6287765432109",
     "gambar": "Warung Bu miswaroh.HEIC",
     "galeri": ["Warung bu miswaroh 2.HEIC", "Warung bu miswaroh 3.HEIC"],
-    "alamat": "Dusun Sukamaju RT 01 / RW 04, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Sukamaju+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 01 / RW 04, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Warung+Bu+Miswaroh+Jayamakmur+Karawang"
   },
   {
     "id": 7,
@@ -74,7 +74,7 @@
     "gambar": "Warung Es dan Cilok.HEIC",
     "galeri": [],
     "alamat": "Jl. Raya Pasar RT 03 / RW 02, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Jl+Raya+Pasar+Desa+Jayamakmur+Karawang"
+    "mapsUrl": "https://maps.google.com/?q=Warung+Es+dan+Cilok+Jayamakmur+Karawang"
   },
   {
     "id": 8,
@@ -84,8 +84,8 @@
     "whatsapp": "6289988776655",
     "gambar": "Warung Madura Tiga Putri.PNG",
     "galeri": ["Warung Madura Tiga Putri 2.PNG"],
-    "alamat": "Dusun Sukamaju RT 04 / RW 03, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Sukamaju+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 04 / RW 03, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Warung+Madura+Tiga+Putri+Jayamakmur+Karawang"
   },
   {
     "id": 9,
@@ -95,8 +95,8 @@
     "whatsapp": "6281299887766",
     "gambar": "Warung Radja.HEIC",
     "galeri": [],
-    "alamat": "Dusun Babakan RT 02 / RW 01, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Babakan+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 02 / RW 01, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Warung+Radja+Jayamakmur+Karawang"
   },
   {
     "id": 10,
@@ -106,7 +106,7 @@
     "whatsapp": "6285211223344",
     "gambar": "Warung Sayur Ibu Imas.HEIC",
     "galeri": [],
-    "alamat": "Dusun Krajan RT 05 / RW 02, Desa Jayamakmur",
-    "mapsUrl": "https://maps.google.com/?q=Dusun+Krajan+Desa+Jayamakmur+Karawang"
+    "alamat": "RT 05 / RW 02, Desa Jayamakmur",
+    "mapsUrl": "https://maps.google.com/?q=Warung+Sayur+Ibu+Imas+Jayamakmur+Karawang"
   }
 ]

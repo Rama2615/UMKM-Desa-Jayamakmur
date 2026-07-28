@@ -140,7 +140,7 @@ function getCoordinates(umkm) {
         }
     }
     
-    // Fallback koordinat wilayah dusun
+    // Fallback koordinat lokasi wilayah desa
     const alamat = umkm.alamat.toLowerCase();
     const baseLng = 107.4121;
     const baseLat = -6.2874;
