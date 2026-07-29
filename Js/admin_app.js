@@ -185,6 +185,32 @@ async function initDashboard() {
         });
     }
 
+    // Tombol Download Database Terbaru (umkm.json)
+    const btnExportJson = document.getElementById('btnExportJson');
+    if (btnExportJson) {
+        btnExportJson.addEventListener('click', () => {
+            const cleanData = service.daftarUmkm.map(u => ({
+                id: u.id,
+                nama: u.nama,
+                kategori: u.kategori,
+                deskripsi: u.deskripsi,
+                whatsapp: u.whatsapp,
+                gambar: u.gambar,
+                galeri: u.galeri || [],
+                alamat: u.alamat,
+                mapsUrl: u.mapsUrl
+            }));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cleanData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "umkm.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("File umkm.json terbaru berhasil didownload! 📥");
+        });
+    }
+
     // Event Listener Filter & Cari
     if (searchInput) searchInput.addEventListener('input', applyFilters);
     if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);

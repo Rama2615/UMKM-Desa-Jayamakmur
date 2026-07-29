@@ -144,7 +144,10 @@
                 <h1>Dashboard Admin Desa</h1>
                 <p>Kelola dan kendalikan seluruh basis data UMKM Desa Jayamakmur secara terpusat</p>
             </div>
-            <div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="btnExportJson" class="btn-secondary" style="display: flex; align-items: center; gap: 6px; padding: 10px 16px; cursor: pointer; border-radius: 12px; font-weight: 700;" title="Download File Database Terbaru (umkm.json)">
+                    <span>📥</span> Download umkm.json
+                </button>
                 <a href="form_umkm.html" id="btnTambahUmkm" class="btn-primary" style="display: flex; align-items: center; gap: 8px; text-decoration: none; justify-content: center;">
                     <span>➕</span> Tambah UMKM Baru
                 </a>
@@ -254,7 +257,7 @@
         <p>&copy; 2026 DigiJaya - Desa Jayamakmur. All Rights Reserved.</p>
     </footer>
 
-    <script type="module" src="Js/navbar.js?v=6"></script>
-    <script type="module" src="Js/admin_app.js?v=6"></script>
+    <script type="module" src="Js/navbar.js?v=7"></script>
+    <script type="module" src="Js/admin_app.js?v=7"></script>
 </body>
 </html>
