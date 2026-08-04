@@ -361,7 +361,6 @@
 }
 
 .card-umkm:hover {
-    transform: translateY(-8px);
     box-shadow: var(--shadow-floating);
     border-color: var(--primary-teal);
 }
