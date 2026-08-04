@@ -58,7 +58,8 @@ function renderTrackContent(items) {
     return items.map(umkm => {
         const imgSrc = getImagePath(umkm.gambar, umkm.nama, umkm.kategori);
         const fallbackUrl = getSmartFallback(umkm.nama, umkm.kategori);
-        const badgeClass = `badge-${(umkm.kategori || 'Kuliner').toLowerCase()}`;
+        const rawCat = (umkm.kategori || 'Kuliner').toLowerCase();
+        const badgeClass = rawCat.includes('kerajinan') ? 'badge-kerajinan' : rawCat.includes('jasa') ? 'badge-jasa' : 'badge-kuliner';
 
         return `
             <a href="Detail produk.html?id=${umkm.id}" class="marquee-3d-card" title="Klik untuk melihat detail ${umkm.nama}">
