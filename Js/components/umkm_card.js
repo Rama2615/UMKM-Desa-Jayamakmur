@@ -11,7 +11,7 @@ export class UmkmCard {
         const favoriteClass = isFavorite ? 'active' : '';
         const rawCategory = (this.umkm.kategori || '').toLowerCase();
         const badgeClass = rawCategory.includes('kerajinan') ? 'badge-kerajinan' : rawCategory.includes('jasa') ? 'badge-jasa' : 'badge-kuliner';
-        const imageSrc = getImagePath(this.umkm.gambar);
+        const imageSrc = getImagePath(this.umkm.gambar, this.umkm.nama, this.umkm.kategori);
 
         return `
             <div class="card-umkm" data-id="${this.umkm.id}">

@@ -97,12 +97,34 @@ export class UmkmService {
                 const cloudData = await response.json();
                 if (Array.isArray(cloudData) && cloudData.length > 0) {
                     const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
-                    const newSerialized = JSON.stringify(cloudData.map(i => String(i.id) + String(i.nama)));
-                    
-                    this.daftarUmkm = cloudData.map(item => new Umkm({
-                        ...item,
-                        mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
-                    }));
+
+                    // SMART MERGE: Gabungkan 20 UMKM awal dari DUMMY_UMKM dengan data Cloud
+                    const cloudMap = new Map();
+                    cloudData.forEach(item => cloudMap.set(String(item.id), item));
+
+                    const mergedList = DUMMY_UMKM.map(baseItem => {
+                        const cloudItem = cloudMap.get(String(baseItem.id));
+                        if (cloudItem) {
+                            cloudMap.delete(String(baseItem.id));
+                            return new Umkm({
+                                ...baseItem,
+                                ...cloudItem,
+                                mapsUrl: cloudItem.mapsUrl || cloudItem.mapsurl || cloudItem.maps_url || baseItem.mapsUrl
+                            });
+                        }
+                        return new Umkm(baseItem);
+                    });
+
+                    // Tambahkan UMKM baru yang dibuat oleh admin di Cloud
+                    cloudMap.forEach(newCloudItem => {
+                        mergedList.push(new Umkm({
+                            ...newCloudItem,
+                            mapsUrl: newCloudItem.mapsUrl || newCloudItem.mapsurl || newCloudItem.maps_url
+                        }));
+                    });
+
+                    this.daftarUmkm = mergedList;
+                    const newSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
                     this.saveToLocalStorage();
 
                     if (currentSerialized !== newSerialized) {
