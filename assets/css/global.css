@@ -133,17 +133,11 @@ body {
 }
 
 .navbar-kkn-logo {
-    height: 44px;
+    height: 38px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
     transition: transform 0.2s ease;
-}
-
-@media (max-width: 768px) {
-    .navbar-kkn-logo {
-        height: 36px;
-    }
 }
 
 .navbar-logo:hover .navbar-kkn-logo {
@@ -453,10 +447,10 @@ footer {
 }
 
 .footer-kkn-logo {
-    height: 65px;
+    height: 44px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
 .footer-brand .footer-logo .logo-accent {

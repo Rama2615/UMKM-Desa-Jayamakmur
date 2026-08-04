@@ -41,9 +41,11 @@ async function initLanding() {
             setupScrollRecommendation();
         }
 
-        // 4. Default role untuk pengunjung umum (jika belum login)
+        // 4. Cek apakah user sudah punya role, jika tidak ada, redirect ke login.html
+        const currentRole = localStorage.getItem('user_role');
         if (!currentRole) {
-            localStorage.setItem('user_role', 'guest');
+            window.location.href = 'login.html';
+            return;
         }
 
     } catch (error) {
@@ -66,9 +68,7 @@ function animateCount(element, target) {
     }
 
     let current = 0;
-    const duration = 1200; // ms
-    const increment = target / (duration / 16); // ~60fps
-
+    const increment = target / 50;
     const counter = setInterval(() => {
         current += increment;
         if (current >= target) {
@@ -81,11 +81,12 @@ function animateCount(element, target) {
 }
 
 function renderSpotlight(container) {
-    if (!container) return;
     container.innerHTML = '';
     
-    // Ambil 3 UMKM teratas secara konsisten tanpa merusak/mengacak urutan memori utama
-    const spotlightItems = umkmService.daftarUmkm.slice(0, Math.min(3, umkmService.daftarUmkm.length));
+    // Acak data UMKM dan ambil 3 item teratas
+    const allItems = [...umkmService.daftarUmkm];
+    const shuffled = allItems.sort(() => 0.5 - Math.random());
+    const spotlightItems = shuffled.slice(0, Math.min(3, allItems.length));
     
     spotlightItems.forEach(item => {
         const card = new UmkmCard(item);
@@ -100,9 +101,6 @@ function renderSpotlight(container) {
 }
 
 function setupSpotlightInteractions(container) {
-    if (!container || container.dataset.interactionsInitialized) return;
-    container.dataset.interactionsInitialized = 'true';
-
     const toastNotification = document.getElementById('toastNotification');
     
     function showToast(msg) {

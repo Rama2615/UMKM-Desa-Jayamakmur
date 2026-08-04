@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="assets/css/global.css?v=12">
     <link rel="stylesheet" href="assets/css/main.css?v=12">
 </head>
+
 <body>
 
     <!-- Modern Navigation Bar -->
@@ -22,8 +24,22 @@
                 <a href="peta.html" class="nav-link">Peta Desa</a>
                 <a href="tentang.html" class="nav-link">Tentang Kami</a>
                 <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema Mode Gelap/Terang">
-                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -36,23 +52,33 @@
                 <h1 class="catalog-main-title">Katalog <span class="highlight-text">UMKM Jayamakmur</span></h1>
                 <span class="catalog-count-badge" id="heroCatalogCountBadge">Menampilkan 22 UMKM Terdaftar</span>
             </div>
-            
+
             <!-- Floating 3D Search & Filter Control Bar -->
             <div class="catalog-filter-bar" data-tilt-3d data-max-tilt="5">
                 <!-- Search Box -->
                 <div class="search-input-wrapper">
-                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
                     <input type="text" id="searchInput" placeholder="Cari nama UMKM atau produk..." autocomplete="off">
-                    <button type="button" id="btnClearSearch" class="btn-clear-search" style="display:none;" aria-label="Hapus pencarian">&times;</button>
+                    <button type="button" id="btnClearSearch" class="btn-clear-search" style="display:none;"
+                        aria-label="Hapus pencarian">&times;</button>
                 </div>
 
                 <!-- Category Pills Filter -->
                 <div class="category-pills-group">
                     <button type="button" class="pill-btn active" data-category="">Semua</button>
-                    <button type="button" class="pill-btn" data-category="Kuliner"><img src="assets/images/Kuliner.png" class="btn-icon-img" alt="Kuliner"> Kuliner</button>
-                    <button type="button" class="pill-btn" data-category="Kerajinan"><img src="assets/images/Kerajinan Tangan.png" class="btn-icon-img" alt="Kerajinan"> Kerajinan Tangan</button>
-                    <button type="button" class="pill-btn" data-category="Jasa"><img src="assets/images/Pelayanan.png" class="btn-icon-img" alt="Pelayanan/Jasa"> Pelayanan / Jasa</button>
-                    <button type="button" class="pill-btn" data-category="Favorit"><img src="assets/images/Favorit.png" class="btn-icon-img" alt="Favorit"> Favorit Saya</button>
+                    <button type="button" class="pill-btn" data-category="Kuliner"><img src="assets/images/Kuliner.png"
+                            class="btn-icon-img" alt="Kuliner"> Kuliner</button>
+                    <button type="button" class="pill-btn" data-category="Kerajinan"><img
+                            src="assets/images/Kerajinan Tangan.png" class="btn-icon-img" alt="Kerajinan"> Kerajinan
+                        Tangan</button>
+                    <button type="button" class="pill-btn" data-category="Jasa"><img src="assets/images/Pelayanan.png"
+                            class="btn-icon-img" alt="Pelayanan/Jasa"> Pelayanan / Jasa</button>
+                    <button type="button" class="pill-btn" data-category="Favorit"><img src="assets/images/Favorit.png"
+                            class="btn-icon-img" alt="Favorit"> Favorit Saya</button>
                 </div>
 
                 <!-- Sorting Dropdown -->
@@ -98,4 +124,5 @@
     <script type="module" src="Js/navbar.js?v=27"></script>
     <script type="module" src="Js/App.js?v=27"></script>
 </body>
+
 </html>

@@ -113,29 +113,21 @@ export class UmkmService {
     }
 
     onDataChanged(callback) {
-        let timer = null;
-        const debouncedCallback = () => {
-            if (timer) clearTimeout(timer);
-            timer = setTimeout(() => {
-                callback();
-            }, 250);
-        };
-
         if (typeof BroadcastChannel !== 'undefined') {
             const channel = new BroadcastChannel('umkm_data_sync');
             channel.onmessage = (event) => {
                 if (event.data && event.data.type === 'UMKM_DATA_CHANGED') {
-                    debouncedCallback();
+                    callback();
                 }
             };
         }
         window.addEventListener('storage', (e) => {
             if (e.key === 'umkm_data' || e.key === 'umkm_last_update') {
-                debouncedCallback();
+                callback();
             }
         });
         window.addEventListener('umkmDataChanged', () => {
-            debouncedCallback();
+            callback();
         });
     }
 

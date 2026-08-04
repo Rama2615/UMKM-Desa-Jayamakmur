@@ -453,17 +453,6 @@
     .section-title-wrapper h2 {
         font-size: 2rem;
     }
-    .marquee-3d-wrapper {
-        transform: perspective(800px) rotateY(-6deg) rotateX(2deg);
-        top: -12%;
-        left: -12%;
-        width: 124%;
-    }
-    .marquee-3d-card {
-        width: 165px;
-        height: 235px;
-        border-radius: 14px;
-    }
 }
 
 /* Theme Adaptations */
@@ -912,7 +901,7 @@
     height: 100%;
     overflow: hidden;
     z-index: 1;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .marquee-3d-wrapper {
@@ -925,12 +914,9 @@
     flex-direction: column;
     justify-content: center;
     gap: 30px;
-    transform: perspective(1200px) rotateY(-12deg) rotateX(6deg);
+    transform: perspective(1200px) rotateY(-14deg) rotateX(8deg) rotateZ(-2deg);
     transform-style: preserve-3d;
     opacity: 1;
-    pointer-events: none;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 .marquee-3d-track-container {
@@ -940,19 +926,14 @@
     user-select: none;
     mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-    pointer-events: none;
 }
 
 .marquee-3d-track {
     display: flex;
     gap: 24px;
     flex-shrink: 0;
-    width: max-content;
+    min-width: 100%;
     will-change: transform;
-    pointer-events: none;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
 }
 
 .marquee-3d-track.scroll-left {
@@ -963,14 +944,18 @@
     animation: marqueeScrollRight 42s linear infinite;
 }
 
+.marquee-3d-container:hover .marquee-3d-track {
+    animation-play-state: paused;
+}
+
 @keyframes marqueeScrollLeft {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-50%, 0, 0); }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 @keyframes marqueeScrollRight {
-    0% { transform: translate3d(-50%, 0, 0); }
-    100% { transform: translate3d(0, 0, 0); }
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
 }
 
 /* 3D Vertical Rounded Cards */
@@ -986,7 +971,8 @@
     background-color: var(--card-bg, #1a2228);
     text-decoration: none;
     color: #ffffff;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.35s ease;
     cursor: pointer;
 }
 
@@ -1051,8 +1037,20 @@
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+.marquee-3d-card:hover {
+    transform: translateZ(50px) scale(1.12);
+    z-index: 99;
+    border-color: rgba(255, 158, 100, 0.8);
+    box-shadow: 0 20px 45px rgba(230, 92, 0, 0.45), 0 0 20px rgba(255, 158, 100, 0.3);
+}
+
 .marquee-3d-card:hover .marquee-card-img {
-    transform: scale(1.04);
+    transform: scale(1.08);
+}
+
+.marquee-3d-card:hover .marquee-card-cta {
+    opacity: 1;
+    transform: translateX(4px);
 }
 
 /* Glassmorphism Backdrop for Hero Content Text */
