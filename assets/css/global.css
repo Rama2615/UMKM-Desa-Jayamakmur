@@ -133,10 +133,10 @@ body {
 }
 
 .navbar-kkn-logo {
-    height: 38px;
+    height: 54px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.18));
     transition: transform 0.2s ease;
 }
 
@@ -447,10 +447,10 @@ footer {
 }
 
 .footer-kkn-logo {
-    height: 44px;
+    height: 65px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
 }
 
 .footer-brand .footer-logo .logo-accent {

@@ -931,30 +931,32 @@
 .marquee-3d-track {
     display: flex;
     gap: 24px;
+    padding-right: 24px;
     flex-shrink: 0;
-    min-width: 100%;
     will-change: transform;
 }
 
 .marquee-3d-track.scroll-left {
-    animation: marqueeScrollLeft 38s linear infinite;
+    animation: marqueeScrollLeft 45s linear infinite;
 }
 
 .marquee-3d-track.scroll-right {
-    animation: marqueeScrollRight 42s linear infinite;
+    animation: marqueeScrollRight 50s linear infinite;
 }
 
-.marquee-3d-container:hover .marquee-3d-track {
+/* Hanya hentikan animasi ketika kartu tertentu disentuh/di-hover */
+.marquee-3d-card:hover .marquee-3d-track,
+.marquee-3d-track-container:hover .marquee-3d-track {
     animation-play-state: paused;
 }
 
 @keyframes marqueeScrollLeft {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(-100%); }
 }
 
 @keyframes marqueeScrollRight {
-    0% { transform: translateX(-50%); }
+    0% { transform: translateX(-100%); }
     100% { transform: translateX(0); }
 }
 

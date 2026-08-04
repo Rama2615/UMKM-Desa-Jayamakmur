@@ -11,10 +11,10 @@ export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []
 
     container.innerHTML = '';
 
-    // Gandakan data UMKM agar cukup untuk membentuk trek berkelanjutan
+    // Gandakan data UMKM agar cukup untuk membentuk trek berkelanjutan tanpa jeda
     let extendedList = [...umkms, ...umkms];
-    if (extendedList.length < 12) {
-        extendedList = [...extendedList, ...extendedList, ...extendedList];
+    while (extendedList.length < 16) {
+        extendedList = [...extendedList, ...umkms];
     }
 
     // Bagi data menjadi 2 trek (Trek Atas bergerak ke Kiri, Trek Bawah bergerak ke Kanan)
