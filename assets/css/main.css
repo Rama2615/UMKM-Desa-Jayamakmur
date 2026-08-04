@@ -354,14 +354,18 @@
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-card);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-color);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .card-umkm:hover {
-    box-shadow: var(--shadow-floating);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(27, 77, 62, 0.18);
     border-color: var(--primary-teal);
 }
 
