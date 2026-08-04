@@ -1051,19 +1051,8 @@
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.marquee-3d-card:hover {
-    transform: translateY(-8px) scale(1.04);
-    border-color: rgba(255, 158, 100, 0.8);
-    box-shadow: 0 20px 45px rgba(230, 92, 0, 0.45), 0 0 20px rgba(255, 158, 100, 0.3);
-}
-
 .marquee-3d-card:hover .marquee-card-img {
-    transform: scale(1.08);
-}
-
-.marquee-3d-card:hover .marquee-card-cta {
-    opacity: 1;
-    transform: translateX(4px);
+    transform: scale(1.04);
 }
 
 /* Glassmorphism Backdrop for Hero Content Text */
