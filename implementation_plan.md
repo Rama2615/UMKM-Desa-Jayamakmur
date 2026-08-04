@@ -1,61 +1,57 @@
-# Rencana Implementasi: Mobile Versatility & Ultra-Responsive Enhancement
+# Rencana Implementasi: Real-Time Auto-Sync Data UMKM
 
-Rencana ini merealisasikan peningkatan versatilitas website **UMKM Desa Jayamakmur** agar tampil responsif, elegan, dan *user-friendly* pada semua ukuran perangkat (Mobile Phone, Tablet, Laptop, dan Desktop).
+Rencana ini bertujuan agar setiap kali Admin atau Pemilik UMKM **menambah, mengedit, atau menghapus** data UMKM di Dashboard Admin, perubahan tersebut **langsung terupdate secara otomatis dan seketika di seluruh halaman website** (Beranda, Katalog, Peta, dan Detail Produk) tanpa perlu me-refresh halaman (F5) atau mengekspor file JSON secara manual.
 
 ---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> - **Mobile Hamburger Navigation Menu**: Menambahkan menu navigasi beranimasi halus (*collapsible drawer / mobile overlay*) pada [navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js) & [global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css).
-> - **Responsive Data Tables**: Menambahkan kontainer scrollable horizontal & gaya tampilan kartu responsif pada tabel dashboard [admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) dan [owner.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/owner.html).
-> - **Form & Modal Responsiveness**: Menyesuaikan modal overlay login & registrasi di [auth.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/auth.css) agar pas di layar kecil HP tanpa terpotong (*scrollable modal body*).
-> - **Touch-Friendly Controls**: Memastikan target sentuh tombol (seperti tombol WhatsApp, Ubah Tema, Rute, Login, Logout) berukuran minimum 44px dengan efek sentuh yang nyaman di Smartphone.
+> - **Real-time Event Broadcasting**: Menggunakan `BroadcastChannel` (dan fallback `storage` event) untuk mengirimkan notifikasi instan antar-tab browser begitu data disimpan/diedit di [form_umkm_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/form_umkm_app.js) atau [admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js).
+> - **Konsistensi LocalStorage & Memory**: Memastikan [umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js) selalu memperbarui memori lokal (`this.daftarUmkm`) dan `localStorage` secara serentak baik dalam mode lokal maupun saat terhubung ke Supabase Cloud.
+> - **Auto Re-render UI**: Menambahkan event listener di [App.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/App.js) (Katalog), [landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) (Beranda), [map_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/map_app.js) (Peta), dan [detail_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/detail_app.js) agar komponen kartu, statistik, spotlight, dan marker peta langsung memperbarui dirinya saat menerima sinyal update data.
 
 ---
 
 ## Proposed Changes
 
-### 1. Navigasi & Mobile Menu Drawer System
+### 1. Core Data Service (`umkm_services.js`)
 
-#### [MODIFY] [global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css)
-* Menambahkan styling untuk `.navbar-toggle-btn` (tombol hamburger `☰` / `✕`) yang muncul secara otomatis pada layar `<=` 768px.
-* Mengubah tampilan `.navbar-links` di layar HP menjadi menu dropdown / sliding drawer dengan efek glassmorphism, animasi `slideDown`, dan penyesuaian posisi pengubah tema (Theme Toggle).
-
-#### [MODIFY] [navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js)
-* Memasang tombol hamburger dinamis ke dalam `.navbar-container`.
-* Menambahkan *event listener* `toggleNavbar()` untuk membuka/menutup menu di HP secara interaktif.
-* Menutup menu secara otomatis ketika pengguna mengklik salah satu tautan navigasi.
+#### [MODIFY] [umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js)
+* Memastikan metode `addUmkm()`, `updateUmkm()`, dan `deleteUmkm()` selalu memanggil `this.saveToLocalStorage()`.
+* Menambahkan mekanisme penyebaran sinyal update instan (`broadcastUpdate()`) menggunakan `BroadcastChannel('umkm_sync_channel')` dan `localStorage` event trigger.
+* Memastikan `fetchAllUmkm()` mengutamakan data terbaru dari `localStorage` / Supabase agar data selalu tersinkronisasi antar navigasi halaman.
 
 ---
 
-### 2. Dashboard & Form Responsiveness
+### 2. Live Update Handlers pada Seluruh Halaman Website
 
-#### [MODIFY] [auth.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/auth.css)
-* Menambahkan gaya responsif untuk tabel dashboard admin & pemilik UMKM di layar HP (horizontal scroll & touch-friendly action buttons).
-* Mengoptimalkan form modal login, pendaftaran UMKM, dan welcome overlay agar 100% pas di layar HP dengan opsi scroll jika konten melebihi tinggi layar (`max-height: 90vh`).
+#### [MODIFY] [App.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/App.js) (Halaman Katalog UMKM)
+* Menambahkan listener `BroadcastChannel` / `storage` event.
+* Ketika sinyal perubahan data diterima: otomatis memanggil `fetchAllUmkm()`, memperbarui data terfilter, dan memanggil `renderCurrentPage()` secara otomatis tanpa refresh.
 
----
+#### [MODIFY] [landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) (Halaman Beranda)
+* Menambahkan listener perubahan data untuk memperbarui jumlah total UMKM terdaftar (`landing-stat-count`), merender ulang 3D Marquee Wall (`marquee3dContainer`), dan merender ulang kartu Spotlight UMKM Unggulan.
 
-### 3. Layout Katalog, Detail Produk, & Peta Desa
+#### [MODIFY] [map_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/map_app.js) (Halaman Peta Desa)
+* Menambahkan listener perubahan data untuk memperbarui titik pin/marker lokasi UMKM pada peta Leaflet secara otomatis.
 
-#### [MODIFY] [main.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/main.css)
-* Mengatur bilah pencarian & filter kategori pada [Main page.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main page.html) agar berbaris vertikal di HP secara rapi.
-* Memastikan grid kartu UMKM berpindah ke 1 kolom dengan margin yang pas di Smartphone.
-
-#### [MODIFY] [detail.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/detail.css)
-* Memastikan foto galeri produk dan informasi kontak di [Detail produk.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Detail produk.html) menumpuk vertikal secara elegan di HP.
+#### [MODIFY] [detail_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/detail_app.js) (Halaman Detail Produk)
+* Menambahkan listener untuk memperbarui detail produk yang sedang dilihat jika produk tersebut baru saja di-edit dari admin.
 
 ---
 
 ## Verification Plan
 
 ### Manual Verification
-1. **Pengujian Layar Mobile & Responsive Toggle**:
-   - Buka website dan sesuaikan ukuran jendela browser (atau gunakan Chrome DevTools Device Toolbar mode Mobile HP iPhone/Android).
-   - Pastikan tombol Hamburger (`☰`) muncul di kanan navbar.
-   - Klik tombol Hamburger dan verifikasi menu navigasi meluncur kebawah dengan smooth.
-2. **Pengujian Form & Dashboard di Mobile**:
-   - Buka halaman Dashboard Admin [admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) dan Pemilik [owner.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/owner.html) pada mode mobile.
-   - Verifikasi tabel data UMKM dapat digeser secara horizontal tanpa merusak tata letak halaman.
-   - Buka modal Tambah/Edit UMKM dan verifikasi form dapat diisi & iscroll dengan nyaman di HP.
+1. **Pengujian Tambah UMKM Baru**:
+   - Buka 2 tab browser secara berdampingan: Tab 1 ([Main page.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main%20page.html) / Katalog) dan Tab 2 ([admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) -> Tambah UMKM).
+   - Isi form tambah UMKM di Tab 2 lalu klik **Simpan**.
+   - Verifikasi kartu UMKM baru **langsung muncul di Tab 1 secara otomatis** tanpa menekan F5.
+2. **Pengujian Edit Profil UMKM**:
+   - Edit nama/foto/deskripsi salah satu UMKM di Tab 2.
+   - Verifikasi informasi di Tab 1 (Katalog & Beranda) langsung berubah seketika.
+3. **Pengujian Hapus UMKM**:
+   - Hapus salah satu UMKM di Tab 2.
+   - Verifikasi kartu UMKM tersebut langsung hilang dari katalog dan jumlah statistik terdaftar di Beranda langsung berkurang.
+

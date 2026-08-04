@@ -44,15 +44,20 @@ export class UmkmService {
                 
                 if (error) throw error;
                 
-                this.daftarUmkm = data.map(item => new Umkm(item));
-                return this.daftarUmkm;
+                if (data && data.length > 0) {
+                    this.daftarUmkm = data.map(item => new Umkm({
+                        ...item,
+                        mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
+                    }));
+                    return this.daftarUmkm;
+                }
             } catch (err) {
                 console.error("Gagal memuat data dari Supabase, menggunakan lokal:", err);
             }
         }
 
         // --- CEK LOCALSTORAGE (UNTUK MENJAGA PERSISTENSI HAPUS/EDIT SAAT REFRESH) ---
-        const isInitialized = localStorage.getItem('umkm_v22_init');
+        const isInitialized = localStorage.getItem('umkm_v25_init');
         const cachedData = localStorage.getItem('umkm_data');
 
         if (isInitialized && cachedData !== null) {
@@ -83,13 +88,47 @@ export class UmkmService {
         }
 
         this.reindexUmkm();
-        localStorage.setItem('umkm_v22_init', 'true');
+        localStorage.setItem('umkm_v25_init', 'true');
         this.saveToLocalStorage();
         return this.daftarUmkm;
     }
 
     saveToLocalStorage() {
         localStorage.setItem('umkm_data', JSON.stringify(this.daftarUmkm));
+        localStorage.setItem('umkm_last_update', Date.now().toString());
+        this.broadcastChange();
+    }
+
+    broadcastChange() {
+        try {
+            if (typeof BroadcastChannel !== 'undefined') {
+                const channel = new BroadcastChannel('umkm_data_sync');
+                channel.postMessage({ type: 'UMKM_DATA_CHANGED', timestamp: Date.now() });
+                channel.close();
+            }
+        } catch (e) {
+            console.log("BroadcastChannel error:", e);
+        }
+        window.dispatchEvent(new CustomEvent('umkmDataChanged', { detail: { timestamp: Date.now() } }));
+    }
+
+    onDataChanged(callback) {
+        if (typeof BroadcastChannel !== 'undefined') {
+            const channel = new BroadcastChannel('umkm_data_sync');
+            channel.onmessage = (event) => {
+                if (event.data && event.data.type === 'UMKM_DATA_CHANGED') {
+                    callback();
+                }
+            };
+        }
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'umkm_data' || e.key === 'umkm_last_update') {
+                callback();
+            }
+        });
+        window.addEventListener('umkmDataChanged', () => {
+            callback();
+        });
     }
 
     getUmkmById(id) {
@@ -152,6 +191,7 @@ export class UmkmService {
                 if (error) throw error;
                 const added = new Umkm(data[0]);
                 this.daftarUmkm.push(added);
+                this.saveToLocalStorage();
                 return added;
             } catch (err) {
                 console.error("Gagal menambahkan data ke Supabase, simpan lokal:", err);
@@ -187,6 +227,7 @@ export class UmkmService {
                 const index = this.daftarUmkm.findIndex(item => item.id === numericId || item.id === id);
                 if (index !== -1) {
                     this.daftarUmkm[index] = new Umkm(data[0]);
+                    this.saveToLocalStorage();
                     return this.daftarUmkm[index];
                 }
             } catch (err) {

@@ -132,6 +132,18 @@ body {
     transform: scale(1.02);
 }
 
+.navbar-kkn-logo {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+    transition: transform 0.2s ease;
+}
+
+.navbar-logo:hover .navbar-kkn-logo {
+    transform: scale(1.05);
+}
+
 .navbar-links {
     display: flex;
     align-items: center;
@@ -428,8 +440,17 @@ footer {
     font-weight: 800;
     color: var(--text-dark);
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 12px;
+}
+
+.footer-kkn-logo {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
 .footer-brand .footer-logo .logo-accent {

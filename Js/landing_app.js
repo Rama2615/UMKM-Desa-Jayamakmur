@@ -228,6 +228,33 @@ function setupScrollRecommendation() {
     }
 }
 
+// Mendengarkan sinyal perubahan data secara real-time dari Dashboard Admin
+umkmService.onDataChanged(async () => {
+    try {
+        await umkmService.fetchAllUmkm();
+        const totalUmkm = umkmService.daftarUmkm.length;
+
+        // 1. Update jumlah UMKM terdaftar
+        const countElement = document.getElementById('landing-stat-count');
+        if (countElement) {
+            countElement.textContent = `${totalUmkm}+`;
+        }
+        
+        // 2. Render ulang Marquee Wall
+        if (totalUmkm > 0) {
+            init3DMarqueeWall('marquee3dContainer', umkmService.daftarUmkm);
+        }
+
+        // 3. Render ulang Spotlight
+        const spotlightContainer = document.getElementById('spotlightContainer');
+        if (spotlightContainer && totalUmkm > 0) {
+            renderSpotlight(spotlightContainer);
+        }
+    } catch (e) {
+        console.error("Gagal menyinkronkan data beranda secara real-time:", e);
+    }
+});
+
 // Jalankan ketika DOM siap
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initLanding);

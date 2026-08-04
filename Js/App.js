@@ -139,13 +139,23 @@ function applyFilterAndSearch() {
     renderCurrentPage();
 }
 
+// Fungsi scroll halus ke bagian atas katalog & filter header
+function scrollToCatalogTop() {
+    const catalogHeader = document.querySelector('.catalog-control-header') || katalogSection;
+    if (catalogHeader) {
+        catalogHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
 // Event Listeners Navigasi Halaman
 if (btnPrev) {
     btnPrev.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
             renderCurrentPage();
-            if (katalogSection) katalogSection.scrollIntoView({ behavior: 'smooth' });
+            scrollToCatalogTop();
         }
     });
 }
@@ -156,7 +166,7 @@ if (btnNext) {
         if (currentPage < totalPages) {
             currentPage++;
             renderCurrentPage();
-            if (katalogSection) katalogSection.scrollIntoView({ behavior: 'smooth' });
+            scrollToCatalogTop();
         }
     });
 }
@@ -273,5 +283,15 @@ async function initApp() {
         umkmContainer.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: red; padding: 20px;">Gagal memuat sistem. Cek konsol inspeksi browser Anda.</p>';
     }
 }
+
+// Mendengarkan sinyal perubahan data secara real-time dari Dashboard Admin
+umkmService.onDataChanged(async () => {
+    try {
+        await umkmService.fetchAllUmkm();
+        applyFilterAndSearch();
+    } catch (e) {
+        console.error("Gagal menyinkronkan data katalog:", e);
+    }
+});
 
 initApp();

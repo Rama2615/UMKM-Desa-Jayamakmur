@@ -288,5 +288,15 @@ function setupFilters() {
     });
 }
 
+// Mendengarkan perubahan data UMKM dari admin secara real-time
+service.onDataChanged(async () => {
+    try {
+        allUmkms = await service.fetchAllUmkm();
+        renderMapData();
+    } catch (e) {
+        console.error("Gagal menyinkronkan peta lokasi secara real-time:", e);
+    }
+});
+
 // Jalankan ketika DOM siap
 window.addEventListener('DOMContentLoaded', initMapApp);
