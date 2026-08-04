@@ -1,27 +1,33 @@
 export class Umkm {
-    constructor({ id, nama, kategori, deskripsi, whatsapp, gambar, galeri, alamat, mapsUrl, password }) {
-        this.id = id;
-        this.nama = nama;
-        this.kategori = kategori;
-        this.deskripsi = deskripsi;
-        this.whatsapp = whatsapp;
-        this.gambar = gambar;
-        this.galeri = galeri || [];
-        this.alamat = alamat || "Desa Jayamakmur, Karawang";
-        this.mapsUrl = mapsUrl || `https://maps.google.com/?q=${encodeURIComponent((this.nama.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming' : this.nama) + ' Jayamakmur Karawang')}`;
-        this.password = password || "owner123";
+    constructor(data = {}) {
+        const item = data || {};
+        this.id = item.id || Date.now();
+        this.nama = item.nama || 'UMKM Jayamakmur';
+        this.kategori = item.kategori || 'Kuliner';
+        this.deskripsi = item.deskripsi || 'Deskripsi UMKM Desa Jayamakmur';
+        this.whatsapp = item.whatsapp || '';
+        this.gambar = item.gambar || '';
+        this.galeri = Array.isArray(item.galeri) ? item.galeri : [];
+        this.alamat = item.alamat || "Desa Jayamakmur, Karawang";
+        
+        const safeName = (this.nama || '').toString();
+        const searchName = safeName.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming' : safeName;
+        this.mapsUrl = item.mapsUrl || item.mapsurl || item.maps_url || `https://maps.google.com/?q=${encodeURIComponent(searchName + ' Jayamakmur Karawang')}`;
+        this.password = item.password || "owner123";
     }
 
     getWhatsAppLink() {
-        const pesan = encodeURIComponent(`Halo, saya ingin menanyakan informasi tentang UMKM ${this.nama}.`);
-        return `https://wa.me/${this.whatsapp}?text=${pesan}`;
+        const safeName = (this.nama || '').toString();
+        const pesan = encodeURIComponent(`Halo, saya ingin menanyakan informasi tentang UMKM ${safeName}.`);
+        return `https://wa.me/${this.whatsapp || ''}?text=${pesan}`;
     }
 
     getGoogleMapsLink() {
-        if (this.mapsUrl && this.mapsUrl.trim() !== '') {
+        if (this.mapsUrl && typeof this.mapsUrl === 'string' && this.mapsUrl.trim() !== '') {
             return this.mapsUrl;
         }
-        const searchName = this.nama.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming' : this.nama;
+        const safeName = (this.nama || '').toString();
+        const searchName = safeName.includes('Jahit Pak Ceming') ? 'Toko Jahit Pak RT. Ceming' : safeName;
         return `https://maps.google.com/?q=${encodeURIComponent(searchName + ' Jayamakmur Karawang')}`;
     }
 }

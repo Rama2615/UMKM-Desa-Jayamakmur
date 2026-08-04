@@ -254,32 +254,31 @@ if (umkmContainer) {
 async function initApp() {
     try {
         await umkmService.fetchAllUmkm();
-        
-        if (umkmService.daftarUmkm && umkmService.daftarUmkm.length > 0) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const categoryParam = urlParams.get('category');
-            if (categoryParam && selKategori) {
-                const validCategories = ['Kuliner', 'Kerajinan', 'Jasa', 'Favorit'];
-                if (validCategories.includes(categoryParam)) {
-                    selKategori.value = categoryParam;
-                }
-            }
-
-            const searchParam = urlParams.get('search');
-            if (searchParam && txtSearch) {
-                txtSearch.value = searchParam;
-            }
-
-            applyFilterAndSearch();
-            // Inisialisasi 3D Tilt untuk Control Bar
-            init3DTiltEngine('.catalog-filter-bar');
-        } else {
-            umkmContainer.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: #888;">Basis data umkm.json kosong atau tidak terbaca.</p>';
-        }
     } catch (error) {
-        console.error("Gagal memuat data UMKM:", error);
-        umkmContainer.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: red; padding: 20px;">Gagal memuat sistem. Cek konsol inspeksi browser Anda.</p>';
+        console.error("Gagal memuat data UMKM, menggunakan fallback lokal:", error);
     }
+    
+    if (selKategori) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        if (categoryParam) {
+            const validCategories = ['Kuliner', 'Kerajinan', 'Jasa', 'Favorit'];
+            if (validCategories.includes(categoryParam)) {
+                selKategori.value = categoryParam;
+            }
+        }
+    }
+
+    if (txtSearch) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        if (searchParam) {
+            txtSearch.value = searchParam;
+        }
+    }
+
+    applyFilterAndSearch();
+    init3DTiltEngine('.catalog-filter-bar');
 }
 
 // Mendengarkan sinyal perubahan data secara real-time dari Dashboard Admin

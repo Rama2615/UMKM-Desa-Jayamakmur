@@ -33,40 +33,49 @@ export class UmkmService {
     }
 
     async fetchAllUmkm() {
-        // 1. MUAT DATA LOKAL SECARA INSTAN (< 5ms)
-        const isInitialized = localStorage.getItem('umkm_v25_init');
-        const cachedData = localStorage.getItem('umkm_data');
+        try {
+            // 1. MUAT DATA LOKAL SECARA INSTAN (< 5ms)
+            const isInitialized = localStorage.getItem('umkm_v25_init');
+            const cachedData = localStorage.getItem('umkm_data');
 
-        if (isInitialized && cachedData !== null) {
-            try {
-                const parsed = JSON.parse(cachedData);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    this.daftarUmkm = parsed.map(item => new Umkm(item));
-                    this.reindexUmkm();
+            if (isInitialized && cachedData !== null) {
+                try {
+                    const parsed = JSON.parse(cachedData);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        this.daftarUmkm = parsed.map(item => new Umkm(item));
+                        this.reindexUmkm();
+                    }
+                } catch (e) {
+                    console.error("Gagal membaca umkm_data dari localStorage:", e);
                 }
-            } catch (e) {
-                console.error("Gagal membaca umkm_data dari localStorage:", e);
             }
-        }
 
-        if (this.daftarUmkm.length === 0) {
-            try {
-                const response = await fetch('Database/umkm.json');
-                if (response.ok) {
-                    const dataMentah = await response.json();
-                    this.daftarUmkm = dataMentah.map(item => new Umkm(item));
-                } else {
+            if (!Array.isArray(this.daftarUmkm) || this.daftarUmkm.length === 0) {
+                try {
+                    const response = await fetch('Database/umkm.json');
+                    if (response.ok) {
+                        const dataMentah = await response.json();
+                        if (Array.isArray(dataMentah) && dataMentah.length > 0) {
+                            this.daftarUmkm = dataMentah.map(item => new Umkm(item));
+                        } else {
+                            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                        }
+                    } else {
+                        this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                    }
+                } catch (error) {
                     this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
                 }
-            } catch (error) {
-                this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                this.reindexUmkm();
+                this.saveToLocalStorage();
             }
-            this.reindexUmkm();
-            this.saveToLocalStorage();
-        }
 
-        // 2. CEK SUPABASE SECARA ASINKRON DI BACKGROUND (NON-BLOCKING)
-        this.syncWithSupabaseInBackground();
+            // 2. CEK SUPABASE SECARA ASINKRON DI BACKGROUND (NON-BLOCKING)
+            this.syncWithSupabaseInBackground();
+        } catch (err) {
+            console.error("Fail-safe fallback triggered:", err);
+            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+        }
 
         return this.daftarUmkm;
     }
