@@ -34,11 +34,32 @@ export class UmkmService {
 
     async fetchAllUmkm() {
         try {
-            // 1. MUAT DATA LOKAL SECARA INSTAN (< 5ms)
-            const isInitialized = localStorage.getItem('umkm_v25_init');
-            const cachedData = localStorage.getItem('umkm_data');
+            // 1. Coba ambil data langsung dari Supabase Cloud lebih awal
+            const supabase = await this.getSupabase();
+            if (supabase) {
+                try {
+                    const { data, error } = await supabase
+                        .from('umkms')
+                        .select('*')
+                        .order('nama', { ascending: true });
+                    
+                    if (!error && data && data.length > 0) {
+                        this.daftarUmkm = data.map(item => new Umkm({
+                            ...item,
+                            mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
+                        }));
+                        this.saveToLocalStorage();
+                        this.syncWithSupabaseInBackground();
+                        return this.daftarUmkm;
+                    }
+                } catch (sbErr) {
+                    console.warn("Koneksi Supabase Cloud awal gagal, menggunakan cache lokal:", sbErr);
+                }
+            }
 
-            if (isInitialized && cachedData !== null) {
+            // 2. Fallback: Muat data lokal jika offline atau Supabase belum siap
+            const cachedData = localStorage.getItem('umkm_data');
+            if (cachedData !== null) {
                 try {
                     const parsed = JSON.parse(cachedData);
                     if (Array.isArray(parsed) && parsed.length > 0) {
@@ -70,7 +91,6 @@ export class UmkmService {
                 this.saveToLocalStorage();
             }
 
-            // 2. CEK SUPABASE SECARA ASINKRON DI BACKGROUND (NON-BLOCKING)
             this.syncWithSupabaseInBackground();
         } catch (err) {
             console.error("Fail-safe fallback triggered:", err);
@@ -91,26 +111,28 @@ export class UmkmService {
                 .order('nama', { ascending: true });
             
             if (!error && data && data.length > 0) {
-                const newLength = data.length;
-                const oldLength = this.daftarUmkm.length;
+                const currentIds = JSON.stringify(this.daftarUmkm.map(i => i.id));
+                const newIds = JSON.stringify(data.map(i => i.id));
+                
                 this.daftarUmkm = data.map(item => new Umkm({
                     ...item,
                     mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
                 }));
                 this.saveToLocalStorage();
-                if (newLength !== oldLength) {
+                
+                if (currentIds !== newIds) {
                     window.dispatchEvent(new CustomEvent('umkmDataChanged', { detail: { timestamp: Date.now() } }));
                 }
             }
         } catch (err) {
-            // Abaikan kesalahan di background agar tidak mengganggu performa
+            // Abaikan kesalahan di background
         }
 
-        // Mulai polling berkala 15 detik jika belum berjalan
+        // Polling berkala 10 detik
         if (!window._umkmSyncInterval) {
             window._umkmSyncInterval = setInterval(() => {
                 this.syncWithSupabaseInBackground();
-            }, 15000);
+            }, 10000);
         }
     }
 
@@ -216,23 +238,35 @@ export class UmkmService {
 
         if (supabase) {
             try {
-                const { data, error } = await supabase
+                // Percobaan 1: Insert dengan newRecord lengkap
+                let { data, error } = await supabase
                     .from('umkms')
                     .insert([newRecord])
                     .select();
                 
+                // Percobaan 2: Jika gagal karena nama kolom mapsUrl, coba dengan mapsurl
+                if (error && (error.message || '').includes('mapsUrl')) {
+                    const fallbackRecord = { ...newRecord };
+                    delete fallbackRecord.mapsUrl;
+                    fallbackRecord.mapsurl = newRecord.mapsUrl;
+                    const retry = await supabase.from('umkms').insert([fallbackRecord]).select();
+                    data = retry.data;
+                    error = retry.error;
+                }
+
                 if (error) {
-                    console.error("Gagal insert ke Supabase Cloud:", error.message || error);
+                    console.error("Supabase Cloud insert error:", error);
                     throw error;
                 }
                 
                 const addedRecord = (data && data.length > 0) ? data[0] : { id: Date.now(), ...newRecord };
                 const added = new Umkm(addedRecord);
+                added._isCloudSynced = true;
                 this.daftarUmkm.push(added);
                 this.saveToLocalStorage();
                 return added;
             } catch (err) {
-                console.error("Gagal menambahkan data ke Supabase Cloud (simpan lokal):", err);
+                console.error("Peringatan: Gagal menyimpan ke Supabase Cloud (Data dialihkan ke penyimpanan lokal):", err);
             }
         }
 

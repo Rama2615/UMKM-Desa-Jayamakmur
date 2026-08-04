@@ -146,11 +146,15 @@ if (umkmForm) {
             if (id) {
                 // Aksi Edit
                 await service.updateUmkm(id, dataSubmit);
-                alert('Profil UMKM berhasil diperbarui! 💾');
+                alert('Profil UMKM berhasil diperbarui di Database Cloud! 💾');
             } else {
                 // Aksi Tambah
-                await service.addUmkm(dataSubmit);
-                alert('UMKM Baru berhasil ditambahkan! 🎉');
+                const added = await service.addUmkm(dataSubmit);
+                if (added && added._isCloudSynced) {
+                    alert('UMKM Baru berhasil ditambahkan ke Database Cloud! 🎉 (Tersinkron otomatis di semua HP/laptop)');
+                } else {
+                    alert('UMKM Baru berhasil ditambahkan! 🎉');
+                }
             }
             window.location.href = 'admin.html';
         } catch (error) {
