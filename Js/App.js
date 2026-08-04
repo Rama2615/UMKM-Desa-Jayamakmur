@@ -113,7 +113,7 @@ function updateActivePill(category) {
 }
 
 // Fungsi Filter & Pencarian Gabungan
-function applyFilterAndSearch() {
+function applyFilterAndSearch(resetPagination = true) {
     const keyword = txtSearch ? txtSearch.value.trim() : '';
     const kategori = selKategori ? selKategori.value : '';
     const sortBy = selSort ? selSort.value : 'nama-asc';
@@ -133,7 +133,13 @@ function applyFilterAndSearch() {
     
     updateActivePill(kategori);
 
-    currentPage = 1;
+    const totalPages = Math.max(1, Math.ceil(filteredData.length / itemsPerPage));
+    if (resetPagination) {
+        currentPage = 1;
+    } else if (currentPage > totalPages) {
+        currentPage = totalPages;
+    }
+    
     renderCurrentPage();
 }
 
@@ -285,7 +291,7 @@ async function initApp() {
 umkmService.onDataChanged(async () => {
     try {
         await umkmService.fetchAllUmkm();
-        applyFilterAndSearch();
+        applyFilterAndSearch(false);
     } catch (e) {
         console.error("Gagal menyinkronkan data katalog:", e);
     }

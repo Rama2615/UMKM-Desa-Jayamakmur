@@ -7,7 +7,11 @@ import { getImagePath, getSmartFallback } from '../utils/image_uploader.js';
 
 export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []) {
     const container = document.getElementById(containerId);
-    if (!container || !umkms || umkms.length === 0) return;
+    // Cegah reset animasi jika marquee sudah berjalan dengan jumlah data yang sama
+    if (container.children.length > 0 && container.dataset.renderedCount === String(umkms.length)) {
+        return;
+    }
+    container.dataset.renderedCount = String(umkms.length);
 
     container.innerHTML = '';
 
