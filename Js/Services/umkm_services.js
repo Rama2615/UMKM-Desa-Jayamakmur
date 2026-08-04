@@ -148,29 +148,41 @@ export class UmkmService {
 
     getFilteredUmkm(keyword = '', category = '', sortBy = 'nama-asc') {
         const lowerCaseKeyword = keyword ? keyword.toLowerCase().trim() : '';
-        const selectedCategory = category || '';
+        const selectedCategory = category ? category.trim() : '';
+        const selCatLower = selectedCategory.toLowerCase();
 
-        let results = this.daftarUmkm.filter(item => {
+        let results = (this.daftarUmkm || []).filter(item => {
+            if (!item) return false;
+            const itemNama = (item.nama || '').toLowerCase();
+            const itemDeskripsi = (item.deskripsi || '').toLowerCase();
+            const itemKategori = (item.kategori || '').toLowerCase();
+
             const matchKeyword = !lowerCaseKeyword || 
-                                 item.nama.toLowerCase().includes(lowerCaseKeyword);
+                                 itemNama.includes(lowerCaseKeyword) ||
+                                 itemDeskripsi.includes(lowerCaseKeyword);
             
             const matchKategori = !selectedCategory || 
                                    selectedCategory === 'Semua' || 
-                                   item.kategori === selectedCategory;
+                                   itemKategori === selCatLower ||
+                                   (selCatLower.includes('jasa') && itemKategori.includes('jasa')) ||
+                                   (selCatLower.includes('kerajinan') && itemKategori.includes('kerajinan')) ||
+                                   (selCatLower.includes('kuliner') && itemKategori.includes('kuliner'));
             
             return matchKeyword && matchKategori;
         });
 
         // Terapkan Logika Sorting
         results.sort((a, b) => {
+            const nameA = (a.nama || '').toString();
+            const nameB = (b.nama || '').toString();
             if (sortBy === 'id-asc') {
                 return Number(a.id) - Number(b.id);
             } else if (sortBy === 'id-desc') {
                 return Number(b.id) - Number(a.id);
             } else if (sortBy === 'nama-desc') {
-                return b.nama.localeCompare(a.nama);
+                return nameB.localeCompare(nameA);
             }
-            return a.nama.localeCompare(b.nama);
+            return nameA.localeCompare(nameB);
         });
 
         return results;
