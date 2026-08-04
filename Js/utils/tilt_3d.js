@@ -109,6 +109,13 @@ export function init3DTiltEngine(selector = '[data-tilt-3d]') {
             el.style.transform = `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
             el.style.boxShadow = '';
             if (glare) glare.style.opacity = '0';
+            
+            setTimeout(() => {
+                if (!isHovered) {
+                    el.style.transform = '';
+                    el.style.transition = '';
+                }
+            }, speed);
         });
     });
 }
