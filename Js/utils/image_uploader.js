@@ -55,7 +55,7 @@ export function validateImageFile(file) {
 /**
  * Mengonversi & Mengompresi Berkas Gambar menjadi Base64 Data URL
  */
-export function compressAndConvertToBase64(file, maxWidth = 1000, maxHeight = 1000, quality = 0.82) {
+export function compressAndConvertToBase64(file, maxWidth = 800, maxHeight = 800, quality = 0.70) {
     return new Promise((resolve, reject) => {
         const validation = validateImageFile(file);
         if (!validation.valid) {

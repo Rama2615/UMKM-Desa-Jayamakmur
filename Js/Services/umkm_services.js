@@ -91,15 +91,26 @@ export class UmkmService {
                 .order('nama', { ascending: true });
             
             if (!error && data && data.length > 0) {
+                const newLength = data.length;
+                const oldLength = this.daftarUmkm.length;
                 this.daftarUmkm = data.map(item => new Umkm({
                     ...item,
                     mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
                 }));
                 this.saveToLocalStorage();
-                window.dispatchEvent(new CustomEvent('umkmDataChanged', { detail: { timestamp: Date.now() } }));
+                if (newLength !== oldLength) {
+                    window.dispatchEvent(new CustomEvent('umkmDataChanged', { detail: { timestamp: Date.now() } }));
+                }
             }
         } catch (err) {
             // Abaikan kesalahan di background agar tidak mengganggu performa
+        }
+
+        // Mulai polling berkala 15 detik jika belum berjalan
+        if (!window._umkmSyncInterval) {
+            window._umkmSyncInterval = setInterval(() => {
+                this.syncWithSupabaseInBackground();
+            }, 15000);
         }
     }
 
@@ -210,13 +221,18 @@ export class UmkmService {
                     .insert([newRecord])
                     .select();
                 
-                if (error) throw error;
-                const added = new Umkm(data[0]);
+                if (error) {
+                    console.error("Gagal insert ke Supabase Cloud:", error.message || error);
+                    throw error;
+                }
+                
+                const addedRecord = (data && data.length > 0) ? data[0] : { id: Date.now(), ...newRecord };
+                const added = new Umkm(addedRecord);
                 this.daftarUmkm.push(added);
                 this.saveToLocalStorage();
                 return added;
             } catch (err) {
-                console.error("Gagal menambahkan data ke Supabase, simpan lokal:", err);
+                console.error("Gagal menambahkan data ke Supabase Cloud (simpan lokal):", err);
             }
         }
 
