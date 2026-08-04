@@ -937,16 +937,15 @@
 }
 
 .marquee-3d-track.scroll-left {
-    animation: marqueeScrollLeft 45s linear infinite;
+    animation: marqueeScrollLeft 40s linear infinite;
 }
 
 .marquee-3d-track.scroll-right {
-    animation: marqueeScrollRight 50s linear infinite;
+    animation: marqueeScrollRight 45s linear infinite;
 }
 
-/* Hanya hentikan animasi ketika kartu tertentu disentuh/di-hover */
-.marquee-3d-card:hover .marquee-3d-track,
-.marquee-3d-track-container:hover .marquee-3d-track {
+/* Hanya hentikan animasi ketika kursor mengarah langsung di atas track kartu */
+.marquee-3d-track:hover {
     animation-play-state: paused;
 }
 

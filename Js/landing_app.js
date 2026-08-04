@@ -41,11 +41,9 @@ async function initLanding() {
             setupScrollRecommendation();
         }
 
-        // 4. Cek apakah user sudah punya role, jika tidak ada, redirect ke login.html
-        const currentRole = localStorage.getItem('user_role');
+        // 4. Default role untuk pengunjung umum (jika belum login)
         if (!currentRole) {
-            window.location.href = 'login.html';
-            return;
+            localStorage.setItem('user_role', 'guest');
         }
 
     } catch (error) {

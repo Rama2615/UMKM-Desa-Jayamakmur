@@ -133,11 +133,17 @@ body {
 }
 
 .navbar-kkn-logo {
-    height: 54px;
+    height: 44px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.18));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
     transition: transform 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .navbar-kkn-logo {
+        height: 36px;
+    }
 }
 
 .navbar-logo:hover .navbar-kkn-logo {
