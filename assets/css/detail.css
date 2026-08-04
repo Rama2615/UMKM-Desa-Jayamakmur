@@ -170,8 +170,7 @@ body.dark-mode .map-overlay-btn {
 }
 
 .map-overlay-btn:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     background: #ffffff;
     color: #1557b0;
 }
@@ -211,8 +210,8 @@ body.dark-mode .map-overlay-btn:hover {
 
 .btn-whatsapp:hover {
     background-color: #1ebe57;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.35);
+    filter: brightness(1.05);
 }
 
 .btn-maps {
@@ -232,9 +231,9 @@ body.dark-mode .map-overlay-btn:hover {
 }
 
 .btn-maps:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(27, 77, 62, 0.3);
+    box-shadow: 0 8px 22px rgba(230, 92, 0, 0.4);
     background: linear-gradient(135deg, var(--accent-orange-dark) 0%, var(--accent-orange) 100%);
+    filter: brightness(1.05);
 }
 
 .btn-share-detail {

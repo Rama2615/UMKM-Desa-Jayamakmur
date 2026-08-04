@@ -9,7 +9,8 @@ export class UmkmCard {
         const favorites = JSON.parse(localStorage.getItem('umkm_favorites')) || [];
         const isFavorite = favorites.includes(Number(this.umkm.id));
         const favoriteClass = isFavorite ? 'active' : '';
-        const imageSrc = getImagePath(this.umkm.gambar);
+        const rawCategory = (this.umkm.kategori || '').toLowerCase();
+        const badgeClass = rawCategory.includes('kerajinan') ? 'badge-kerajinan' : rawCategory.includes('jasa') ? 'badge-jasa' : 'badge-kuliner';
 
         return `
             <div class="card-umkm" data-id="${this.umkm.id}">
@@ -22,7 +23,7 @@ export class UmkmCard {
                     </div>
                     <div class="card-content">
                         <div class="card-meta">
-                            <span class="badge-${this.umkm.kategori.toLowerCase()}">${this.umkm.kategori}</span>
+                            <span class="${badgeClass}">${this.umkm.kategori}</span>
                         </div>
                         <h3 class="card-title">${this.umkm.nama}</h3>
                         <p class="card-location">
