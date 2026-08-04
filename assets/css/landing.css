@@ -975,9 +975,8 @@
     background-color: var(--card-bg, #1a2228);
     text-decoration: none;
     color: #ffffff;
-    transform-style: preserve-3d;
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.35s ease;
-    cursor: pointer;
+    pointer-events: none;
+    user-select: none;
 }
 
 .marquee-card-img {
@@ -985,7 +984,6 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
 }
 
 .marquee-card-overlay {
@@ -998,7 +996,7 @@
     justify-content: flex-end;
     gap: 6px;
     z-index: 2;
-    transition: background 0.3s ease;
+    pointer-events: none;
 }
 
 .marquee-badge {
@@ -1038,23 +1036,6 @@
     color: #ff9e64;
     margin-top: 4px;
     opacity: 0.85;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.marquee-3d-card:hover {
-    transform: translateZ(50px) scale(1.12);
-    z-index: 99;
-    border-color: rgba(255, 158, 100, 0.8);
-    box-shadow: 0 20px 45px rgba(230, 92, 0, 0.45), 0 0 20px rgba(255, 158, 100, 0.3);
-}
-
-.marquee-3d-card:hover .marquee-card-img {
-    transform: scale(1.08);
-}
-
-.marquee-3d-card:hover .marquee-card-cta {
-    opacity: 1;
-    transform: translateX(4px);
 }
 
 /* Glassmorphism Backdrop for Hero Content Text */
