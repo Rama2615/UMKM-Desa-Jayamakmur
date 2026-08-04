@@ -11,9 +11,9 @@ export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []
 
     container.innerHTML = '';
 
-    // Gandakan data UMKM agar cukup untuk membentuk trek berkelanjutan tanpa jeda
-    let extendedList = [...umkms, ...umkms];
-    while (extendedList.length < 16) {
+    // Gandakan data UMKM agar cukup panjang (minimal 24 item) untuk semua resolusi layar
+    let extendedList = [...umkms];
+    while (extendedList.length < 24) {
         extendedList = [...extendedList, ...umkms];
     }
 

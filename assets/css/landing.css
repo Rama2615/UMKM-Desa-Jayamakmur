@@ -933,15 +933,16 @@
     gap: 24px;
     padding-right: 24px;
     flex-shrink: 0;
+    width: max-content;
     will-change: transform;
 }
 
 .marquee-3d-track.scroll-left {
-    animation: marqueeScrollLeft 40s linear infinite;
+    animation: marqueeScrollLeft 45s linear infinite;
 }
 
 .marquee-3d-track.scroll-right {
-    animation: marqueeScrollRight 45s linear infinite;
+    animation: marqueeScrollRight 50s linear infinite;
 }
 
 /* Hanya hentikan animasi ketika kursor mengarah langsung di atas track kartu */
@@ -972,8 +973,7 @@
     background-color: var(--card-bg, #1a2228);
     text-decoration: none;
     color: #ffffff;
-    transform-style: preserve-3d;
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.35s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     cursor: pointer;
 }
 
@@ -1039,8 +1039,7 @@
 }
 
 .marquee-3d-card:hover {
-    transform: translateZ(50px) scale(1.12);
-    z-index: 99;
+    transform: translateY(-8px) scale(1.04);
     border-color: rgba(255, 158, 100, 0.8);
     box-shadow: 0 20px 45px rgba(230, 92, 0, 0.45), 0 0 20px rgba(255, 158, 100, 0.3);
 }
