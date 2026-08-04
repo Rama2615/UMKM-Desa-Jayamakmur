@@ -86,9 +86,23 @@ export class UmkmService {
         return this.daftarUmkm;
     }
 
+    async fetchBaseJsonData() {
+        try {
+            const response = await fetch('Database/umkm.json');
+            if (response.ok) {
+                const jsonItems = await response.json();
+                if (Array.isArray(jsonItems) && jsonItems.length > 0) {
+                    return jsonItems;
+                }
+            }
+        } catch (e) {}
+        return DUMMY_UMKM;
+    }
+
     async pushAllLocalToCloud() {
         try {
-            const payload = DUMMY_UMKM.map(item => ({
+            const baseItems = await this.fetchBaseJsonData();
+            const payload = baseItems.map(item => ({
                 id: Number(item.id),
                 nama: item.nama || '',
                 kategori: item.kategori || 'Kuliner',
@@ -111,7 +125,7 @@ export class UmkmService {
             });
 
             if (response.ok) {
-                console.log("Berhasil men-sync 20 data resmi ke Supabase Cloud!");
+                console.log("Berhasil men-sync data asli Database/umkm.json ke Supabase Cloud!");
                 return true;
             }
         } catch (e) {
@@ -129,20 +143,21 @@ export class UmkmService {
 
             if (response.ok) {
                 const cloudData = await response.json();
+                const baseItems = await this.fetchBaseJsonData();
 
-                // Jika data di Cloud masih kurang dari 20 item, otomatis seed 20 UMKM resmi ke Cloud
-                if (!Array.isArray(cloudData) || cloudData.length < 20) {
+                // Jika data di Cloud masih kurang dari data json asli, otomatis seed data json resmi ke Cloud
+                if (!Array.isArray(cloudData) || cloudData.length < baseItems.length) {
                     await this.pushAllLocalToCloud();
                 }
 
                 if (Array.isArray(cloudData) && cloudData.length > 0) {
                     const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
 
-                    // SMART MERGE: Gabungkan 20 UMKM awal dari DUMMY_UMKM dengan data Cloud
+                    // SMART MERGE: Gabungkan data manual asli dari Database/umkm.json dengan data Cloud
                     const cloudMap = new Map();
                     cloudData.forEach(item => cloudMap.set(String(item.id), item));
 
-                    const mergedList = DUMMY_UMKM.map(baseItem => {
+                    const mergedList = baseItems.map(baseItem => {
                         const cloudItem = cloudMap.get(String(baseItem.id));
                         if (cloudItem) {
                             cloudMap.delete(String(baseItem.id));
