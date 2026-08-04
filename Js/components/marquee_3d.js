@@ -3,7 +3,7 @@
  * DigiJaya - Background Kartu 3D Bergerak Kontinu Berbasis Aset Foto UMKM Asli
  */
 
-import { getImagePath, getSmartFallback } from '../utils/image_uploader.js?v=8';
+import { getImagePath, getSmartFallback } from '../utils/image_uploader.js';
 
 export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []) {
     const container = document.getElementById(containerId);

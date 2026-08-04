@@ -1,6 +1,6 @@
-import { UmkmService } from './Services/umkm_services.js?v=3';
-import { initTheme } from './theme.js?v=3';
-import { getImagePath } from './utils/image_uploader.js?v=3';
+import { UmkmService } from './Services/umkm_services.js';
+import { initTheme } from './theme.js';
+import { getImagePath } from './utils/image_uploader.js';
 
 // Inisialisasi Tema
 initTheme();

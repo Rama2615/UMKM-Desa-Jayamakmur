@@ -1,4 +1,4 @@
-import { UmkmService } from './Services/umkm_services.js?v=3';
+import { UmkmService } from './Services/umkm_services.js';
 
 export async function updateNavbar() {
     const role = localStorage.getItem('user_role');

@@ -1,5 +1,5 @@
-import { Umkm } from '../models/umkm.js?v=3';
-import { DUMMY_UMKM } from '../data/fallback_data.js?v=3';
+import { Umkm } from '../models/umkm.js';
+import { DUMMY_UMKM } from '../data/fallback_data.js';
 
 // ==========================================================================
 // KONFIGURASI KREDENSIAL SUPABASE

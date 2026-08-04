@@ -1,4 +1,4 @@
-import { getImagePath } from '../utils/image_uploader.js?v=3';
+import { getImagePath } from '../utils/image_uploader.js';
 
 export class UmkmCard {
     constructor(umkm) {

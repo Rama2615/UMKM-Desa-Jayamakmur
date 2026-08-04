@@ -1,7 +1,7 @@
-import { UmkmService } from './Services/umkm_services.js?v=12';
-import { UmkmCard } from './components/umkm_card.js?v=12';
-import { initTheme } from './theme.js?v=12';
-import { init3DTiltEngine } from './utils/tilt_3d.js?v=12';
+import { UmkmService } from './Services/umkm_services.js';
+import { UmkmCard } from './components/umkm_card.js';
+import { initTheme } from './theme.js';
+import { init3DTiltEngine } from './utils/tilt_3d.js';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();

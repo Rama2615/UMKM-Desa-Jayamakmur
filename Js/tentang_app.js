@@ -1,5 +1,5 @@
-import { initTheme } from './theme.js?v=11';
-import { init3DTiltEngine } from './utils/tilt_3d.js?v=11';
+import { initTheme } from './theme.js';
+import { init3DTiltEngine } from './utils/tilt_3d.js';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();

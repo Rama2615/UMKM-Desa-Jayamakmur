@@ -1,9 +1,9 @@
-import { initTheme } from './theme.js?v=11';
-import { UmkmService } from './Services/umkm_services.js?v=11';
-import { UmkmCard } from './components/umkm_card.js?v=11';
-import { initHero3DCanvas } from './components/hero_3d_canvas.js?v=11';
-import { init3DTiltEngine } from './utils/tilt_3d.js?v=11';
-import { init3DMarqueeWall } from './components/marquee_3d.js?v=11';
+import { initTheme } from './theme.js';
+import { UmkmService } from './Services/umkm_services.js';
+import { UmkmCard } from './components/umkm_card.js';
+import { initHero3DCanvas } from './components/hero_3d_canvas.js';
+import { init3DTiltEngine } from './utils/tilt_3d.js';
+import { init3DMarqueeWall } from './components/marquee_3d.js';
 
 // Inisialisasi tema saat halaman dimuat
 initTheme();
