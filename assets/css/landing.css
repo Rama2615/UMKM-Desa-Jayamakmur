@@ -933,7 +933,6 @@
 .marquee-3d-track {
     display: flex;
     gap: 24px;
-    padding-right: 24px;
     flex-shrink: 0;
     width: max-content;
     will-change: transform;
@@ -950,11 +949,11 @@
 
 @keyframes marqueeScrollLeft {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); }
 }
 
 @keyframes marqueeScrollRight {
-    0% { transform: translateX(-100%); }
+    0% { transform: translateX(-50%); }
     100% { transform: translateX(0); }
 }
 

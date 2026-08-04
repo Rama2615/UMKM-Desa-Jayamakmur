@@ -11,39 +11,42 @@ export function init3DMarqueeWall(containerId = 'marquee3dContainer', umkms = []
 
     container.innerHTML = '';
 
-    // Gandakan data UMKM agar cukup panjang (minimal 24 item) untuk semua resolusi layar
-    let extendedList = [...umkms];
-    while (extendedList.length < 24) {
-        extendedList = [...extendedList, ...umkms];
+    // Gandakan data UMKM agar cukup panjang (minimal 12 item dasar per set)
+    let baseList = [...umkms];
+    while (baseList.length < 12) {
+        baseList = [...baseList, ...umkms];
     }
 
-    // Bagi data menjadi 2 trek (Trek Atas bergerak ke Kiri, Trek Bawah bergerak ke Kanan)
-    const midIndex = Math.ceil(extendedList.length / 2);
-    const track1Items = extendedList.slice(0, midIndex);
-    const track2Items = extendedList.slice(midIndex);
+    // Bagi data menjadi 2 kelompok (Trek Atas & Trek Bawah)
+    const midIndex = Math.ceil(baseList.length / 2);
+    const track1Items = baseList.slice(0, midIndex);
+    const track2Items = baseList.slice(midIndex);
 
-    // Buat Struktur HTML Marquee 3D
+    const track1Content = renderTrackContent(track1Items);
+    const track2Content = renderTrackContent(track2Items);
+
+    // Buat Struktur HTML Marquee 3D Single-Track (Metode -50% Seamless Loop)
     const wrapper = document.createElement('div');
     wrapper.className = 'marquee-3d-wrapper';
 
     // Trek 1 (Scroll Kiri)
     const track1Container = document.createElement('div');
     track1Container.className = 'marquee-3d-track-container track-left';
-    
-    const track1Content = renderTrackContent(track1Items);
     track1Container.innerHTML = `
-        <div class="marquee-3d-track scroll-left">${track1Content}</div>
-        <div class="marquee-3d-track scroll-left" aria-hidden="true">${track1Content}</div>
+        <div class="marquee-3d-track scroll-left">
+            ${track1Content}
+            ${track1Content}
+        </div>
     `;
 
     // Trek 2 (Scroll Kanan)
     const track2Container = document.createElement('div');
     track2Container.className = 'marquee-3d-track-container track-right';
-    
-    const track2Content = renderTrackContent(track2Items);
     track2Container.innerHTML = `
-        <div class="marquee-3d-track scroll-right">${track2Content}</div>
-        <div class="marquee-3d-track scroll-right" aria-hidden="true">${track2Content}</div>
+        <div class="marquee-3d-track scroll-right">
+            ${track2Content}
+            ${track2Content}
+        </div>
     `;
 
     wrapper.appendChild(track1Container);
