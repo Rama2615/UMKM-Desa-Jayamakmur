@@ -81,12 +81,11 @@ function animateCount(element, target) {
 }
 
 function renderSpotlight(container) {
+    if (!container) return;
     container.innerHTML = '';
     
-    // Acak data UMKM dan ambil 3 item teratas
-    const allItems = [...umkmService.daftarUmkm];
-    const shuffled = allItems.sort(() => 0.5 - Math.random());
-    const spotlightItems = shuffled.slice(0, Math.min(3, allItems.length));
+    // Ambil 3 UMKM teratas secara konsisten tanpa merusak/mengacak urutan memori utama
+    const spotlightItems = umkmService.daftarUmkm.slice(0, Math.min(3, umkmService.daftarUmkm.length));
     
     spotlightItems.forEach(item => {
         const card = new UmkmCard(item);
@@ -101,6 +100,9 @@ function renderSpotlight(container) {
 }
 
 function setupSpotlightInteractions(container) {
+    if (!container || container.dataset.interactionsInitialized) return;
+    container.dataset.interactionsInitialized = 'true';
+
     const toastNotification = document.getElementById('toastNotification');
     
     function showToast(msg) {
