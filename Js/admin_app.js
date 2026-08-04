@@ -293,15 +293,10 @@ async function prosesHapus(id) {
 }
 
 // Mendengarkan sinyal perubahan data secara real-time
-service.onDataChanged(async () => {
-    try {
-        await service.fetchAllUmkm();
-        renderStats();
-        renderCharts();
-        applyFilters();
-    } catch (e) {
-        console.error("Gagal menyinkronkan dashboard admin:", e);
-    }
+service.onDataChanged(() => {
+    renderStats();
+    renderCharts();
+    applyFilters();
 });
 
 initDashboard();

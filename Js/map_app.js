@@ -289,9 +289,9 @@ function setupFilters() {
 }
 
 // Mendengarkan perubahan data UMKM dari admin secara real-time
-service.onDataChanged(async () => {
+service.onDataChanged(() => {
     try {
-        allUmkms = await service.fetchAllUmkm();
+        allUmkms = service.daftarUmkm;
         renderMapData();
     } catch (e) {
         console.error("Gagal menyinkronkan peta lokasi secara real-time:", e);

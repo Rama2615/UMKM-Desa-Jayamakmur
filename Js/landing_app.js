@@ -227,9 +227,8 @@ function setupScrollRecommendation() {
 }
 
 // Mendengarkan sinyal perubahan data secara real-time dari Dashboard Admin
-umkmService.onDataChanged(async () => {
+umkmService.onDataChanged(() => {
     try {
-        await umkmService.fetchAllUmkm();
         const totalUmkm = umkmService.daftarUmkm.length;
 
         // 1. Update jumlah UMKM terdaftar

@@ -191,9 +191,12 @@ async function initDetailApp() {
 }
 
 // Mendengarkan perubahan data UMKM secara real-time dari Admin
-umkmService.onDataChanged(async () => {
+umkmService.onDataChanged(() => {
     try {
-        await initDetailApp();
+        const urlParams = new URLSearchParams(window.location.search);
+        let umkmId = urlParams.get('id');
+        const dataUmkm = umkmService.getUmkmById(umkmId);
+        if (dataUmkm) renderDetail(dataUmkm);
     } catch (e) {
         console.error("Gagal menyinkronkan halaman detail produk secara real-time:", e);
     }

@@ -288,13 +288,8 @@ async function initApp() {
 }
 
 // Mendengarkan sinyal perubahan data secara real-time dari Dashboard Admin
-umkmService.onDataChanged(async () => {
-    try {
-        await umkmService.fetchAllUmkm();
-        applyFilterAndSearch(false);
-    } catch (e) {
-        console.error("Gagal menyinkronkan data katalog:", e);
-    }
+umkmService.onDataChanged(() => {
+    applyFilterAndSearch(false);
 });
 
 initApp();
