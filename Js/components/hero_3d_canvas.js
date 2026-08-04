@@ -5,7 +5,8 @@
 
 export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+    if (canvas.dataset.canvasInitialized) return;
+    canvas.dataset.canvasInitialized = 'true';
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;

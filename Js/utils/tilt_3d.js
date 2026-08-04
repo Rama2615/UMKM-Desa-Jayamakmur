@@ -4,10 +4,19 @@
  */
 
 export function init3DTiltEngine(selector = '[data-tilt-3d]') {
-    const elements = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
+    let elements = [];
+    if (typeof selector === 'string') {
+        elements = document.querySelectorAll(selector);
+    } else if (selector instanceof NodeList || Array.isArray(selector)) {
+        elements = selector;
+    } else if (selector instanceof Element) {
+        elements = [selector];
+    } else if (selector && selector.length) {
+        elements = Array.from(selector);
+    }
 
     elements.forEach(el => {
-        if (el.dataset.tiltInitialized) return;
+        if (!el || !el.dataset || el.dataset.tiltInitialized) return;
         el.dataset.tiltInitialized = 'true';
 
         // Konfigurasi Parameter 3D
