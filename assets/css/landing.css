@@ -453,6 +453,17 @@
     .section-title-wrapper h2 {
         font-size: 2rem;
     }
+    .marquee-3d-wrapper {
+        transform: perspective(800px) rotateY(-6deg) rotateX(2deg);
+        top: -12%;
+        left: -12%;
+        width: 124%;
+    }
+    .marquee-3d-card {
+        width: 165px;
+        height: 235px;
+        border-radius: 14px;
+    }
 }
 
 /* Theme Adaptations */
@@ -914,10 +925,12 @@
     flex-direction: column;
     justify-content: center;
     gap: 30px;
-    transform: perspective(1200px) rotateY(-14deg) rotateX(8deg) rotateZ(-2deg);
+    transform: perspective(1200px) rotateY(-12deg) rotateX(6deg);
     transform-style: preserve-3d;
     opacity: 1;
     pointer-events: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .marquee-3d-track-container {
@@ -937,24 +950,27 @@
     width: max-content;
     will-change: transform;
     pointer-events: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .marquee-3d-track.scroll-left {
-    animation: marqueeScrollLeft 45s linear infinite;
+    animation: marqueeScrollLeft 38s linear infinite;
 }
 
 .marquee-3d-track.scroll-right {
-    animation: marqueeScrollRight 50s linear infinite;
+    animation: marqueeScrollRight 42s linear infinite;
 }
 
 @keyframes marqueeScrollLeft {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes marqueeScrollRight {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
+    0% { transform: translate3d(-50%, 0, 0); }
+    100% { transform: translate3d(0, 0, 0); }
 }
 
 /* 3D Vertical Rounded Cards */
