@@ -41,7 +41,53 @@ export class UmkmService {
 
     async fetchAllUmkm() {
         try {
-            // 1. CEK PERSISTENSI CLOUD SUPABASE VIA DIRECT NATIVE REST API (< 300ms)
+            // 1. BACA DATA LOKAL / CACHE SECARA INSTAN TERLEBIH DAHULU (< 5ms)
+            const cachedData = localStorage.getItem('umkm_data');
+            if (cachedData !== null) {
+                try {
+                    const parsed = JSON.parse(cachedData);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        this.daftarUmkm = parsed.map(item => new Umkm(item));
+                        this.reindexUmkm();
+                    }
+                } catch (e) {
+                    console.error("Gagal membaca umkm_data dari localStorage:", e);
+                }
+            }
+
+            // Jika cache lokal kosong, gunakan data bawaan fallback_data / umkm.json
+            if (!Array.isArray(this.daftarUmkm) || this.daftarUmkm.length === 0) {
+                try {
+                    const response = await fetch('Database/umkm.json');
+                    if (response.ok) {
+                        const dataMentah = await response.json();
+                        if (Array.isArray(dataMentah) && dataMentah.length > 0) {
+                            this.daftarUmkm = dataMentah.map(item => new Umkm(item));
+                        } else {
+                            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                        }
+                    } else {
+                        this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                    }
+                } catch (error) {
+                    this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                }
+                this.reindexUmkm();
+                this.saveToLocalStorage();
+            }
+
+            // 2. SINKRONKAN DENGAN SUPABASE CLOUD DI BACKGROUND
+            this.syncWithSupabaseDirect();
+        } catch (err) {
+            console.error("Fail-safe fallback triggered:", err);
+            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+        }
+
+        return this.daftarUmkm;
+    }
+
+    async syncWithSupabaseDirect() {
+        try {
             const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?select=*&order=nama.asc`, {
                 method: 'GET',
                 headers: this.getApiHeaders()
@@ -50,57 +96,25 @@ export class UmkmService {
             if (response.ok) {
                 const cloudData = await response.json();
                 if (Array.isArray(cloudData) && cloudData.length > 0) {
+                    const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
+                    const newSerialized = JSON.stringify(cloudData.map(i => String(i.id) + String(i.nama)));
+                    
                     this.daftarUmkm = cloudData.map(item => new Umkm({
                         ...item,
                         mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
                     }));
                     this.saveToLocalStorage();
-                    this.startBackgroundSync();
-                    return this.daftarUmkm;
-                }
-            } else {
-                console.warn("Respon REST API Supabase bukan OK:", response.status);
-            }
-        } catch (err) {
-            console.warn("Direct fetch Supabase REST API gagal (Offline/Fallback):", err);
-        }
 
-        // 2. FALLBACK LOKAL: BACA DARI LOCALSTORAGE JIKA OFFLINE
-        const cachedData = localStorage.getItem('umkm_data');
-        if (cachedData !== null) {
-            try {
-                const parsed = JSON.parse(cachedData);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    this.daftarUmkm = parsed.map(item => new Umkm(item));
-                    this.reindexUmkm();
-                }
-            } catch (e) {
-                console.error("Gagal membaca umkm_data dari localStorage:", e);
-            }
-        }
-
-        if (!Array.isArray(this.daftarUmkm) || this.daftarUmkm.length === 0) {
-            try {
-                const response = await fetch('Database/umkm.json');
-                if (response.ok) {
-                    const dataMentah = await response.json();
-                    if (Array.isArray(dataMentah) && dataMentah.length > 0) {
-                        this.daftarUmkm = dataMentah.map(item => new Umkm(item));
-                    } else {
-                        this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                    if (currentSerialized !== newSerialized) {
+                        this.broadcastChange();
                     }
-                } else {
-                    this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
                 }
-            } catch (error) {
-                this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
             }
-            this.reindexUmkm();
-            this.saveToLocalStorage();
+        } catch (e) {
+            // Abaikan kesalahan koneksi background
         }
 
         this.startBackgroundSync();
-        return this.daftarUmkm;
     }
 
     startBackgroundSync() {
