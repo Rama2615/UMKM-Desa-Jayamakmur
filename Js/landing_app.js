@@ -19,7 +19,12 @@ async function initLanding() {
         await umkmService.fetchAllUmkm();
         const totalUmkm = umkmService.daftarUmkm.length;
 
-        // 1. Animasikan jumlah UMKM terdaftar
+        // 1. Inisialisasi 3D Marquee Showcase Background
+        if (totalUmkm > 0) {
+            init3DMarqueeWall('marquee3dContainer', umkmService.daftarUmkm);
+        }
+
+        // 2. Animasikan jumlah UMKM terdaftar
         const countElement = document.getElementById('landing-stat-count');
         if (countElement) {
             animateCount(countElement, totalUmkm);
@@ -233,7 +238,12 @@ umkmService.onDataChanged(async () => {
             countElement.textContent = `${totalUmkm}+`;
         }
         
-        // 2. Render ulang Spotlight
+        // 2. Render ulang Marquee Wall
+        if (totalUmkm > 0) {
+            init3DMarqueeWall('marquee3dContainer', umkmService.daftarUmkm);
+        }
+
+        // 3. Render ulang Spotlight
         const spotlightContainer = document.getElementById('spotlightContainer');
         if (spotlightContainer && totalUmkm > 0) {
             renderSpotlight(spotlightContainer);
