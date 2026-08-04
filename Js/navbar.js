@@ -58,7 +58,7 @@ export async function updateNavbar() {
         }
         themeToggle.insertAdjacentHTML('beforebegin', actionBtnHtml);
     } else {
-        navbarLinks.innerHTML += badgeHtml + dbLinkHtml + actionBtnHtml;
+        navbarLinks.insertAdjacentHTML('beforeend', badgeHtml + dbLinkHtml + actionBtnHtml);
     }
 
     // Penanganan Mobile Navigation Hamburger Toggle Button

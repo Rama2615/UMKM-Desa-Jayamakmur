@@ -87,10 +87,8 @@ function renderSpotlight(container) {
     // Ambil 3 UMKM teratas secara konsisten tanpa merusak/mengacak urutan memori utama
     const spotlightItems = umkmService.daftarUmkm.slice(0, Math.min(3, umkmService.daftarUmkm.length));
     
-    spotlightItems.forEach(item => {
-        const card = new UmkmCard(item);
-        container.innerHTML += card.render();
-    });
+    const cardsHtml = spotlightItems.map(item => new UmkmCard(item).render()).join('');
+    container.innerHTML = cardsHtml;
     
     // Pasang 3D tilt pada kartu spotlight
     init3DTiltEngine(container.querySelectorAll('.card-umkm'));

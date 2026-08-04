@@ -74,10 +74,8 @@ function renderCurrentPage() {
     const endIndex = startIndex + itemsPerPage;
     const paginatedItems = filteredData.slice(startIndex, endIndex);
 
-    paginatedItems.forEach(item => {
-        const card = new UmkmCard(item);
-        umkmContainer.innerHTML += card.render();
-    });
+    const cardsHtml = paginatedItems.map(item => new UmkmCard(item).render()).join('');
+    umkmContainer.innerHTML = cardsHtml;
 
     // Inisialisasi 3D Tilt Engine pada seluruh kartu UMKM yang baru di-render
     init3DTiltEngine('.umkm-grid .card-umkm');
