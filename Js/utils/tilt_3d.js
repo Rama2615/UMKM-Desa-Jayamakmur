@@ -54,11 +54,19 @@ export function init3DTiltEngine(selector = '[data-tilt-3d]') {
         el.style.transition = `transform ${speed}ms cubic-bezier(0.03, 0.98, 0.52, 0.99), box-shadow ${speed}ms ease`;
 
         let isHovered = false;
+        let transitionTimeout = null;
 
         el.addEventListener('mouseenter', () => {
             isHovered = true;
-            el.style.transition = 'transform 100ms ease-out, box-shadow 200ms ease';
+            el.style.transition = 'transform 200ms cubic-bezier(0.03, 0.98, 0.52, 0.99), box-shadow 200ms ease';
             if (glare) glare.style.opacity = '1';
+            
+            if (transitionTimeout) clearTimeout(transitionTimeout);
+            transitionTimeout = setTimeout(() => {
+                if (isHovered) {
+                    el.style.transition = 'box-shadow 200ms ease';
+                }
+            }, 200);
         });
 
         el.addEventListener('mousemove', (e) => {
@@ -78,13 +86,13 @@ export function init3DTiltEngine(selector = '[data-tilt-3d]') {
             const rotateX = (-yVal * maxTilt).toFixed(2);
             const rotateY = (xVal * maxTilt).toFixed(2);
 
-            // Terapkan transformasi 3D
-            el.style.transform = `perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${scale}, ${scale}, ${scale}) translateZ(10px)`;
+            // Terapkan transformasi 3D tanpa lag transisi
+            el.style.transform = `perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${scale}, ${scale}, ${scale})`;
             
             // Efek bayangan dinamis 3D
-            const shadowX = (-xVal * 15).toFixed(1);
-            const shadowY = (-yVal * 20).toFixed(1);
-            el.style.boxShadow = `${shadowX}px ${shadowY}px 30px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(27, 77, 62, 0.12)`;
+            const shadowX = (-xVal * 12).toFixed(1);
+            const shadowY = (-yVal * 16).toFixed(1);
+            el.style.boxShadow = `${shadowX}px ${shadowY}px 25px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(27, 77, 62, 0.12)`;
 
             // Posisikan sumber cahaya glare
             if (glare) {
@@ -96,8 +104,9 @@ export function init3DTiltEngine(selector = '[data-tilt-3d]') {
 
         el.addEventListener('mouseleave', () => {
             isHovered = false;
+            if (transitionTimeout) clearTimeout(transitionTimeout);
             el.style.transition = `transform ${speed}ms ease, box-shadow ${speed}ms ease`;
-            el.style.transform = `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)`;
+            el.style.transform = `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
             el.style.boxShadow = '';
             if (glare) glare.style.opacity = '0';
         });

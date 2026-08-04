@@ -496,6 +496,8 @@
     margin-top: auto;
     display: flex;
     gap: 12px;
+    position: relative;
+    z-index: 10;
 }
 
 .btn-detail {
