@@ -86,6 +86,40 @@ export class UmkmService {
         return this.daftarUmkm;
     }
 
+    async pushAllLocalToCloud() {
+        try {
+            const payload = DUMMY_UMKM.map(item => ({
+                id: Number(item.id),
+                nama: item.nama || '',
+                kategori: item.kategori || 'Kuliner',
+                deskripsi: item.deskripsi || '',
+                whatsapp: item.whatsapp || '',
+                gambar: (item.gambar && item.gambar.length < 500) ? item.gambar : 'placeholder.jpg',
+                galeri: Array.isArray(item.galeri) ? item.galeri.filter(g => g && g.length < 500) : [],
+                alamat: item.alamat || 'Desa Jayamakmur, Karawang',
+                mapsurl: item.mapsUrl || item.mapsurl || item.maps_url || '',
+                password: item.password || 'owner123'
+            }));
+
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms`, {
+                method: 'POST',
+                headers: {
+                    ...this.getApiHeaders(true),
+                    "Prefer": "resolution=merge-duplicates"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                console.log("Berhasil men-sync 20 data resmi ke Supabase Cloud!");
+                return true;
+            }
+        } catch (e) {
+            console.error("Gagal push data lokal ke cloud:", e);
+        }
+        return false;
+    }
+
     async syncWithSupabaseDirect() {
         try {
             const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?select=*&order=nama.asc`, {
@@ -95,6 +129,12 @@ export class UmkmService {
 
             if (response.ok) {
                 const cloudData = await response.json();
+
+                // Jika data di Cloud masih kurang dari 20 item, otomatis seed 20 UMKM resmi ke Cloud
+                if (!Array.isArray(cloudData) || cloudData.length < 20) {
+                    await this.pushAllLocalToCloud();
+                }
+
                 if (Array.isArray(cloudData) && cloudData.length > 0) {
                     const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
 

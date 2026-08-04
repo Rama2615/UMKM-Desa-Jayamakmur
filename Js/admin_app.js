@@ -234,6 +234,26 @@ async function initDashboard() {
         });
     }
 
+    const btnSyncCloud = document.getElementById('btnSyncCloud');
+    if (btnSyncCloud) {
+        btnSyncCloud.addEventListener('click', async () => {
+            btnSyncCloud.disabled = true;
+            btnSyncCloud.textContent = '⏳ Menyinkronkan...';
+            const sukses = await service.pushAllLocalToCloud();
+            if (sukses) {
+                showToast("20 UMKM Resmi Berhasil Disinkronkan ke Supabase Cloud! ☁️✨");
+                await service.fetchAllUmkm();
+                renderStats();
+                renderCharts();
+                applyFilters();
+            } else {
+                alert("Gagal menyinkronkan data ke Cloud. Pastikan perintah SQL GRANT sudah di-run di Supabase Dashboard.");
+            }
+            btnSyncCloud.disabled = false;
+            btnSyncCloud.innerHTML = '<span>☁️</span> Sync 20 Data ke Cloud';
+        });
+    }
+
     // Event Delegation untuk Aksi Edit dan Hapus di Tabel
     if (tableBody) {
         tableBody.addEventListener('click', (e) => {
