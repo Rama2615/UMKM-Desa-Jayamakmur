@@ -185,62 +185,6 @@ async function initDashboard() {
         });
     }
 
-    // Tombol Migrasi Data ke Supabase Cloud
-    const btnSyncSupabase = document.getElementById('btnSyncSupabase');
-    if (btnSyncSupabase) {
-        btnSyncSupabase.addEventListener('click', async () => {
-            const supabase = await service.getSupabase();
-            if (!supabase) {
-                alert("Kredensial Supabase belum terkonfigurasi di umkm_services.js");
-                return;
-            }
-
-            const konfirmasi = confirm("Apakah Anda ingin mengunggah/mengakomodasi seluruh data UMKM lokal ke Supabase Cloud?");
-            if (!konfirmasi) return;
-
-            btnSyncSupabase.disabled = true;
-            btnSyncSupabase.textContent = "⏳ Memproses...";
-
-            try {
-                const { data: existingData } = await supabase.from('umkms').select('id');
-                const existingIds = (existingData || []).map(item => item.id);
-
-                const itemsToInsert = service.daftarUmkm
-                    .filter(u => !existingIds.includes(u.id))
-                    .map(u => ({
-                        id: u.id,
-                        nama: u.nama,
-                        kategori: u.kategori,
-                        deskripsi: u.deskripsi,
-                        whatsapp: u.whatsapp,
-                        gambar: u.gambar,
-                        galeri: u.galeri || [],
-                        alamat: u.alamat,
-                        mapsUrl: u.mapsUrl,
-                        password: u.password || 'owner123'
-                    }));
-
-                if (itemsToInsert.length === 0) {
-                    alert("Seluruh data UMKM sudah tersinkronisasi di Supabase Cloud! 👍");
-                } else {
-                    const { error } = await supabase.from('umkms').insert(itemsToInsert);
-                    if (error) throw error;
-                    alert(`Berhasil mengunggah ${itemsToInsert.length} data UMKM ke Supabase Cloud! 🎉`);
-                    await service.fetchAllUmkm();
-                    renderStats();
-                    renderCharts();
-                    applyFilters();
-                }
-            } catch (err) {
-                console.error("Gagal sinkronisasi ke Supabase:", err);
-                alert("Gagal mengunggah data ke Supabase: " + (err.message || err));
-            } finally {
-                btnSyncSupabase.disabled = false;
-                btnSyncSupabase.innerHTML = '<span>☁️</span> Upload ke Supabase';
-            }
-        });
-    }
-
     // Tombol Download Database Terbaru (umkm.json)
     const btnExportJson = document.getElementById('btnExportJson');
     if (btnExportJson) {
