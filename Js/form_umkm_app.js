@@ -152,8 +152,10 @@ if (umkmForm) {
                 const added = await service.addUmkm(dataSubmit);
                 if (added && added._isCloudSynced) {
                     alert('UMKM Baru berhasil ditambahkan ke Database Cloud! 🎉 (Tersinkron otomatis di semua HP/laptop)');
+                } else if (added && added._cloudErrorMsg) {
+                    alert('⚠️ Peringatan: Data gagal masuk ke Database Cloud Supabase.\nEror: ' + added._cloudErrorMsg + '\n\nData hanya tersimpan secara lokal di browser HP/laptop ini.');
                 } else {
-                    alert('UMKM Baru berhasil ditambahkan! 🎉');
+                    alert('UMKM Baru berhasil ditambahkan secara lokal! 🎉');
                 }
             }
             window.location.href = 'admin.html';

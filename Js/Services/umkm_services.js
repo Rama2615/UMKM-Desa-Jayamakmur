@@ -267,6 +267,16 @@ export class UmkmService {
                 return added;
             } catch (err) {
                 console.error("Peringatan: Gagal menyimpan ke Supabase Cloud (Data dialihkan ke penyimpanan lokal):", err);
+                const nextId = this.daftarUmkm.length > 0 
+                    ? Math.max(...this.daftarUmkm.map(item => Number(item.id) || 0)) + 1 
+                    : 1;
+                
+                const localNewUmkm = new Umkm({ id: nextId, ...newRecord });
+                localNewUmkm._isCloudSynced = false;
+                localNewUmkm._cloudErrorMsg = err.message || (typeof err === 'object' ? JSON.stringify(err) : String(err));
+                this.daftarUmkm.push(localNewUmkm);
+                this.saveToLocalStorage();
+                return localNewUmkm;
             }
         }
 
@@ -276,6 +286,7 @@ export class UmkmService {
             : 1;
         
         const localNewUmkm = new Umkm({ id: nextId, ...newRecord });
+        localNewUmkm._isCloudSynced = false;
         this.daftarUmkm.push(localNewUmkm);
         this.saveToLocalStorage();
         return localNewUmkm;
