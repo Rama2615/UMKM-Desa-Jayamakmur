@@ -66,7 +66,7 @@ export function initHero3DCanvas(canvasId = 'hero-3d-canvas') {
     ];
 
     let nodes = [];
-    const NODE_COUNT = Math.min(Math.floor(width / 12), 95);
+    const NODE_COUNT = Math.min(Math.floor(width / 24), 35);
 
     class Node3D {
         constructor() {

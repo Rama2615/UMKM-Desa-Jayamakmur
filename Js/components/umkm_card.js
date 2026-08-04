@@ -19,7 +19,7 @@ export class UmkmCard {
                 </button>
                 <a href="Detail produk.html?id=${this.umkm.id}" class="card-main-link">
                     <div class="card-image-wrapper">
-                        <img src="${imageSrc}" alt="${this.umkm.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+UMKM'">
+                        <img src="${imageSrc}" alt="${this.umkm.nama}" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'600\\' height=\\'400\\' viewBox=\\'0 0 600 400\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%231c2732\\'/><text x=\\'50%\\' y=\'50%\\' fill=\\'%232dd4bf\\' font-family=\\'sans-serif\\' font-size=\\'22\\' font-weight=\\'bold\\' text-anchor=\\'middle\\' dy=\\'.3em\\'>Foto UMKM DigiJaya</text></svg>';">
                     </div>
                     <div class="card-content">
                         <div class="card-meta">

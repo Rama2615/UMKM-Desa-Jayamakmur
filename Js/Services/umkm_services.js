@@ -33,64 +33,65 @@ export class UmkmService {
     }
 
     async fetchAllUmkm() {
-        const supabase = await this.getSupabase();
-        
-        if (supabase) {
-            try {
-                const { data, error } = await supabase
-                    .from('umkms')
-                    .select('*')
-                    .order('nama', { ascending: true });
-                
-                if (error) throw error;
-                
-                if (data && data.length > 0) {
-                    this.daftarUmkm = data.map(item => new Umkm({
-                        ...item,
-                        mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
-                    }));
-                    return this.daftarUmkm;
-                }
-            } catch (err) {
-                console.error("Gagal memuat data dari Supabase, menggunakan lokal:", err);
-            }
-        }
-
-        // --- CEK LOCALSTORAGE (UNTUK MENJAGA PERSISTENSI HAPUS/EDIT SAAT REFRESH) ---
+        // 1. MUAT DATA LOKAL SECARA INSTAN (< 5ms)
         const isInitialized = localStorage.getItem('umkm_v25_init');
         const cachedData = localStorage.getItem('umkm_data');
 
         if (isInitialized && cachedData !== null) {
             try {
                 const parsed = JSON.parse(cachedData);
-                if (Array.isArray(parsed)) {
+                if (Array.isArray(parsed) && parsed.length > 0) {
                     this.daftarUmkm = parsed.map(item => new Umkm(item));
                     this.reindexUmkm();
-                    this.saveToLocalStorage();
-                    return this.daftarUmkm;
                 }
             } catch (e) {
                 console.error("Gagal membaca umkm_data dari localStorage:", e);
             }
         }
 
-        // --- INITIALIZATION PERTAMA DARI DATABASE/UMKM.JSON ---
-        try {
-            const response = await fetch('Database/umkm.json');
-            if (response.ok) {
-                const dataMentah = await response.json();
-                this.daftarUmkm = dataMentah.map(item => new Umkm(item));
-            } else {
+        if (this.daftarUmkm.length === 0) {
+            try {
+                const response = await fetch('Database/umkm.json');
+                if (response.ok) {
+                    const dataMentah = await response.json();
+                    this.daftarUmkm = dataMentah.map(item => new Umkm(item));
+                } else {
+                    this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+                }
+            } catch (error) {
                 this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
             }
-        } catch (error) {
-            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+            this.reindexUmkm();
+            this.saveToLocalStorage();
         }
 
-        this.reindexUmkm();
-        localStorage.setItem('umkm_v25_init', 'true');
-        this.saveToLocalStorage();
+        // 2. CEK SUPABASE SECARA ASINKRON DI BACKGROUND (NON-BLOCKING)
+        this.syncWithSupabaseInBackground();
+
         return this.daftarUmkm;
+    }
+
+    async syncWithSupabaseInBackground() {
+        try {
+            const supabase = await this.getSupabase();
+            if (!supabase) return;
+
+            const { data, error } = await supabase
+                .from('umkms')
+                .select('*')
+                .order('nama', { ascending: true });
+            
+            if (!error && data && data.length > 0) {
+                this.daftarUmkm = data.map(item => new Umkm({
+                    ...item,
+                    mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
+                }));
+                this.saveToLocalStorage();
+                window.dispatchEvent(new CustomEvent('umkmDataChanged', { detail: { timestamp: Date.now() } }));
+            }
+        } catch (err) {
+            // Abaikan kesalahan di background agar tidak mengganggu performa
+        }
     }
 
     saveToLocalStorage() {
