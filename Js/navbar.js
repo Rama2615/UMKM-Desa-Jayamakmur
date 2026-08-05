@@ -1,4 +1,5 @@
 import { UmkmService } from './Services/umkm_services.js';
+import { initSmoothEffects } from './smooth_effects.js';
 
 export async function updateNavbar() {
     const role = localStorage.getItem('user_role');
@@ -128,8 +129,12 @@ export async function updateNavbar() {
 
 // Jalankan ketika DOM siap
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateNavbar);
+    document.addEventListener('DOMContentLoaded', () => {
+        updateNavbar();
+        initSmoothEffects();
+    });
 } else {
     updateNavbar();
+    initSmoothEffects();
 }
 
