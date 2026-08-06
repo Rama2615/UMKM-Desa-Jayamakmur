@@ -208,7 +208,6 @@ function sendBotGreeting() {
     const chips = [
         { text: "🛍️ Cari Produk Katalog", action: "katalog" },
         { text: "🏪 Cara Daftar UMKM", action: "daftar" },
-        { text: "🗺️ Peta Lokasi Desa", action: "peta" },
         { text: "🐛 Laporkan Bug / Kendala", action: "bug" },
         { text: "👤 Bicara dengan Admin (Manusia)", action: "admin_handoff" }
     ];
@@ -304,15 +303,6 @@ function processUserIntent(userText) {
             return;
         }
 
-        // Peta Lokasi Intent
-        if (lower.includes('peta') || lower.includes('lokasi') || lower.includes('alamat') || lower.includes('map') || lower.includes('posisi')) {
-            const text = "Platform DigiJaya dilengkapi dengan **Peta Interaktif 3D** untuk menemukan posisi persis setiap toko dan usaha warga Desa Jayamakmur.\n\n[Buka Peta Interaktif Desa](peta.html)";
-            const chips = [
-                { text: "🛍️ Lihat Katalog Produk", action: "katalog" }
-            ];
-            addBotMessage(text, chips);
-            return;
-        }
 
         // Bug / Error / Kendala Intent
         if (lower.includes('bug') || lower.includes('error') || lower.includes('kendala') || lower.includes('rusak') || lower.includes('lapor')) {

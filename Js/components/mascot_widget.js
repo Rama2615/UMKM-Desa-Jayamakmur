@@ -136,7 +136,7 @@ export function initMascotWidget() {
             } else if (action === 'jasa') {
                 addMascotMsg(`💈 Butuh pelayanan atau jasa di Desa Jayamakmur? Seperti pangkas rambut dan sembako Madura 24 jam! <br><br><a href="Main page.html?category=Jasa" style="color:var(--accent-orange, #e65c00); font-weight:700;">Lihat Katalog Jasa &rarr;</a>`);
             } else if (action === 'maps') {
-                addMascotMsg(`📍 Ingin menelusuri lokasi UMKM secara langsung di peta wilayah Desa Jayamakmur? <br><br><a href="peta.html" style="color:var(--accent-orange, #e65c00); font-weight:700;">Buka Peta Desa Interaktif &rarr;</a>`);
+                addMascotMsg(`📍 Ingin menelusuri lokasi toko UMKM secara langsung? <br><br><a href="Main page.html" style="color:var(--accent-orange, #e65c00); font-weight:700;">Lihat Seluruh Katalog UMKM &rarr;</a>`);
             }
         });
     });
