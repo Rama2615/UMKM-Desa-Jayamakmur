@@ -843,18 +843,17 @@
     animation: float3D 4s ease-in-out infinite alternate;
 }
 
-.floating-3d-badge .badge-icon-img {
-    width: 24px;
-    height: 24px;
+.floating-3d-badge img {
+    width: 22px;
+    height: 22px;
     object-fit: contain;
     display: inline-block;
     vertical-align: middle;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease;
 }
 
-.floating-3d-badge:hover .badge-icon-img {
-    transform: scale(1.2) rotate(8deg);
+.floating-3d-badge:hover img {
+    transform: scale(1.18) rotate(6deg);
 }
 
 .floating-3d-badge:nth-child(1) { animation-delay: 0s; }
