@@ -38,10 +38,13 @@ function initScrollReveal() {
         document.querySelectorAll(selector).forEach((el, index) => {
             if (!el.classList.contains('smooth-reveal-visible')) {
                 el.classList.add('smooth-reveal');
-                // Stagger delay for adjacent grid items
                 const staggerClass = `smooth-reveal-delay-${(index % 4) + 1}`;
                 el.classList.add(staggerClass);
-                elementsToObserve.add(el);
+                if (el.id === 'umkmContainer' || el.classList.contains('card-umkm') || el.closest('#umkmContainer')) {
+                    el.classList.add('smooth-reveal-visible');
+                } else {
+                    elementsToObserve.add(el);
+                }
             }
         });
     });
@@ -72,7 +75,7 @@ function initScrollReveal() {
                         cards.forEach((card, index) => {
                             card.classList.add('smooth-reveal');
                             card.classList.add(`smooth-reveal-delay-${(index % 4) + 1}`);
-                            revealObserver.observe(card);
+                            card.classList.add('smooth-reveal-visible');
                         });
                     }
                 });
