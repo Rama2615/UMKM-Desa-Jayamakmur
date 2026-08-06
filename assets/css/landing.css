@@ -828,19 +828,51 @@
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: #ffffff;
-    padding: 10px 22px;
+    padding: 8px 20px 8px 14px;
     border-radius: 30px;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     transform-style: preserve-3d;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
     text-decoration: none;
     animation: float3D 4s ease-in-out infinite alternate;
+}
+
+.badge-icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, background 0.3s ease;
+    flex-shrink: 0;
+}
+
+.floating-3d-badge:hover .badge-icon-box {
+    transform: scale(1.15) rotate(8deg);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.floating-3d-badge .badge-icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
+}
+
+.floating-3d-badge .badge-icon-svg {
+    stroke: #ffffff;
+    display: block;
 }
 
 .floating-3d-badge:nth-child(1) { animation-delay: 0s; }

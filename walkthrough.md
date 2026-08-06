@@ -1,27 +1,22 @@
-# Walkthrough: Perbaikan Tata Letak Navbar Lebar Penuh (`100% Width`) & Posisi Logo Ujung Kiri
+# Walkthrough: Pembersihan Kata "(Manusia)" dari Tombol JayaBot CS
 
-Telah dilakukan penataan ulang layout navbar ([global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css)) agar logo `Header Wajib.png` mentok di sudut paling kiri dan seluruh menu navigasi memiliki ruang yang sangat lega tanpa berhimpitan atau turun baris.
+Sesuai instruksi pengguna, kata **"(Manusia)"** pada tombol cepat dan teks balasan JayaBot Customer Service Widget ([cs_bot.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/components/cs_bot.js)) telah **dihapus dan dibersihkan**.
 
 ---
 
-## 🛠️ Perubahan yang Dilakukan ([global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css))
+## 🛠️ Perubahan yang Dilakukan ([cs_bot.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/components/cs_bot.js))
 
-1. **Membuat Container Navbar Lebar Penuh (`width: 100%`)**:
-   - Mengubah `.navbar-container` dari `max-width: 1300px` (dengan margin tengah) menjadi **`width: 100%; max-width: 100%;`**.
-   - Logo otomatis terdorong **mentok di ujung pojok kiri layar** (`padding: 8px 24px`), sedangkan seluruh menu navigasi terdorong **mentok di ujung kanan**.
-
-2. **Proporsi Ukuran Logo Ideal**:
-   - Mengatur tinggi logo `Header Wajib.png` menjadi `48px` (dengan `max-height: 52px`).
-   - Proporsi rasio lebar logo kini sangat pas, jernih, dan tidak memakan terlalu banyak ruang horizontal.
-
-3. **Merapikan Menu Navigasi (`.navbar-links` & `.nav-link`)**:
-   - Menambahkan `flex-wrap: nowrap` dan `white-space: nowrap` agar menu navigasi tidak akan pernah turun baris atau tertekuk.
-   - Menyesuaikan *padding* item navigasi menjadi `8px 14px` sehingga seluruh tombol (Beranda, Katalog, Tentang Kami, Layanan Bantuan, Admin, Dashboard, Keluar, Mode Gelap) tampil lega dan sejajar sempurna.
+1. **Perubahan Teks Tombol Cepat**:
+   - `👤 Bicara dengan Admin (Manusia)` ➔ **`👤 Bicara dengan Admin`**
+   - `👤 Hubungi Admin (Manusia)` ➔ **`👤 Hubungi Admin`**
+2. **Penyaringan Otomatis pada `sessionStorage`**:
+   - Menambahkan pembersihan otomatis di `getChatHistory()` sehingga jika ada riwayat percakapan lama di browser yang mengandung kata `(Manusia)`, teks tersebut akan otomatis **dihapus dan dirapikan**.
+3. **Pembersihan Teks Balasan Bot**:
+   - Menghapus frasa `(Manusia)` dari seluruh teks balasan JayaBot dan header kartu transfer WhatsApp.
 
 ---
 
 ## 🧪 Hasil Verifikasi
 
-- Logo header mentok rapi di sudut kiri layar.
-- Menu navigasi berada di kanan dengan spasi antar-tombol yang lega dan tidak bertumpukan.
-- Tampilan navbar di semua halaman terlihat jauh lebih luas, bersih, dan profesional.
+- Tombol cepat JayaBot kini tampil lebih rapi dan bersih: `👤 Bicara dengan Admin`.
+- Tidak ada kata `(Manusia)` yang tampil pada widget CS di seluruh halaman website.

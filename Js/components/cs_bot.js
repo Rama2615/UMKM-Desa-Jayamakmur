@@ -46,7 +46,7 @@ export function initCsBotWidget() {
                     </div>
                 </div>
                 <div class="cs-header-actions">
-                    <button type="button" id="csBtnConnectAdmin" class="cs-action-btn" title="Bicara dengan Admin Manusia 👤">
+                    <button type="button" id="csBtnConnectAdmin" class="cs-action-btn" title="Bicara dengan Admin 👤">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
@@ -168,8 +168,6 @@ function setupCsWidgetLogic() {
                     processUserIntent("daftar umkm");
                 } else if (action === 'bug') {
                     processUserIntent("laporkan bug");
-                } else if (action === 'peta') {
-                    processUserIntent("peta lokasi");
                 } else {
                     processUserIntent(text);
                 }
@@ -180,7 +178,27 @@ function setupCsWidgetLogic() {
 
 // Memory / Session Storage
 function getChatHistory() {
-    return JSON.parse(sessionStorage.getItem('digijaya_cs_history')) || [];
+    let history = JSON.parse(sessionStorage.getItem('digijaya_cs_history')) || [];
+    if (Array.isArray(history)) {
+        let modified = false;
+        history.forEach(msg => {
+            if (msg.chips && Array.isArray(msg.chips)) {
+                const initialLen = msg.chips.length;
+                msg.chips = msg.chips.filter(c => c.action !== 'peta' && !(c.text || '').toLowerCase().includes('peta'));
+                msg.chips.forEach(c => {
+                    if (c.text && c.text.includes('(Manusia)')) {
+                        c.text = c.text.replace(/\s*\(Manusia\)/g, '');
+                        modified = true;
+                    }
+                });
+                if (msg.chips.length !== initialLen) modified = true;
+            }
+        });
+        if (modified) {
+            sessionStorage.setItem('digijaya_cs_history', JSON.stringify(history));
+        }
+    }
+    return history;
 }
 
 function saveChatHistory(messages) {
@@ -209,7 +227,7 @@ function sendBotGreeting() {
         { text: "🛍️ Cari Produk Katalog", action: "katalog" },
         { text: "🏪 Cara Daftar UMKM", action: "daftar" },
         { text: "🐛 Laporkan Bug / Kendala", action: "bug" },
-        { text: "👤 Bicara dengan Admin (Manusia)", action: "admin_handoff" }
+        { text: "👤 Bicara dengan Admin", action: "admin_handoff" }
     ];
     addBotMessage(greetingText, chips);
 }
@@ -243,7 +261,7 @@ function renderMessagesFromHistory() {
             handoffCardHtml = `
                 <div class="cs-handoff-card">
                     <div class="cs-handoff-header">
-                        <span>👤</span> Transfer ke Admin Manusia (Orang Asli)
+                        <span>👤</span> Transfer ke Admin Desa
                     </div>
                     <p class="cs-handoff-desc">Pertanyaan Anda memerlukan penanganan langsung dari Admin Pengelola Desa Jayamakmur.</p>
                     <a href="${waUrl}" target="_blank" class="cs-btn-connect-wa">
@@ -325,11 +343,11 @@ function processUserIntent(userText) {
         }
 
         // Default Response with Helpful Chips
-        const text = "Terima kasih telah bertanya! Saya dapat membantu Anda seputar katalog produk, peta desa, atau menghubungkan Anda dengan **Admin Manusia** jika membutuhkan bantuan khusus.";
+        const text = "Terima kasih telah bertanya! Saya dapat membantu Anda seputar katalog produk, cara pendaftaran UMKM, atau menghubungkan Anda dengan **Admin Desa** jika membutuhkan bantuan khusus.";
         const chips = [
             { text: "🛍️ Katalog Produk", action: "katalog" },
             { text: "🏪 Cara Daftar UMKM", action: "daftar" },
-            { text: "👤 Hubungi Admin (Manusia)", action: "admin_handoff" }
+            { text: "👤 Hubungi Admin", action: "admin_handoff" }
         ];
         addBotMessage(text, chips);
 
@@ -338,7 +356,7 @@ function processUserIntent(userText) {
 
 // Transfer ke Admin Orang Asli
 function triggerHumanAdminTransfer(userContext = '') {
-    const text = "Tentu! Saya akan menghubungkan Anda secara langsung dengan **Admin Customer Service (Manusia)** Desa Jayamakmur.\n\nSilakan klik tombol hijau di bawah ini untuk membuka percakapan WhatsApp dengan Admin resmi kami:";
+    const text = "Tentu! Saya akan menghubungkan Anda secara langsung dengan **Admin Customer Service** Desa Jayamakmur.\n\nSilakan klik tombol hijau di bawah ini untuk membuka percakapan WhatsApp dengan Admin resmi kami:";
     addBotMessage(text, [], true, userContext);
 }
 
