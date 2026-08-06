@@ -1,23 +1,22 @@
-# Walkthrough: Penyesuaian Penomoran Urut Tabel Dashboard Admin (`1, 2, 3...`)
+# Walkthrough: Pembesaran & Penyesuaian Logo Header Navbar (`Header Wajib.png`)
 
-Sesuai instruksi pengguna, kolom nomor pada tabel Dashboard Admin ([admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)) kini telah diubah dari menampilkan ID Database fisik menjadi **penomoran urut tampilan (`#1`, `#2`, `#3`, dst.)** yang dinamis.
+Sesuai instruksi pengguna, logo header pada navbar ([global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css)) telah **diperbesar secara maksimal dan dirapatkan penuh ke pojok kiri navbar**.
 
 ---
 
-## 🛠️ Perubahan yang Dilakukan
+## 🛠️ Perubahan yang Dilakukan ([global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css))
 
-1. **[admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)**:
-   - Mengubah judul header kolom pertama tabel dari `ID` menjadi **`NO.`**.
+1. **Pembesaran Ukuran Logo (`.navbar-kkn-logo`)**:
+   - Mengubah tinggi logo dari `48px` menjadi **`68px`** sehingga terlihat gagah, jelas, dan menonjol.
+   - Menyesuaikan *padding* menjadi `4px 12px` dan *border-radius* menjadi `12px`.
 
-2. **[admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js)**:
-   - Mengubah render kolom pertama menggunakan kalkulasi indeks baris aktif (`startIndex + index + 1`).
-   - Jika ada data yang dihapus, penomoran pada tabel akan **otomatis menyesuaikan secara urut kembali** (`#1, #2, #3, ...`).
-   - Tombol Edit (`btn-edit`) dan Hapus (`btn-hapus`) tetap menggunakan `data-id="${item.id}"` (ID Database asli) untuk menjamin keakuratan operasi database ke Supabase.
+2. **Perapatan ke Pojok Kiri (`.navbar-container` & `.navbar-logo`)**:
+   - Mengubah *max-width* container navbar dari `1200px` menjadi `1300px`.
+   - Mengurangi *padding-left* container navbar dan menambahkan `margin-left: -6px` pada logo agar gambar terdorong rapat hingga ke sudut pojok kiri navbar.
 
 ---
 
 ## 🧪 Hasil Verifikasi
 
-- Tabel Dashboard Admin kini menampilkan urutan nomor yang rapi dan terurut mulai dari `#1`, `#2`, `#3` sampai akhir halaman.
-- Saat ada data toko yang dihapus, nomor urut pada tabel otomatis mengurutkan ulang dengan rapi tanpa lubang nomor (*no gaps*).
-- Fungsi Edit dan Hapus tetap berjalan 100% presisi menyasar data di Supabase Cloud.
+- Logo header (`Header Wajib.png`) kini berukuran besar, tajam, dan memenuhi area pojok kiri navbar di seluruh halaman website.
+- Tampilan navbar tetap responsif dan seimbang dengan tombol-tombol navigasi di sebelah kanan.

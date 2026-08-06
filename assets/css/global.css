@@ -227,16 +227,16 @@ img.img-loaded {
 }
 
 .navbar-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 24px;
+    padding: 8px 16px;
 }
 
 .navbar-logo {
-    font-size: 1.5rem;
+    font-size: 1.65rem;
     font-weight: 800;
     color: var(--primary-teal);
     text-decoration: none;
@@ -245,6 +245,7 @@ img.img-loaded {
     gap: 12px;
     letter-spacing: -0.5px;
     transition: transform 0.2s ease;
+    margin-left: -6px;
 }
 
 .navbar-logo .logo-accent {
@@ -256,21 +257,21 @@ img.img-loaded {
 }
 
 .navbar-kkn-logo {
-    height: 48px;
+    height: 68px;
     width: auto;
     object-fit: contain;
     background: #ffffff;
-    padding: 4px 8px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
     transition: all 0.25s ease;
 }
 
 .navbar-logo:hover .navbar-kkn-logo {
-    transform: scale(1.06);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-links {
