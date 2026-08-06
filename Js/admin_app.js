@@ -77,11 +77,12 @@ function renderTable() {
     const endIndex = startIndex + itemsPerPage;
     const paginatedItems = filteredData.slice(startIndex, endIndex);
 
-    paginatedItems.forEach(item => {
+    paginatedItems.forEach((item, index) => {
+        const displayNo = startIndex + index + 1;
         const row = document.createElement('tr');
         const imgPath = getImagePath(item.gambar);
         row.innerHTML = `
-            <td><strong>#${item.id}</strong></td>
+            <td><strong>#${displayNo}</strong></td>
             <td>
                 <img src="${imgPath}" alt="${item.nama}" class="db-img-thumb" onerror="this.src='https://placehold.co/50x50?text=Logo'">
             </td>
