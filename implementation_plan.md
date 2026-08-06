@@ -1,69 +1,54 @@
-# Rencana Implementasi: Halaman Layanan Bantuan & Laporan Bug
+# Rencana Implementasi: Sistem Customer Service AI & Handoff Admin
 
-Rencana ini bertujuan untuk membuat halaman **Layanan Bantuan & Laporan Bug** (`bantuan.html`) resmi platform **DigiJaya**. Pengguna dapat melaporkan bug/kendala teknis, menyertakan deskripsi jelas, melampirkan tangkapan layar (screenshot/gambar bug), serta melihat FAQ (Pertanyaan yang Sering Diajukan).
+Rencana ini bertujuan untuk membangun **Sistem Customer Service (CS)** interaktif berbasis **AI Assistant Mascot Widget (JayaBot)** yang melayani pengunjung secara otomatis 24/7 dan dapat melakukan **transfer / handoff secara langsung ke Admin Asli (Manusia)** via WhatsApp / Tiket Laporan jika dibutuhkan.
 
 ---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> **Fitur Utama Halaman Layanan Bantuan (`bantuan.html`):**
-> 1. **Formulir Laporan Bug & Kendala**:
->    - **Nama & Kontak**: Nama lengkap dan email/WhatsApp pelapor untuk tindak lanjut.
->    - **Kategori Kendala**: Pilihan kategori (e.g. *Bug/Error Website*, *Data UMKM Salah*, *Kendala Tampilan*, *Saran/Masukan*).
->    - **Judul & Detail Kendala**: Input teks deskriptif untuk menjelaskan masalah secara rinci.
->    - **Unggah Bukti Gambar Bug**: Fitur *drag-and-drop* & upload foto dengan **pratinjau langsung (live image preview)** sebelum dikirim.
-> 2. **Sistem Notifikasi & Bukti Laporan (Nomor Tiket)**:
->    - Pengiriman laporan menghasilkan **Nomor Tiket Laporan** (contoh: `#TICKET-2026-X89A`) yang disimpan secara lokal / database untuk referensi pengguna.
-> 3. **Pusat FAQ Interaktif (Accordion)**:
->    - Jawaban cepat untuk masalah umum yang sering dihadapi pengguna tanpa harus mengirim tiket.
-> 4. **Navigasi & Mode Gelap/Terang**:
->    - Terintegrasi penuh dengan Navbar utama, Footer, dan Sistem Tema (`theme.js`).
+> **Alur Kerja Sistem Customer Service (CS):**
+> 1. **Floating CS Widget Interaktif (Pojok Kanan Bawah)**:
+>    - Maskot/Bot dengan badge status *"Online 24/7 🟢"*.
+>    - Gelembung sapaan otomatis saat pengunjung pertama kali membuka website (*"Halo! Ada yang bisa JayaBot bantu? 👋"*).
+> 2. **AI Customer Service Assistant (JayaBot)**:
+>    - Menjawab pertanyaan umum (Pencarian Katalog, Cara Daftar UMKM, Peta Desa, Informasi Produk, Laporan Bug).
+>    - Dilengkapi *Quick Suggestion Chips* (Tombol Pilihan Cepat) agar pengguna dapat memilih topik tanpa mengetik.
+> 3. **Eskalasi / Handoff ke Admin Asli (Orang/Manusia)**:
+>    - Pengguna dapat mengetik *"hubungi admin"*, *"bicara dengan orang asli"*, atau mengklik tombol **"Bicara dengan Admin Manusia 👤"**.
+>    - AI Bot akan merangkum topik pembicaraan dan mengarahkan langsung ke **WhatsApp Hotline Admin Resmi Desa** dengan pesan terformat otomatis atau mengarahkan ke pembuatan tiket di `bantuan.html`.
 
 ---
 
 ## Proposed Changes
 
-### 1. Halaman HTML Baru
-#### [NEW] [bantuan.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/bantuan.html)
-- Membuat struktur halaman Layanan Bantuan lengkap dengan Navbar, Hero Banner, Form Laporan Bug + Image Preview, FAQ Accordion, dan Footer.
+### 1. Komponen Widget Customer Service (JS & SVG)
+#### [NEW] [cs_bot.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/components/cs_bot.js)
+- Membuat modul `CsBotWidget` yang mengelola UI obrolan (*chat window*), simulasi balasan AI pintar dengan animasi mengetik (*typing animation*), pengenalan kata kunci (*intent recognition*), serta sistem transfer ke Admin WhatsApp.
 
 ---
 
-### 2. Styling & Layout CSS
-#### [NEW] [bantuan.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/bantuan.css)
-- Mendesain form laporan dengan gaya *glassmorphism*, uploader gambar interaktif, *preview box*, tombol *submit* beranimasi, serta FAQ *accordion* yang responsif pada layar HP dan Desktop.
+### 2. Styling CSS Widget CS
+#### [NEW] [cs_bot.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/cs_bot.css)
+- Mendesain jendela obrolan (*chat window*) bergaya *glassmorphism* modern, animasi gelembung percakapan, indikator status online, tombol *suggestion chips*, dan jendela transfer admin yang responsif di HP & Laptop.
 
 ---
 
-### 3. Logic JavaScript
-#### [NEW] [bantuan_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/bantuan_app.js)
-- Menangani *preview* gambar yang diunggah secara instan (`FileReader` / Base64).
-- Menangani validasi formulir dan generasi Nomor Tiket Laporan.
-- Menangani interaksi accordion FAQ.
-- Menautkan halaman `bantuan.html` ke navigasi di `index.html`, `Main page.html`, dan `tentang.html`.
-
----
-
-### 4. Pembaharuan Navigasi Header di Halaman Lain
-#### [MODIFY] [index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html)
-#### [MODIFY] [Main page.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main%20page.html)
-#### [MODIFY] [tentang.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/tentang.html)
-- Menambahkan tautan **Layanan Bantuan** pada menu navigasi utama agar pengguna dapat mengaksesnya dari halaman mana saja.
+### 3. Integrasi Global pada Seluruh Halaman
+#### [MODIFY] [global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css) / [navbar.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/navbar.js)
+- Mengimpor dan mengaktifkan `initCsBotWidget()` secara global agar widget Customer Service selalu aktif di seluruh halaman website (`index.html`, `Main page.html`, `tentang.html`, `peta.html`, `bantuan.html`, `Detail produk.html`).
 
 ---
 
 ## Verification Plan
 
 ### Manual Verification
-1. **Pengujian Unggah & Live Preview Gambar Bug**:
-   - Pilih/Upload file foto bug (JPG/PNG).
-   - Memastikan foto langsung tampil pada area *preview* beserta tombol hapus foto.
-2. **Pengujian Pengiriman Form Laporan**:
-   - Isi seluruh field form dan klik **Kirim Laporan Kendala**.
-   - Memastikan modal sukses / notifikasi tiket muncul dengan nomor referensi unik.
-3. **Pengujian Accordion FAQ**:
-   - Klik pertanyaan pada FAQ $\rightarrow$ Memastikan jawaban terbuka/tertutup dengan animasi halus.
-4. **Pengujian Responsivitas & Mode Gelap**:
-   - Memeriksa tampilan di layar smartphone/HP dan desktop PC.
-   - Menguji peralihan Mode Terang & Gelap.
+1. **Pengujian Chat AI & Intent Recognition**:
+   - Ketik *"bagaimana cara cari produk"* $\rightarrow$ Pastikan AI Bot merespons dengan panduan pencarian katalog + tombol link langsung.
+   - Ketik *"cara mendaftar toko"* $\rightarrow$ Pastikan AI Bot menjelaskan alur pendaftaran UMKM.
+2. **Pengujian Transfer / Handoff ke Admin Manusia**:
+   - Klik tombol **"Bicara dengan Admin Manusia 👤"** atau ketik *"hubungi admin"*.
+   - Memastikan AI Bot menampilkan kartu konfirmasi eskalasi dengan tombol **Buka WhatsApp Admin** (yang otomatis memuat isi teks pesan ke nomor admin).
+3. **Pengujian UI & Responsivitas**:
+   - Uji widget mengambang di pojok kanan bawah di PC dan Smartphone (HP).
+   - Uji peralihan Mode Gelap dan Terang.
