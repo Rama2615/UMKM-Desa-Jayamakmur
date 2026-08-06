@@ -1,5 +1,6 @@
 import { UmkmService } from './Services/umkm_services.js';
 import { initSmoothEffects } from './smooth_effects.js';
+import { initMascotWidget } from './components/mascot_widget.js';
 
 export async function updateNavbar() {
     const role = localStorage.getItem('user_role');
@@ -132,9 +133,11 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         updateNavbar();
         initSmoothEffects();
+        initMascotWidget();
     });
 } else {
     updateNavbar();
     initSmoothEffects();
+    initMascotWidget();
 }
 

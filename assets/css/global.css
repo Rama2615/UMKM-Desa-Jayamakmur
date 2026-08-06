@@ -740,4 +740,271 @@ footer {
     }
 }
 
+/* ==========================================================================
+   WIDGET ASISTEN MASKOT DIGITAL SI JAYA 🌾🤖
+   ========================================================================== */
+.mascot-floating-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 50%, #e65c00 100%);
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 30px rgba(13, 148, 136, 0.4), 0 4px 12px rgba(230, 92, 0, 0.3);
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.mascot-floating-btn:hover {
+    transform: scale(1.12) rotate(4deg);
+    box-shadow: 0 16px 40px rgba(13, 148, 136, 0.5), 0 6px 20px rgba(230, 92, 0, 0.4);
+}
+
+.mascot-avatar-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.mascot-icon-emoji {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.mascot-online-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #22c55e;
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.mascot-speech-bubble {
+    position: fixed;
+    bottom: 102px;
+    right: 28px;
+    background: var(--card-bg, #ffffff);
+    color: var(--text-dark, #0f172a);
+    padding: 12px 18px;
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.15), 0 0 0 1px rgba(45,212,191,0.2);
+    z-index: 9998;
+    max-width: 240px;
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 0.88rem;
+    line-height: 1.4;
+}
+
+.mascot-speech-bubble.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.mascot-speech-bubble small {
+    display: block;
+    color: var(--accent-orange, #e65c00);
+    font-weight: 700;
+    margin-top: 4px;
+    font-size: 0.78rem;
+}
+
+/* Modal Asisten Si Jaya */
+.mascot-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.mascot-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mascot-modal-card {
+    width: 100%;
+    max-width: 400px;
+    height: 520px;
+    background: var(--card-bg, #ffffff);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(45,212,191,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mascot-modal-overlay.active .mascot-modal-card {
+    transform: translateY(0) scale(1);
+}
+
+.mascot-modal-header {
+    background: linear-gradient(135deg, #1c2732 0%, #0d9488 100%);
+    color: white;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mascot-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mascot-avatar-lg {
+    font-size: 2.2rem;
+    background: rgba(255,255,255,0.15);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(45,212,191,0.5);
+}
+
+.mascot-name {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.mascot-tag {
+    font-size: 0.7rem;
+    background: var(--accent-orange, #e65c00);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.mascot-status {
+    font-size: 0.78rem;
+    color: #2dd4bf;
+    margin: 2px 0 0 0;
+    font-weight: 600;
+}
+
+.mascot-close-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.mascot-close-btn:hover {
+    background: rgba(230, 92, 0, 0.8);
+}
+
+.mascot-modal-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: var(--bg-light, #f8fafc);
+}
+
+.mascot-dialog-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.mascot-msg {
+    max-width: 88%;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.mascot-msg.bot p {
+    background: var(--card-bg, #ffffff);
+    color: var(--text-dark, #0f172a);
+    padding: 14px 16px;
+    border-radius: 18px 18px 18px 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(45,212,191,0.2);
+    margin: 0;
+}
+
+.mascot-quick-chips {
+    padding: 14px 16px;
+    background: var(--card-bg, #ffffff);
+    border-top: 1px solid var(--border-color, #e2e8f0);
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.mascot-quick-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.chip-btn {
+    white-space: nowrap;
+    background: rgba(45,212,191,0.1);
+    color: var(--text-dark, #0f172a);
+    border: 1px solid rgba(45,212,191,0.3);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chip-btn:hover {
+    background: var(--accent-orange, #e65c00);
+    color: white;
+    border-color: var(--accent-orange, #e65c00);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 550px) {
+    .mascot-modal-overlay {
+        padding: 0;
+    }
+    .mascot-modal-card {
+        max-width: 100%;
+        height: 80vh;
+        border-radius: 28px 28px 0 0;
+    }
+}
+
 
