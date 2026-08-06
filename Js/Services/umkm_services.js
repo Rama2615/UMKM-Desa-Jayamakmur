@@ -151,15 +151,17 @@ export class UmkmService {
                 }
 
                 if (Array.isArray(cloudData) && cloudData.length > 0) {
-                    const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
+                    const serializeItem = (i) => `${i.id}_${i.nama}_${i.whatsapp || ''}_${i.kategori}_${i.alamat || ''}_${i.gambar || ''}`;
+                    const currentSerialized = JSON.stringify(this.daftarUmkm.map(serializeItem));
                     
                     // Supabase Cloud adalah Single Source of Truth
-                    this.daftarUmkm = cloudData.map(item => new Umkm({
+                    const newCloudItems = cloudData.map(item => new Umkm({
                         ...item,
                         mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
                     }));
                     
-                    const newSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
+                    const newSerialized = JSON.stringify(newCloudItems.map(serializeItem));
+                    this.daftarUmkm = newCloudItems;
                     this.saveToLocalStorage();
 
                     if (currentSerialized !== newSerialized) {
@@ -185,14 +187,17 @@ export class UmkmService {
                 if (response.ok) {
                     const cloudData = await response.json();
                     if (Array.isArray(cloudData)) {
-                        const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
-                        const newSerialized = JSON.stringify(cloudData.map(i => String(i.id) + String(i.nama)));
+                        const serializeItem = (i) => `${i.id}_${i.nama}_${i.whatsapp || ''}_${i.kategori}_${i.alamat || ''}_${i.gambar || ''}`;
+                        const currentSerialized = JSON.stringify(this.daftarUmkm.map(serializeItem));
+                        
+                        const newCloudItems = cloudData.map(item => new Umkm({
+                            ...item,
+                            mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
+                        }));
+                        const newSerialized = JSON.stringify(newCloudItems.map(serializeItem));
                         
                         if (currentSerialized !== newSerialized) {
-                            this.daftarUmkm = cloudData.map(item => new Umkm({
-                                ...item,
-                                mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
-                            }));
+                            this.daftarUmkm = newCloudItems;
                             this.saveToLocalStorage();
                         }
                     }
@@ -209,7 +214,7 @@ export class UmkmService {
 
     getUmkmById(id) {
         const numericId = Number(id);
-        return this.daftarUmkm.find(item => item.id === numericId || item.id === id) || null;
+        return this.daftarUmkm.find(item => Number(item.id) === numericId || String(item.id) === String(id)) || null;
     }
 
     getFilteredUmkm(keyword = '', selectedCategory = '', sortBy = 'nama-asc') {
@@ -261,7 +266,7 @@ export class UmkmService {
             nama: umkmData.nama || '',
             kategori: umkmData.kategori || 'Kuliner',
             deskripsi: umkmData.deskripsi || '',
-            whatsapp: umkmData.whatsapp || '',
+            whatsapp: umkmData.whatsapp !== undefined ? umkmData.whatsapp : '',
             gambar: umkmData.gambar || 'placeholder.jpg',
             galeri: umkmData.galeri || [],
             alamat: umkmData.alamat || '',
@@ -308,31 +313,47 @@ export class UmkmService {
     async updateUmkm(id, updatedData) {
         const numericId = Number(id);
 
+        const payload = {
+            nama: updatedData.nama !== undefined ? updatedData.nama : '',
+            kategori: updatedData.kategori !== undefined ? updatedData.kategori : 'Kuliner',
+            deskripsi: updatedData.deskripsi !== undefined ? updatedData.deskripsi : '',
+            whatsapp: updatedData.whatsapp !== undefined ? updatedData.whatsapp : '',
+            gambar: updatedData.gambar !== undefined ? updatedData.gambar : 'placeholder.jpg',
+            galeri: Array.isArray(updatedData.galeri) ? updatedData.galeri : [],
+            alamat: updatedData.alamat !== undefined ? updatedData.alamat : '',
+            mapsurl: updatedData.mapsUrl || updatedData.mapsurl || '',
+            password: updatedData.password !== undefined ? updatedData.password : 'owner123'
+        };
+
         try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?id=eq.${id}`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?id=eq.${numericId || id}`, {
                 method: 'PATCH',
                 headers: this.getApiHeaders(true),
-                body: JSON.stringify(updatedData)
+                body: JSON.stringify(payload)
             });
 
             if (response.ok) {
                 const cloudRes = await response.json();
-                const updatedRecord = (cloudRes && cloudRes.length > 0) ? cloudRes[0] : updatedData;
-                const index = this.daftarUmkm.findIndex(item => item.id === numericId || item.id === id);
+                const updatedRecord = (cloudRes && cloudRes.length > 0) ? cloudRes[0] : { id: numericId || id, ...payload };
+                const index = this.daftarUmkm.findIndex(item => Number(item.id) === numericId || String(item.id) === String(id));
                 if (index !== -1) {
-                    this.daftarUmkm[index] = new Umkm(updatedRecord);
+                    this.daftarUmkm[index] = new Umkm({
+                        ...updatedRecord,
+                        mapsUrl: updatedRecord.mapsUrl || updatedRecord.mapsurl || payload.mapsurl
+                    });
                     this.saveToLocalStorage();
                     return this.daftarUmkm[index];
                 }
             } else {
-                console.error("Supabase REST API Update Error:", response.status);
+                const errTxt = await response.text();
+                console.error("Supabase REST API Update Error:", response.status, errTxt);
             }
         } catch (err) {
             console.error("Gagal update ke Supabase REST API:", err);
         }
 
         // Fallback Lokal
-        const index = this.daftarUmkm.findIndex(item => item.id === numericId || item.id === id);
+        const index = this.daftarUmkm.findIndex(item => Number(item.id) === numericId || String(item.id) === String(id));
         if (index !== -1) {
             const current = this.daftarUmkm[index];
             this.daftarUmkm[index] = new Umkm({

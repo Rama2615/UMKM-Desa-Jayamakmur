@@ -1,42 +1,33 @@
-# Walkthrough: Perbaikan Bug Reset Data / Database Swapping Saat Hapus UMKM
+# Walkthrough: Perbaikan Bug Edit Nomor WhatsApp / Data Bidang
 
-Telah dilakukan penelusuran mendalam (*root cause analysis*) dan pembenahan penuh pada skrip layanan database ([umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js)).
-
----
-
-## 🔍 Akar Masalah (*Root Causes Identified*)
-
-1. **Re-Seeding Otomatis Paksa (`pushAllLocalToCloud`)**:
-   - Sebelumnya, jika jumlah baris di Supabase Cloud berkurang menjadi kurang dari 20 (karena ada UMKM yang dihapus), skrip latar belakang mendeteksi `cloudData.length < 20` dan **otomatis men-upload ulang seluruh 20 data awal dari file JSON ke Supabase**.
-   - Hal ini membuat data yang baru saja dihapus kembali muncul secara tiba-tiba.
-
-2. **Pengubahan ID Lokal (`reindexUmkm()`)**:
-   - Ketika data #1 dihapus, fungsi `reindexUmkm()` mengubah ID lokal data #2 menjadi #1, #3 menjadi #2, dan seterusnya.
-   - Namun ID di Supabase Cloud **tidak berubah**. Akibatnya, saat Admin menekan tombol Hapus pada toko baris berikutnya, sistem mengirim ID yang salah ke Supabase sehingga data toko lain yang terhapus/tertukar.
-
-3. **Smart Merge yang Mengembalikan Data Terhapus**:
-   - Fungsi sinkronisasi memetakan kembali `baseItems` dari `umkm.json` bahkan jika baris tersebut sudah secara sah dihapus dari Supabase.
+Telah berhasil ditelusuri dan diperbaiki masalah pada saat mengedit data toko (seperti menghapus nomor WhatsApp) yang sebelumnya muncul notifikasi berhasil namun nilainya kembali ke data lama.
 
 ---
 
-## 🛠️ Perubahan & Solusi yang Diterapkan
+## 🔍 Akar Masalah (*Root Cause*)
 
-1. **Menjadikan Supabase Cloud sebagai Single Source of Truth ([umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js))**:
-   - Menghapus logika re-seeding otomatis saat jumlah data < 20.
-   - Re-seeding hanya terjadi **sekali** jika tabel Supabase benar-benar kosong (0 baris).
-   - Sinkronisasi kini langsung merefleksikan status tabel Supabase secara presisi.
+1. **Serialisasi Pembanding Terbatas (`id + nama`)**:
+   - Skrip sinkronisasi background sebelumnya hanya membandingkan penggabungan string `id` dan `nama`.
+   - Ketika nomor WhatsApp (atau alamat/deskripsi) diubah/dikosongkan, hasil pembanding `id + nama` **dianggap tidak berubah** oleh skrip background sync, sehingga perubahan field tersebut diabaikan atau ditimpa oleh skrip polling.
 
-2. **Menghapus Total `reindexUmkm()`**:
-   - ID tiap UMKM kini bersifat stabil (*immutable*) sesuai Primary Key dari database Supabase (`id: 1, 2, 3, 4, ...`).
-   - Tidak ada lagi penggeseran ID lokal yang menyebabkan salah target hapus/edit.
+2. **Payload REST API & Normalisasi ID**:
+   - `updateUmkm()` sebelumnya mengirimkan objek mentah ke Supabase tanpa penyamaan format field standar (`mapsurl`) dan tanpa pemisahan kondisi nilai `undefined` vs string kosong `""`.
 
-3. **Menyempurnakan `deleteUmkm(id)`**:
-   - Mengirim request `DELETE /rest/v1/umkms?id=eq.${id}` langsung ke Supabase REST API.
-   - Menyaring data lokal dan menyimpannya ke `localStorage` tanpa mengganggu ID baris lain.
+---
+
+## 🛠️ Solusi yang Diterapkan ([umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js))
+
+1. **Pemeriksaan Perubahan Berbasis Seluruh Field (`serializeItem`)**:
+   - Mengubah fungsi pembanding serialisasi sync menjadi membandingkan seluruh atribut penting: `id`, `nama`, `whatsapp`, `kategori`, `alamat`, dan `gambar`.
+   - Setiap pengosongan atau pengubahan nomor WhatsApp kini **langsung terdeteksi 100% oleh skrip background sync**, disimpan ke `localStorage`, dan disiarkan real-time ke seluruh layar UI.
+
+2. **Penyempurnaan Payload `updateUmkm(id, updatedData)`**:
+   - Memastikan pengisian `whatsapp: ""` (string kosong saat dihapus) dikirimkan secara eksplisit dan valid ke Supabase REST API `PATCH /rest/v1/umkms?id=eq.${numericId}`.
+   - Menjamin pencarian index data lokal menggunakan tipe data yang kebal dari perbedaan *String vs Number*.
 
 ---
 
 ## 🧪 Hasil Verifikasi
 
-- Menghapus UMKM di Dashboard Admin kini **permanen** dan tidak akan memicu pemulihan data otomatis (*re-seeding*).
-- Menghapus 1 baris tidak menggeser ID baris lain, sehingga penghapusan baris berikutnya selalu akurat targetnya.
+- Mengosongkan atau mengubah nomor WhatsApp melalui form edit ([form_umkm.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/form_umkm.html)) kini **tersimpan permanen** di database Supabase Cloud maupun `localStorage`.
+- Tabel Dashboard Admin ([admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)) langsung menampilkan nomor WhatsApp yang telah dikosongkan secara akurat.
