@@ -57,41 +57,8 @@ async function initLanding() {
         }
     }
     
-    // 5. Inisialisasi Animasi Scroll Reveal & Mascot Interaktif
+    // 5. Inisialisasi Animasi Scroll Reveal
     initScrollReveal();
-    initMascotGuideInteractions();
-}
-
-function initMascotGuideInteractions() {
-    const btnHelpdesk = document.getElementById('btnHelpdeskBubble');
-    const helpdeskToast = document.getElementById('guideHelpdeskToast');
-    const btnCloseToast = document.getElementById('btnCloseHelpdeskToast');
-
-    if (!btnHelpdesk || !helpdeskToast) return;
-
-    let toastTimer = null;
-
-    function showToast() {
-        helpdeskToast.classList.add('active');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-            helpdeskToast.classList.remove('active');
-        }, 5000);
-    }
-
-    function hideToast() {
-        helpdeskToast.classList.remove('active');
-        if (toastTimer) clearTimeout(toastTimer);
-    }
-
-    btnHelpdesk.addEventListener('click', (e) => {
-        e.preventDefault();
-        showToast();
-    });
-
-    if (btnCloseToast) {
-        btnCloseToast.addEventListener('click', hideToast);
-    }
 }
 
 function animateCount(element, target) {
