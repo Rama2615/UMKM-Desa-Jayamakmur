@@ -1,28 +1,42 @@
-# Walkthrough: Penghapusan Tombol Manual (Sync 20 Data & Download umkm.json)
+# Walkthrough: Perbaikan Bug Reset Data / Database Swapping Saat Hapus UMKM
 
-Sesuai alur sistem terkini yang telah menggunakan **Supabase Cloud Database & BroadcastChannel Real-Time Auto-Sync**, tombol manual **"Sync 20 Data ke Cloud"** dan **"Download umkm.json"** pada Dashboard Admin (`admin.html`) sudah **tidak diperlukan (obsolete)** dan telah **dihapus bersih**.
-
----
-
-## 💡 Mengapa Tombol Ini Dihapus?
-
-1. **Otomatisasi Real-Time**: Setiap penambahan, pengeditan, atau penghapusan data UMKM di Dashboard Admin kini **langsung tersimpan otomatis di Supabase Cloud & LocalStorage** dan **langsung disiarkan secara real-time** ke seluruh tab halaman pembeli (Beranda, Katalog, Detail Produk).
-2. **Tidak Perlu Export/Sync Manual**: Pengelola/Admin tidak perlu lagi menekan tombol sync atau mengunduh file JSON secara manual untuk memperbarui website.
+Telah dilakukan penelusuran mendalam (*root cause analysis*) dan pembenahan penuh pada skrip layanan database ([umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js)).
 
 ---
 
-## 🛠️ Perubahan yang Dilakukan
+## 🔍 Akar Masalah (*Root Causes Identified*)
 
-1. **[admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)**:
-   - Menghapus tombol `#btnSyncCloud` dan `#btnExportJson` dari header banner Dashboard Admin.
-   - Menyisakan tombol utama **"➕ Tambah UMKM Baru"** yang bersih dan fokus.
+1. **Re-Seeding Otomatis Paksa (`pushAllLocalToCloud`)**:
+   - Sebelumnya, jika jumlah baris di Supabase Cloud berkurang menjadi kurang dari 20 (karena ada UMKM yang dihapus), skrip latar belakang mendeteksi `cloudData.length < 20` dan **otomatis men-upload ulang seluruh 20 data awal dari file JSON ke Supabase**.
+   - Hal ini membuat data yang baru saja dihapus kembali muncul secara tiba-tiba.
 
-2. **[admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js)**:
-   - Menghapus event listener dan fungsi penanganan ekspor file `umkm.json` serta tombol penyelarasan manual 20 data.
+2. **Pengubahan ID Lokal (`reindexUmkm()`)**:
+   - Ketika data #1 dihapus, fungsi `reindexUmkm()` mengubah ID lokal data #2 menjadi #1, #3 menjadi #2, dan seterusnya.
+   - Namun ID di Supabase Cloud **tidak berubah**. Akibatnya, saat Admin menekan tombol Hapus pada toko baris berikutnya, sistem mengirim ID yang salah ke Supabase sehingga data toko lain yang terhapus/tertukar.
+
+3. **Smart Merge yang Mengembalikan Data Terhapus**:
+   - Fungsi sinkronisasi memetakan kembali `baseItems` dari `umkm.json` bahkan jika baris tersebut sudah secara sah dihapus dari Supabase.
+
+---
+
+## 🛠️ Perubahan & Solusi yang Diterapkan
+
+1. **Menjadikan Supabase Cloud sebagai Single Source of Truth ([umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js))**:
+   - Menghapus logika re-seeding otomatis saat jumlah data < 20.
+   - Re-seeding hanya terjadi **sekali** jika tabel Supabase benar-benar kosong (0 baris).
+   - Sinkronisasi kini langsung merefleksikan status tabel Supabase secara presisi.
+
+2. **Menghapus Total `reindexUmkm()`**:
+   - ID tiap UMKM kini bersifat stabil (*immutable*) sesuai Primary Key dari database Supabase (`id: 1, 2, 3, 4, ...`).
+   - Tidak ada lagi penggeseran ID lokal yang menyebabkan salah target hapus/edit.
+
+3. **Menyempurnakan `deleteUmkm(id)`**:
+   - Mengirim request `DELETE /rest/v1/umkms?id=eq.${id}` langsung ke Supabase REST API.
+   - Menyaring data lokal dan menyimpannya ke `localStorage` tanpa mengganggu ID baris lain.
 
 ---
 
 ## 🧪 Hasil Verifikasi
 
-- Header Dashboard Admin ([admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)) kini tampak lebih bersih, profesional, dan tidak membingungkan pengelola.
-- Tidak ada error JavaScript di konsol browser saat membuka Dashboard Admin.
+- Menghapus UMKM di Dashboard Admin kini **permanen** dan tidak akan memicu pemulihan data otomatis (*re-seeding*).
+- Menghapus 1 baris tidak menggeser ID baris lain, sehingga penghapusan baris berikutnya selalu akurat targetnya.

@@ -48,7 +48,6 @@ export class UmkmService {
                     const parsed = JSON.parse(cachedData);
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         this.daftarUmkm = parsed.map(item => new Umkm(item));
-                        this.reindexUmkm();
                     }
                 } catch (e) {
                     console.error("Gagal membaca umkm_data dari localStorage:", e);
@@ -72,15 +71,16 @@ export class UmkmService {
                 } catch (error) {
                     this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
                 }
-                this.reindexUmkm();
                 this.saveToLocalStorage();
             }
 
             // 2. SINKRONKAN DENGAN SUPABASE CLOUD DI BACKGROUND
-            this.syncWithSupabaseDirect();
+            await this.syncWithSupabaseDirect();
         } catch (err) {
             console.error("Fail-safe fallback triggered:", err);
-            this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+            if (!this.daftarUmkm || this.daftarUmkm.length === 0) {
+                this.daftarUmkm = DUMMY_UMKM.map(item => new Umkm(item));
+            }
         }
 
         return this.daftarUmkm;
@@ -125,60 +125,40 @@ export class UmkmService {
             });
 
             if (response.ok) {
-                console.log("Berhasil men-sync data asli Database/umkm.json ke Supabase Cloud!");
+                console.log("Berhasil men-sync data awal ke Supabase Cloud!");
                 return true;
             }
         } catch (e) {
-            console.error("Gagal push data lokal ke cloud:", e);
+            console.error("Gagal push data awal ke cloud:", e);
         }
         return false;
     }
 
     async syncWithSupabaseDirect() {
         try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?select=*&order=nama.asc`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?select=*&order=id.asc`, {
                 method: 'GET',
                 headers: this.getApiHeaders()
             });
 
             if (response.ok) {
                 const cloudData = await response.json();
-                const baseItems = await this.fetchBaseJsonData();
 
-                // Jika data di Cloud masih kurang dari data json asli, otomatis seed data json resmi ke Cloud
-                if (!Array.isArray(cloudData) || cloudData.length < baseItems.length) {
+                // Hanya jika Supabase benar-benar KOSONG (0 baris), lakukan initial seed
+                if (Array.isArray(cloudData) && cloudData.length === 0 && (!this.daftarUmkm || this.daftarUmkm.length === 0)) {
                     await this.pushAllLocalToCloud();
+                    return;
                 }
 
                 if (Array.isArray(cloudData) && cloudData.length > 0) {
                     const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
-
-                    // SMART MERGE: Gabungkan data manual asli dari Database/umkm.json dengan data Cloud
-                    const cloudMap = new Map();
-                    cloudData.forEach(item => cloudMap.set(String(item.id), item));
-
-                    const mergedList = baseItems.map(baseItem => {
-                        const cloudItem = cloudMap.get(String(baseItem.id));
-                        if (cloudItem) {
-                            cloudMap.delete(String(baseItem.id));
-                            return new Umkm({
-                                ...baseItem,
-                                ...cloudItem,
-                                mapsUrl: cloudItem.mapsUrl || cloudItem.mapsurl || cloudItem.maps_url || baseItem.mapsUrl
-                            });
-                        }
-                        return new Umkm(baseItem);
-                    });
-
-                    // Tambahkan UMKM baru yang dibuat oleh admin di Cloud
-                    cloudMap.forEach(newCloudItem => {
-                        mergedList.push(new Umkm({
-                            ...newCloudItem,
-                            mapsUrl: newCloudItem.mapsUrl || newCloudItem.mapsurl || newCloudItem.maps_url
-                        }));
-                    });
-
-                    this.daftarUmkm = mergedList;
+                    
+                    // Supabase Cloud adalah Single Source of Truth
+                    this.daftarUmkm = cloudData.map(item => new Umkm({
+                        ...item,
+                        mapsUrl: item.mapsUrl || item.mapsurl || item.maps_url
+                    }));
+                    
                     const newSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
                     this.saveToLocalStorage();
 
@@ -198,15 +178,15 @@ export class UmkmService {
         if (window._umkmSyncInterval) return;
         window._umkmSyncInterval = setInterval(async () => {
             try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?select=*&order=nama.asc`, {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/umkms?select=*&order=id.asc`, {
                     method: 'GET',
                     headers: this.getApiHeaders()
                 });
                 if (response.ok) {
                     const cloudData = await response.json();
-                    if (Array.isArray(cloudData) && cloudData.length > 0) {
-                        const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => i.id + i.nama));
-                        const newSerialized = JSON.stringify(cloudData.map(i => i.id + i.nama));
+                    if (Array.isArray(cloudData)) {
+                        const currentSerialized = JSON.stringify(this.daftarUmkm.map(i => String(i.id) + String(i.nama)));
+                        const newSerialized = JSON.stringify(cloudData.map(i => String(i.id) + String(i.nama)));
                         
                         if (currentSerialized !== newSerialized) {
                             this.daftarUmkm = cloudData.map(item => new Umkm({
@@ -373,12 +353,6 @@ export class UmkmService {
         return null;
     }
 
-    reindexUmkm() {
-        this.daftarUmkm.forEach((item, index) => {
-            item.id = index + 1;
-        });
-    }
-
     async deleteUmkm(id) {
         const numericId = Number(id);
 
@@ -389,8 +363,7 @@ export class UmkmService {
             });
 
             if (response.ok) {
-                this.daftarUmkm = this.daftarUmkm.filter(item => item.id !== numericId && item.id !== id);
-                this.reindexUmkm();
+                this.daftarUmkm = this.daftarUmkm.filter(item => Number(item.id) !== numericId && String(item.id) !== String(id));
                 this.saveToLocalStorage();
                 return true;
             }
@@ -400,9 +373,8 @@ export class UmkmService {
 
         // Fallback Lokal
         const initialLength = this.daftarUmkm.length;
-        this.daftarUmkm = this.daftarUmkm.filter(item => item.id !== numericId && item.id !== id);
+        this.daftarUmkm = this.daftarUmkm.filter(item => Number(item.id) !== numericId && String(item.id) !== String(id));
         if (this.daftarUmkm.length !== initialLength) {
-            this.reindexUmkm();
             this.saveToLocalStorage();
             return true;
         }
