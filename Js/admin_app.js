@@ -185,32 +185,6 @@ async function initDashboard() {
         });
     }
 
-    // Tombol Download Database Terbaru (umkm.json)
-    const btnExportJson = document.getElementById('btnExportJson');
-    if (btnExportJson) {
-        btnExportJson.addEventListener('click', () => {
-            const cleanData = service.daftarUmkm.map(u => ({
-                id: u.id,
-                nama: u.nama,
-                kategori: u.kategori,
-                deskripsi: u.deskripsi,
-                whatsapp: u.whatsapp,
-                gambar: u.gambar,
-                galeri: u.galeri || [],
-                alamat: u.alamat,
-                mapsUrl: u.mapsUrl
-            }));
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cleanData, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "umkm.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("File umkm.json terbaru berhasil didownload! 📥");
-        });
-    }
-
     // Event Listener Filter & Cari
     if (searchInput) searchInput.addEventListener('input', applyFilters);
     if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
@@ -231,26 +205,6 @@ async function initDashboard() {
                 currentPage++;
                 renderTable();
             }
-        });
-    }
-
-    const btnSyncCloud = document.getElementById('btnSyncCloud');
-    if (btnSyncCloud) {
-        btnSyncCloud.addEventListener('click', async () => {
-            btnSyncCloud.disabled = true;
-            btnSyncCloud.textContent = '⏳ Menyinkronkan...';
-            const sukses = await service.pushAllLocalToCloud();
-            if (sukses) {
-                showToast("20 UMKM Resmi Berhasil Disinkronkan ke Supabase Cloud! ☁️✨");
-                await service.fetchAllUmkm();
-                renderStats();
-                renderCharts();
-                applyFilters();
-            } else {
-                alert("Gagal menyinkronkan data ke Cloud. Pastikan perintah SQL GRANT sudah di-run di Supabase Dashboard.");
-            }
-            btnSyncCloud.disabled = false;
-            btnSyncCloud.innerHTML = '<span>☁️</span> Sync 20 Data ke Cloud';
         });
     }
 

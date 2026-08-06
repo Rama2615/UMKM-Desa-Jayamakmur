@@ -1,22 +1,28 @@
-# Walkthrough: Penghapusan Space Kosong Atas Footer (`index.html`)
+# Walkthrough: Penghapusan Tombol Manual (Sync 20 Data & Download umkm.json)
 
-Telah berhasil diperbaiki dan disesuaikan jarak (*spacing*) di atas footer pada halaman utama ([index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html)) agar tampak **rapat, bersih, dan konsisten** seperti pada halaman [tentang.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/tentang.html).
+Sesuai alur sistem terkini yang telah menggunakan **Supabase Cloud Database & BroadcastChannel Real-Time Auto-Sync**, tombol manual **"Sync 20 Data ke Cloud"** dan **"Download umkm.json"** pada Dashboard Admin (`admin.html`) sudah **tidak diperlukan (obsolete)** dan telah **dihapus bersih**.
+
+---
+
+## 💡 Mengapa Tombol Ini Dihapus?
+
+1. **Otomatisasi Real-Time**: Setiap penambahan, pengeditan, atau penghapusan data UMKM di Dashboard Admin kini **langsung tersimpan otomatis di Supabase Cloud & LocalStorage** dan **langsung disiarkan secara real-time** ke seluruh tab halaman pembeli (Beranda, Katalog, Detail Produk).
+2. **Tidak Perlu Export/Sync Manual**: Pengelola/Admin tidak perlu lagi menekan tombol sync atau mengunduh file JSON secara manual untuk memperbarui website.
 
 ---
 
 ## 🛠️ Perubahan yang Dilakukan
 
-1. **[landing.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/landing.css)**:
-   - Mengurangi *padding bottom* pada `.categories-section` dari `80px` menjadi `20px` agar tidak menyisakan ruang kosong besar di bawah 3 kartu kategori produk.
+1. **[admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)**:
+   - Menghapus tombol `#btnSyncCloud` dan `#btnExportJson` dari header banner Dashboard Admin.
+   - Menyisakan tombol utama **"➕ Tambah UMKM Baru"** yang bersih dan fokus.
 
-2. **[global.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/global.css)**:
-   - Menyesuaikan aturan `footer`:
-     - Mengubah `padding` dari `60px 0 30px 0` menjadi `40px 0 30px 0`.
-     - Menghapus paksaan `margin-top: auto !important` agar tata letak mengalir secara alami dan pas di bawah konten tanpa gap kosong buatan.
+2. **[admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js)**:
+   - Menghapus event listener dan fungsi penanganan ekspor file `umkm.json` serta tombol penyelarasan manual 20 data.
 
 ---
 
 ## 🧪 Hasil Verifikasi
 
-- Ruang kosong (*empty space*) hitam besar antara 3 kartu kategori (Kuliner, Kerajinan, Jasa) dan batas atas Footer di `index.html` telah hilang.
-- Tata letak footer pada `index.html` kini tampak proporsional, rapi, dan identik dengan tampilan di `tentang.html`.
+- Header Dashboard Admin ([admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html)) kini tampak lebih bersih, profesional, dan tidak membingungkan pengelola.
+- Tidak ada error JavaScript di konsol browser saat membuka Dashboard Admin.

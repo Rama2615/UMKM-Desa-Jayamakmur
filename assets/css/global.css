@@ -546,7 +546,7 @@ footer {
     margin-top: auto;
     background: var(--card-bg);
     border-top: 1px solid var(--border-color);
-    padding: 40px 0 30px 0;
+    padding: 36px 0 16px 0;
     color: var(--text-dark);
     position: relative;
     z-index: 10;
@@ -560,7 +560,7 @@ footer {
     display: grid;
     grid-template-columns: 1.8fr 1fr 1.2fr 1.3fr;
     gap: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
 }
 
 .footer-logo {
@@ -703,7 +703,7 @@ footer {
 .footer-bottom {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 24px 0 24px;
+    padding: 16px 24px 0 24px;
     border-top: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
@@ -713,6 +713,11 @@ footer {
     font-size: 0.88rem;
     color: var(--text-muted);
     font-weight: 600;
+}
+
+.footer-bottom p {
+    margin: 0;
+    padding: 0;
 }
 
 .footer-bottom .credit-text {
