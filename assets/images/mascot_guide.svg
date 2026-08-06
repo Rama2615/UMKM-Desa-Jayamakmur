@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" width="100%" height="100%">
+  <defs>
+    <!-- Soft Background Gradients & Shadows -->
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd5c0" />
+      <stop offset="100%" stop-color="#f8bfa2" />
+    </linearGradient>
+
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5a3d31" />
+      <stop offset="100%" stop-color="#3a251c" />
+    </linearGradient>
+
+    <linearGradient id="denimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a709c" />
+      <stop offset="50%" stop-color="#365880" />
+      <stop offset="100%" stop-color="#254063" />
+    </linearGradient>
+
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fff8f0" />
+      <stop offset="100%" stop-color="#ebdcd0" />
+    </linearGradient>
+
+    <linearGradient id="strapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#965636" />
+      <stop offset="100%" stop-color="#69371e" />
+    </linearGradient>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="shadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow Behind Mascot -->
+  <circle cx="200" cy="240" r="160" fill="#e65c00" opacity="0.08" filter="url(#softGlow)" />
+  <ellipse cx="200" cy="490" rx="110" ry="18" fill="#000" opacity="0.2" filter="url(#softGlow)" />
+
+  <!-- Character Group with Shadow -->
+  <g filter="url(#shadowFilter)">
+
+    <!-- Legs / Lower Body -->
+    <!-- Left Pants Leg -->
+    <path d="M 150 370 L 140 470 L 175 470 L 180 370 Z" fill="url(#denimGrad)" />
+    <!-- Right Pants Leg -->
+    <path d="M 220 370 L 225 470 L 260 470 L 250 370 Z" fill="url(#denimGrad)" />
+    
+    <!-- Rolled Cuffs -->
+    <rect x="138" y="458" width="39" height="14" rx="4" fill="#a4b8d1" />
+    <rect x="223" y="458" width="39" height="14" rx="4" fill="#a4b8d1" />
+
+    <!-- Boots -->
+    <!-- Left Boot -->
+    <path d="M 135 470 Q 130 480 130 492 Q 130 500 178 500 Q 180 488 176 470 Z" fill="#6a3b22" />
+    <path d="M 130 492 L 178 492 L 178 500 L 130 500 Z" fill="#422210" />
+    <circle cx="150" cy="480" r="2" fill="#d4a373" />
+    <circle cx="160" cy="480" r="2" fill="#d4a373" />
+
+    <!-- Right Boot -->
+    <path d="M 224 470 Q 220 480 220 492 Q 220 500 268 500 Q 270 488 266 470 Z" fill="#6a3b22" />
+    <path d="M 220 492 L 268 492 L 268 500 L 220 500 Z" fill="#422210" />
+    <circle cx="240" cy="480" r="2" fill="#d4a373" />
+    <circle cx="250" cy="480" r="2" fill="#d4a373" />
+
+    <!-- Striped Inner Shirt Torso & Arms -->
+    <path d="M 125 180 Q 200 160 275 180 L 280 340 L 120 340 Z" fill="url(#shirtGrad)" />
+    
+    <!-- Orange/Terracotta Stripes on Shirt -->
+    <path d="M 124 195 Q 200 175 276 195" stroke="#e65c00" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.85" />
+    <path d="M 123 215 Q 200 195 277 215" stroke="#e65c00" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.85" />
+    <path d="M 122 235 Q 200 215 278 235" stroke="#e65c00" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.85" />
+    <path d="M 121 255 Q 200 235 279 255" stroke="#e65c00" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.85" />
+
+    <!-- Left Arm Resting Warmly on Side/Pocket -->
+    <path d="M 130 185 Q 95 230 105 285 Q 115 300 128 290 Q 120 250 145 200 Z" fill="url(#shirtGrad)" />
+    <path d="M 112 215 Q 100 235 106 255" stroke="#e65c00" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85" />
+    <path d="M 104 235 Q 98 250 108 270" stroke="#e65c00" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.85" />
+    <!-- Left Hand -->
+    <path d="M 105 285 Q 100 310 115 315 Q 125 310 125 290 Z" fill="url(#skinGrad)" />
+
+    <!-- Right Arm Extended Presenting Hand (Welcoming Gesture!) -->
+    <g transform="rotate(-8 260 210)">
+      <path d="M 270 185 Q 325 205 345 235 Q 348 248 335 255 Q 310 230 275 210 Z" fill="url(#shirtGrad)" />
+      <path d="M 285 192 Q 318 210 338 230" stroke="#e65c00" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.85" />
+      
+      <!-- Right Forearm & Open Palm Presenting Upward -->
+      <path d="M 335 240 Q 360 250 375 242 Q 380 230 365 220 Q 345 225 330 230 Z" fill="url(#skinGrad)" />
+      <!-- Open Fingers -->
+      <path d="M 368 220 C 382 215 390 220 388 226 C 382 232 372 232 368 220 Z" fill="url(#skinGrad)" />
+      <path d="M 372 226 C 388 223 394 229 390 234 C 384 238 375 236 370 227 Z" fill="url(#skinGrad)" />
+      <path d="M 370 233 C 385 232 390 238 385 242 C 378 245 372 240 368 234 Z" fill="url(#skinGrad)" />
+      <!-- Sparkle Effect above hand -->
+      <path d="M 375 195 L 378 205 L 388 208 L 378 211 L 375 221 L 372 211 L 362 208 L 372 205 Z" fill="#ffb703" />
+      <circle cx="392" cy="198" r="3" fill="#ff9e64" />
+      <circle cx="355" cy="190" r="2" fill="#ffd166" />
+    </g>
+
+    <!-- Overall Denim Bib & Pants Body -->
+    <!-- Main Pants Base -->
+    <path d="M 140 270 L 260 270 L 268 375 Q 200 385 132 375 Z" fill="url(#denimGrad)" />
+    <!-- Overalls Bib Front -->
+    <path d="M 152 200 L 248 200 L 256 275 L 144 275 Z" fill="url(#denimGrad)" />
+
+    <!-- Overalls Straps -->
+    <path d="M 155 200 L 145 160 Q 155 155 168 158 L 175 200 Z" fill="url(#denimGrad)" />
+    <path d="M 245 200 L 255 160 Q 245 155 232 158 L 225 200 Z" fill="url(#denimGrad)" />
+
+    <!-- Strap Buttons (Brass/Gold) -->
+    <circle cx="163" cy="208" r="5" fill="#ffb703" stroke="#b37b00" stroke-width="1.5" />
+    <circle cx="237" cy="208" r="5" fill="#ffb703" stroke="#b37b00" stroke-width="1.5" />
+
+    <!-- Center Chest Pocket with Cute DigiJaya Logo Badge -->
+    <path d="M 175 225 L 225 225 L 220 260 L 180 260 Z" fill="#254063" stroke="#5c85b5" stroke-width="2" stroke-dasharray="4 2" />
+    <!-- Cute Emblem on Pocket -->
+    <circle cx="200" cy="242" r="10" fill="#e65c00" />
+    <path d="M 195 242 L 200 236 L 205 242 L 200 248 Z" fill="#ffffff" />
+
+    <!-- Cute Bag Strap Across Body -->
+    <path d="M 142 165 L 265 315 L 255 323 L 132 173 Z" fill="url(#strapGrad)" />
+    <!-- Leather Satchel / Guide Bag on Hip -->
+    <rect x="245" y="300" width="38" height="45" rx="6" fill="#804322" stroke="#542911" stroke-width="2" />
+    <path d="M 243 300 C 243 300 264 322 285 300 L 285 315 Q 264 330 243 315 Z" fill="#633217" />
+    <circle cx="264" cy="320" r="3.5" fill="#ffb703" />
+
+    <!-- Head & Neck -->
+    <!-- Neck -->
+    <rect x="186" y="145" width="28" height="25" rx="6" fill="url(#skinGrad)" />
+    <path d="M 186 160 Q 200 168 214 160" stroke="#e09f80" stroke-width="2" fill="none" />
+
+    <!-- Face Shape -->
+    <path d="M 160 100 Q 155 145 200 155 Q 245 145 240 100 Q 240 70 200 70 Q 160 70 160 100 Z" fill="url(#skinGrad)" />
+
+    <!-- Ears -->
+    <ellipse cx="157" cy="112" rx="7" ry="10" fill="url(#skinGrad)" />
+    <ellipse cx="243" cy="112" rx="7" ry="10" fill="url(#skinGrad)" />
+
+    <!-- Hair (Fluffy Cozy Anime Style Hair) -->
+    <path d="M 152 105 Q 148 70 170 55 Q 200 40 230 55 Q 252 70 248 105 Q 252 80 240 60 Q 200 45 160 60 Q 148 80 152 105 Z" fill="url(#hairGrad)" />
+    <path d="M 155 75 C 165 48 200 42 235 52 C 248 65 248 85 245 95 C 238 72 215 60 185 65 C 165 68 158 85 155 75 Z" fill="#6e4d3f" />
+    <!-- Cute Bangs -->
+    <path d="M 160 75 Q 175 95 185 85 Q 195 98 208 85 Q 220 95 235 78 Q 220 70 200 72 Q 180 70 160 75 Z" fill="url(#hairGrad)" />
+    
+    <!-- Friendly Bandana / Headband -->
+    <path d="M 156 68 Q 200 52 244 68 L 246 76 Q 200 60 154 76 Z" fill="#e65c00" />
+    <!-- Tied Knot on Top -->
+    <ellipse cx="200" cy="54" rx="10" ry="6" fill="#ff751a" />
+    <path d="M 194 52 Q 185 42 192 38 Q 198 44 198 52 Z" fill="#e65c00" />
+    <path d="M 206 52 Q 215 42 208 38 Q 202 44 202 52 Z" fill="#e65c00" />
+
+    <!-- Eyes (Warm Sparkling Eyes) -->
+    <!-- Left Eye -->
+    <ellipse cx="180" cy="108" rx="7" ry="9" fill="#2b1a13" />
+    <circle cx="178" cy="105" r="3" fill="#ffffff" />
+    <circle cx="182" cy="111" r="1.5" fill="#ffffff" />
+    <path d="M 171 97 Q 180 94 188 98" stroke="#3a251c" stroke-width="2.5" stroke-linecap="round" fill="none" />
+
+    <!-- Right Eye -->
+    <ellipse cx="220" cy="108" rx="7" ry="9" fill="#2b1a13" />
+    <circle cx="218" cy="105" r="3" fill="#ffffff" />
+    <circle cx="222" cy="111" r="1.5" fill="#ffffff" />
+    <path d="M 212 98 Q 220 94 229 97" stroke="#3a251c" stroke-width="2.5" stroke-linecap="round" fill="none" />
+
+    <!-- Cheeks (Warm Blush) -->
+    <ellipse cx="172" cy="118" rx="8" ry="4" fill="#ff7b7b" opacity="0.45" />
+    <ellipse cx="228" cy="118" rx="8" ry="4" fill="#ff7b7b" opacity="0.45" />
+
+    <!-- Nose -->
+    <path d="M 200 110 Q 198 116 202 117" stroke="#d48c6a" stroke-width="2" stroke-linecap="round" fill="none" />
+
+    <!-- Big Happy Smile -->
+    <path d="M 188 126 Q 200 140 212 126 Q 200 134 188 126 Z" fill="#c93b3b" stroke="#8c2323" stroke-width="1" />
+    <!-- Teeth Highlight -->
+    <path d="M 191 127 Q 200 131 209 127 Q 200 128 191 127 Z" fill="#ffffff" />
+  </g>
+</svg>

@@ -1,57 +1,58 @@
-# Rencana Implementasi: Real-Time Auto-Sync Data UMKM
+# Rencana Implementasi: Karakter Pemandu Interaktif dengan Bubble Text
 
-Rencana ini bertujuan agar setiap kali Admin atau Pemilik UMKM **menambah, mengedit, atau menghapus** data UMKM di Dashboard Admin, perubahan tersebut **langsung terupdate secara otomatis dan seketika di seluruh halaman website** (Beranda, Katalog, Peta, dan Detail Produk) tanpa perlu me-refresh halaman (F5) atau mengekspor file JSON secara manual.
+Rencana ini bertujuan untuk menambahkan ilustrasi karakter orang (Pemandu Digital DigiJaya) beranimasi yang mempersembahkan 3 opsi pilihan berbentuk **Bubble Text** beranimasi. Bubble text ini dapat diklik dan langsung mengarahkan pengguna ke halaman yang dituju.
 
 ---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> - **Real-time Event Broadcasting**: Menggunakan `BroadcastChannel` (dan fallback `storage` event) untuk mengirimkan notifikasi instan antar-tab browser begitu data disimpan/diedit di [form_umkm_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/form_umkm_app.js) atau [admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js).
-> - **Konsistensi LocalStorage & Memory**: Memastikan [umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js) selalu memperbarui memori lokal (`this.daftarUmkm`) dan `localStorage` secara serentak baik dalam mode lokal maupun saat terhubung ke Supabase Cloud.
-> - **Auto Re-render UI**: Menambahkan event listener di [App.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/App.js) (Katalog), [landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) (Beranda), [map_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/map_app.js) (Peta), dan [detail_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/detail_app.js) agar komponen kartu, statistik, spotlight, dan marker peta langsung memperbarui dirinya saat menerima sinyal update data.
+> **Tiga Opsi Bubble Text:**
+> 1. **Eksplor Katalog**: Mengarahkan pengguna langsung ke katalog produk [`Main page.html`](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main%20page.html).
+> 2. **Tentang Kami**: Mengarahkan pengguna langsung ke halaman profil & informasi platform [`tentang.html`](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/tentang.html).
+> 3. **Layanan Bantuan**: Ditandai dengan label *"Segera Hadir"* (karena belum dibuat). Saat diklik, menampilkan pop-up / toast notifikasi interaktif yang ramah memberitahu bahwa layanan bantuan sedang disiapkan.
 
 ---
 
 ## Proposed Changes
 
-### 1. Core Data Service (`umkm_services.js`)
-
-#### [MODIFY] [umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js)
-* Memastikan metode `addUmkm()`, `updateUmkm()`, dan `deleteUmkm()` selalu memanggil `this.saveToLocalStorage()`.
-* Menambahkan mekanisme penyebaran sinyal update instan (`broadcastUpdate()`) menggunakan `BroadcastChannel('umkm_sync_channel')` dan `localStorage` event trigger.
-* Memastikan `fetchAllUmkm()` mengutamakan data terbaru dari `localStorage` / Supabase agar data selalu tersinkronisasi antar navigasi halaman.
+### 1. Aset Ilustrasi & Gambar Pemandu
+#### [NEW] [mascot_guide.png](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/images/mascot_guide.png)
+- Menyimpan gambar ilustrasi karakter pemandu lokal bergaya hangat (shopkeeper/guide Desa Jayamakmur) dengan gestur tangan menyambut.
 
 ---
 
-### 2. Live Update Handlers pada Seluruh Halaman Website
+### 2. Halaman Utama Landing Page
+#### [MODIFY] [index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html)
+- Menambahkan section interaktif baru `<section class="guide-interactive-section">` di landing page.
+- Menempatkan karakter pemandu di satu sisi dan 3 balon percakapan (*speech bubbles*) di sisinya.
 
-#### [MODIFY] [App.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/App.js) (Halaman Katalog UMKM)
-* Menambahkan listener `BroadcastChannel` / `storage` event.
-* Ketika sinyal perubahan data diterima: otomatis memanggil `fetchAllUmkm()`, memperbarui data terfilter, dan memanggil `renderCurrentPage()` secara otomatis tanpa refresh.
+---
 
-#### [MODIFY] [landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) (Halaman Beranda)
-* Menambahkan listener perubahan data untuk memperbarui jumlah total UMKM terdaftar (`landing-stat-count`), merender ulang 3D Marquee Wall (`marquee3dContainer`), dan merender ulang kartu Spotlight UMKM Unggulan.
+### 3. Styling & Animasi CSS
+#### [MODIFY] [landing.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/landing.css)
+- Menambahkan animasi mengapung (*floating animation*) untuk karakter dan bubble text.
+- Mendesain balon percakapan (*speech bubbles*) bergaya *glassmorphism* dengan ekor balon menunjuk ke arah pemandu.
+- Menambahkan efek hover (*scale, glowing outline, arrow indicator*) dan transisi interaktif.
+- Menyesuaikan tampilan responsif untuk layar HP dan desktop.
+- Memastikan kompatibilitas warna pada *Light Mode* dan *Dark Mode*.
 
-#### [MODIFY] [map_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/map_app.js) (Halaman Peta Desa)
-* Menambahkan listener perubahan data untuk memperbarui titik pin/marker lokasi UMKM pada peta Leaflet secara otomatis.
+---
 
-#### [MODIFY] [detail_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/detail_app.js) (Halaman Detail Produk)
-* Menambahkan listener untuk memperbarui detail produk yang sedang dilihat jika produk tersebut baru saja di-edit dari admin.
+### 4. Logic Interaksi JS
+#### [MODIFY] [landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) / [index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html)
+- Menambahkan penanganan klik untuk balon percakapan "Layanan Bantuan" agar memunculkan dialog/toast notifikasi interaktif yang menarik.
 
 ---
 
 ## Verification Plan
 
 ### Manual Verification
-1. **Pengujian Tambah UMKM Baru**:
-   - Buka 2 tab browser secara berdampingan: Tab 1 ([Main page.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main%20page.html) / Katalog) dan Tab 2 ([admin.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/admin.html) -> Tambah UMKM).
-   - Isi form tambah UMKM di Tab 2 lalu klik **Simpan**.
-   - Verifikasi kartu UMKM baru **langsung muncul di Tab 1 secara otomatis** tanpa menekan F5.
-2. **Pengujian Edit Profil UMKM**:
-   - Edit nama/foto/deskripsi salah satu UMKM di Tab 2.
-   - Verifikasi informasi di Tab 1 (Katalog & Beranda) langsung berubah seketika.
-3. **Pengujian Hapus UMKM**:
-   - Hapus salah satu UMKM di Tab 2.
-   - Verifikasi kartu UMKM tersebut langsung hilang dari katalog dan jumlah statistik terdaftar di Beranda langsung berkurang.
-
+1. **Pengujian Klik Bubble Text**:
+   - Klik **Eksplor Katalog** $\rightarrow$ Memastikan browser membuka halaman Katalog UMKM (`Main page.html`).
+   - Klik **Tentang Kami** $\rightarrow$ Memastikan browser membuka halaman Informasi (`tentang.html`).
+   - Klik **Layanan Bantuan** $\rightarrow$ Memastikan muncul notifikasi ramah bahwa fitur sedang dalam tahap pembuatan.
+2. **Pengujian Visual & Responsivitas**:
+   - Memeriksa animasi mengapung karakter dan bubble text berjalan dengan halus tanpa lag.
+   - Memeriksa tampilan di layar PC, tablet, dan smartphone (HP).
+   - Memeriksa keterbacaan balon percakapan saat beralih antara Mode Gelap (*Dark Mode*) dan Mode Terang (*Light Mode*).

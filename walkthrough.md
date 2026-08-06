@@ -1,41 +1,47 @@
-# Walkthrough: Real-Time Auto-Sync & Mobile Versatility Upgrade
+# Walkthrough: Karakter Pemandu Interaktif dengan 3 Speech Bubbles
 
-Telah berhasil diimplementasikan fitur **Real-Time Auto-Sync Data UMKM** di seluruh halaman website **UMKM Desa Jayamakmur**. Kini, setiap kali terjadi perubahan data (Tambah, Edit, Hapus UMKM) pada Dashboard Admin, seluruh halaman website yang sedang terbuka akan **langsung memperbarui tampilannya secara instan secara real-time** tanpa perlu me-refresh halaman (F5) atau mengunduh/menimpa file JSON secara manual.
+Telah berhasil ditambahkan komponen **Karakter Pemandu Interaktif (Shopkeeper/Guide)** beserta 3 balon percakapan (*speech bubbles*) beranimasi pada halaman landing page [index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html).
 
 ---
 
 ## 🛠️ Perubahan yang Dilakukan
 
-### 1. Real-Time Data Broadcaster & Sync Core
-- **[umkm_services.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/Services/umkm_services.js)**:
-  - Menambahkan metode `broadcastChange()` menggunakan API `BroadcastChannel('umkm_data_sync')` dan custom DOM Event `umkmDataChanged`.
-  - Menambahkan metode `onDataChanged(callback)` yang mendengarkan sinyal antar-tab browser maupun peristiwa perubahan `storage`.
-  - Memastikan `addUmkm()`, `updateUmkm()`, dan `deleteUmkm()` selalu memanggil `saveToLocalStorage()` untuk memicu penyiaran sinyal sinkronisasi secara instan.
+### 1. Aset Ilustrasi Pemandu
+- **[mascot_guide.svg](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/images/mascot_guide.svg)**:
+  - Membuat ilustrasi vektor SVG ultra-tajam karakter pemandu lokal Desa Jayamakmur dengan gestur menyambut, celemek denim, dan senyuman hangat.
 
-### 2. Auto Re-render UI Handlers pada Seluruh Halaman
-- **[App.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/App.js) (Katalog UMKM)**:
-  - Memasang listener `onDataChanged()` untuk mengambil ulang data dan merender ulang grid kartu produk terfilter secara otomatis.
-- **[landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js) (Beranda)**:
-  - Memasang listener `onDataChanged()` untuk memperbarui statistik jumlah UMKM terdaftar, 3D Marquee Wall, dan kartu Spotlight UMKM Unggulan.
-- **[admin_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/admin_app.js) (Dashboard Admin)**:
-  - Memasang listener `onDataChanged()` untuk memperbarui tabel data, statistik ringkasan, dan grafik kategori Donut Chart secara otomatis.
-- **[map_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/map_app.js) (Peta Desa)**:
-  - Memasang listener `onDataChanged()` untuk memperbarui pin/marker lokasi 3D dan kartu sidebar peta.
-- **[detail_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/detail_app.js) (Detail Produk)**:
-  - Memasang listener `onDataChanged()` untuk memperbarui profil dan galeri produk yang sedang dilihat jika ada suntingan baru.
+### 2. Komponen Landing Page (`index.html`)
+- **[index.html](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/index.html)**:
+  - Menambahkan `<section class="container guide-interactive-section reveal">` tepat setelah Hero Section.
+  - Sisi Kiri: Karakter pemandu dengan efek *backdrop glow*, *floating animation*, dan badge status aktif.
+  - Sisi Kanan: 3 Opsi pilihan berbentuk Balon Percakapan (*Speech Bubbles*):
+    1. **Eksplor Katalog**: Mengarahkan langsung ke halaman [`Main page.html`](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Main%20page.html).
+    2. **Tentang Kami**: Mengarahkan langsung ke halaman [`tentang.html`](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/tentang.html).
+    3. **Layanan Bantuan**: Ditandai dengan badge *"Segera Hadir"* dan tombol interaktif yang dapat diklik.
+  - Menambahkan elemen `#guideHelpdeskToast` untuk pesan notifikasi ramah saat Layanan Bantuan diklik.
+
+### 3. Styling & Animasi (`landing.css`)
+- **[landing.css](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/assets/css/landing.css)**:
+  - Mendesain balon percakapan bergaya *glassmorphism* modern dengan ekor percakapan (*bubble tail*) menunjuk ke pemandu.
+  - Efek hover: *Pop-out scaling*, *glow border*, dan panah petunjuk beranimasi.
+  - Menambahkan animasi mengapung (*floating animation*) pada karakter pemandu (`@keyframes mascotFloat`).
+  - Menambahkan dukungan Mode Terang dan Mode Gelap (`[data-theme="dark"]`).
+  - Menyesuaikan tata letak responsif untuk layar HP dan Tablet (`@media (max-width: 992px)` dan `@media (max-width: 640px)`).
+
+### 4. Skrip Interaksi (`landing_app.js`)
+- **[landing_app.js](file:///c:/Users/ADVAN/Documents/UMKM-Desa-Jayamakmur/Js/landing_app.js)**:
+  - Menambahkan fungsi `initMascotGuideInteractions()` untuk menangani klik pada bubble "Layanan Bantuan".
+  - Menampilkan toast notification interaktif yang otomatis hilang setelah 5 detik atau saat tombol silang diklik.
 
 ---
 
 ## 🧪 Hasil Pengujian & Verifikasi
 
-1. **Pengujian Tambah UMKM Baru (Multi-Tab)**:
-   - Tab 1 terbuka di `Main page.html` (Katalog), Tab 2 terbuka di `form_umkm.html` (Tambah UMKM).
-   - Menambahkan toko baru di Tab 2 -> Klik Simpan.
-   - Hasil: **Tab 1 langsung memuat dan menampilkan kartu UMKM baru seketika tanpa perlu di-refresh**.
-2. **Pengujian Edit Profil UMKM**:
-   - Mengedit nama dan deskripsi toko dari Dashboard Admin.
-   - Hasil: Informasi pada Beranda, Katalog, dan Detail Produk langsung ter-update secara simultan.
-3. **Pengujian Hapus UMKM**:
-   - Menghapus salah satu UMKM dari tabel admin.
-   - Hasil: Kartu toko langsung menghilang dari Katalog dan angka counter di Beranda langsung berkurang secara otomatis.
-
+1. **Pengujian Navigasi Bubble Text**:
+   - Klik **Eksplor Katalog** $\rightarrow$ Membuka halaman Katalog UMKM (`Main page.html`).
+   - Klik **Tentang Kami** $\rightarrow$ Membuka halaman Informasi (`tentang.html`).
+   - Klik **Layanan Bantuan** $\rightarrow$ Memunculkan toast pop-up notifikasi ramah *"Fitur Layanan Bantuan sedang dalam proses pengembangan"*.
+2. **Pengujian Tampilan & Responsivitas**:
+   - Memastikan animasi mengapung karakter berjalan mulus tanpa mengganggu performa halaman.
+   - Memeriksa tampilan di layar PC (layout berdampingan) dan layar smartphone/HP (layout stacked responsif).
+   - Memeriksa keterbacaan balon percakapan saat beralih antara Mode Gelap (*Dark Mode*) dan Mode Terang (*Light Mode*).

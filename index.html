@@ -86,6 +86,122 @@
         </div>
     </header>
 
+    <!-- Interactive Mascot Guide Section with Animated Speech Bubbles -->
+    <section class="container guide-interactive-section reveal">
+        <div class="guide-card-wrapper">
+            <!-- Left Side: Animated Mascot Character -->
+            <div class="guide-mascot-container" data-tilt-3d data-max-tilt="10">
+                <div class="mascot-backdrop-glow"></div>
+                <div class="mascot-img-box">
+                    <img src="assets/images/mascot_guide.svg" alt="Pemandu Digital DigiJaya" class="mascot-character-img" id="mascotGuideImg" onerror="this.onerror=null; this.src='assets/images/desa.jpeg';">
+                </div>
+                <div class="mascot-badge">
+                    <span class="pulse-dot"></span> Pemandu Digital Jayamakmur
+                </div>
+            </div>
+
+            <!-- Right Side: Speech Bubbles Options -->
+            <div class="guide-dialog-container">
+                <div class="guide-header-text">
+                    <span class="guide-welcome-pill">Halo, Selamat Datang! 👋</span>
+                    <h2 class="guide-title">Mau Mulai dari Mana Hari Ini?</h2>
+                    <p class="guide-subtitle">Klik salah satu balon percakapan di bawah ini untuk langsung menuju halaman layanan yang Anda inginkan:</p>
+                </div>
+
+                <div class="speech-bubbles-group">
+                    <!-- Option 1: Eksplor Katalog -->
+                    <a href="Main page.html" class="speech-bubble bubble-katalog" data-bubble="katalog">
+                        <div class="bubble-tail"></div>
+                        <div class="bubble-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                        </div>
+                        <div class="bubble-content">
+                            <span class="bubble-title">Eksplor Katalog</span>
+                            <span class="bubble-desc">Jelajahi produk unggulan, kuliner, & jasa UMKM lokal</span>
+                        </div>
+                        <div class="bubble-action-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- Option 2: Tentang Kami -->
+                    <a href="tentang.html" class="speech-bubble bubble-tentang" data-bubble="tentang">
+                        <div class="bubble-tail"></div>
+                        <div class="bubble-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="bubble-content">
+                            <span class="bubble-title">Tentang Kami</span>
+                            <span class="bubble-desc">Kenali visi platform, profil desa, & tim KKN IPB</span>
+                        </div>
+                        <div class="bubble-action-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- Option 3: Layanan Bantuan (Coming Soon Toast Interaction) -->
+                    <button type="button" class="speech-bubble bubble-bantuan bubble-disabled" id="btnHelpdeskBubble" data-bubble="bantuan" aria-label="Layanan Bantuan - Segera Hadir">
+                        <div class="bubble-tail"></div>
+                        <div class="bubble-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="bubble-content">
+                            <div class="bubble-title-row">
+                                <span class="bubble-title">Layanan Bantuan</span>
+                                <span class="bubble-badge-soon">Segera Hadir</span>
+                            </div>
+                            <span class="bubble-desc">Pusat bantuan & layanan informasi konsumen (Belum tersedia)</span>
+                        </div>
+                        <div class="bubble-action-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Modal Container for Layanan Bantuan -->
+    <div id="guideHelpdeskToast" class="guide-toast-container" aria-live="polite">
+        <div class="guide-toast-card">
+            <div class="guide-toast-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <div class="guide-toast-body">
+                <h4>Fitur Layanan Bantuan</h4>
+                <p>Halaman ini belum tersedia dan sedang dalam proses pengembangan. Nantikan pembaruan selanjutnya! 😊</p>
+            </div>
+            <button type="button" class="guide-toast-close" id="btnCloseHelpdeskToast" aria-label="Tutup Notifikasi">&times;</button>
+        </div>
+    </div>
+
     <!-- Explanation / Core Info Section -->
     <section class="container explanation-section reveal">
         <div class="section-title-wrapper">
