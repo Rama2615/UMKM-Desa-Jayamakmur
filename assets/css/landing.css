@@ -896,16 +896,15 @@
 }
 
 .badge-svg-icon {
+    width: 18px;
+    height: 18px;
     display: block;
     stroke: currentColor;
 }
 
 .floating-3d-badge .badge-icon-img {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
     display: block;
     filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
