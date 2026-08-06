@@ -28,6 +28,12 @@ export async function updateNavbar() {
         tentangLink.insertAdjacentHTML('beforebegin', `<a href="peta.html" class="nav-link ${activePeta}">Peta Desa</a>`);
     }
 
+    // Injeksi tautan Layanan Bantuan secara dinamis setelah 'Tentang Kami'
+    const activeBantuan = currentPath.includes('bantuan.html') ? 'active' : '';
+    if (tentangLink && !navbarLinks.querySelector('a[href*="bantuan.html"]')) {
+        tentangLink.insertAdjacentHTML('afterend', `<a href="bantuan.html" class="nav-link ${activeBantuan}">Layanan Bantuan</a>`);
+    }
+
     let badgeHtml = '';
     let dbLinkHtml = '';
     let actionBtnHtml = '';
